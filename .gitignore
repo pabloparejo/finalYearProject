@@ -1,3 +1,7 @@
+# Security keys
+google_secrets.json
+dropbox_keys.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
