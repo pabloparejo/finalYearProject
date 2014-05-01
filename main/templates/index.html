@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} {{page_title}} {% endblock %}
+{% block pagetitle %} {{page_title}} {% endblock %}
+{% block content %}
+
+<article>
+	<pre>
+{{data|safe}}
+	</pre>
+	<table border="1" width="600">
+		<tr>
+			<td>Name</td>
+			<td>Last Modified</td>
+			<td>Size</td>
+			<td>location</td>
+		</tr>
+		{% for service in data.services %}
+			{% for content in service.contents %}
+			<tr>
+				<td>{{content.name}}</td>
+				<td>{{content.last_modified}}</td>
+				<td>{{content.size}}</td>
+				<td>{{service.service_name}}</td>
+			</tr>
+			{%endfor%}
+		{%endfor%}
+	</table>
+</article>
+<script type="text/javascript">
+	var myObj = {{obj|safe}};
+</script>
+{% endblock %}

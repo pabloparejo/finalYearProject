@@ -1,0 +1,162 @@
+@font-face {
+  font-family: 'Open Sans';
+  src:url('fonts/OpenSans-Regular-webfont.eot?3sv0oh');
+  src:url('fonts/OpenSans-Regular-webfont.eot?#iefix3sv0oh') format('embedded-opentype'),
+    url('fonts/OpenSans-Regular-webfont.woff?3sv0oh') format('woff'),
+    url('fonts/OpenSans-Regular-webfont.ttf?3sv0oh') format('truetype'),
+    url('fonts/OpenSans-Regular-webfont.svg?3sv0oh#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('fonts/OpenSans-Bold-webfont.eot');
+  src: url('fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/OpenSans-Bold-webfont.woff') format('woff'),
+       url('fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+       url('fonts/OpenSans-Bold-webfont.svg#open_sansbold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+
+}
+
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?u6gk0z');
+	src:url('fonts/icomoon.eot?#iefixu6gk0z') format('embedded-opentype'),
+		url('fonts/icomoon.woff?u6gk0z') format('woff'),
+		url('fonts/icomoon.ttf?u6gk0z') format('truetype'),
+		url('fonts/icomoon.svg?u6gk0z#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-lock:before {
+	content: "\e600";
+}
+.icon-home:before {
+	content: "\e601";
+}
+.icon-pen:before {
+	content: "\e602";
+}
+.icon-cart:before {
+	content: "\e603";
+}
+.icon-user:before {
+	content: "\e604";
+}
+.icon-search:before {
+	content: "\e605";
+}
+.icon-delete:before {
+	content: "\e608";
+}
+.icon-checkmark:before {
+	content: "\e606";
+}
+.icon-plus:before {
+	content: "\e607";
+}
+
+
+
+	/* ----------- /Fonts ----------*/
+a{
+  	color: #343B54;
+	text-decoration: none;
+
+}
+
+a:hover{
+	color: #202055;
+}
+
+article{
+	background: #FAFAFA;
+	padding: 1em;
+	margin: 1.2em 1em;
+}
+
+
+article h2 {
+	margin: 0.2em 0;
+}
+
+body{
+  background: #E4E4E4;
+  color: #343B54;
+  font-family: "Open Sans";
+  font-size: 16px;
+}
+
+
+footer{
+	background: #C31;
+	border-top: #FA2 5px solid;
+	color: #DDD;
+	padding: 2em 1em 5em 1em;
+	text-align: center;
+}
+
+form{
+	overflow: hidden;
+}
+
+h1, h2, h3, h4, h5{
+	font-weight: bold;
+}
+
+header{
+	margin-top: 0;
+	overflow: hidden;
+}
+
+header nav{
+	background: #C31;
+	padding: 0 1em;
+}
+
+input{
+	background: #E4E4E4;
+	border: 0;
+	border-radius: 0.2em;
+	margin: 0.5em 1.5em;
+	padding: 0.3em;
+	width: 80%;
+}
+
+label{
+	text-align: center;
+	display: block;
+}
+
+.helptext{
+	display: block;
+	font-size: 0.8em;
+	margin: 0.5em 1.5em;
+	padding: 0 0.3em;
+	width: 80%;
+
+}
+
+.no-list-style{
+	display: inline-block;
+	list-style: none;
+	padding: 0;
+}

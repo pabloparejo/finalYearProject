@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_ROUTE = os.path.dirname(os.path.realpath(__file__))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -36,8 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main',
     'mwc_drive',
     'mwc_dropbox',
+    'userprofiles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,7 +82,31 @@ USE_L10N = True
 USE_TZ = True
 
 
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+MEDIA_ROOT = os.path.join(PROJECT_ROUTE, 'upload')
+MEDIA_URL = '/upload/'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROUTE, 'static'),
+    )
+
+
+# Template directories
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_ROUTE, 'templates')
+)
+
+#Backends
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'userprofiles.backends.EmailBackend',
+)
+
 
 STATIC_URL = '/static/'
