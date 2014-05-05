@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 import json
 from mwc_dropbox.models import DropboxAccount
 from mwc_drive.models import DriveAccount
+from .forms import LoginForm
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
@@ -45,21 +46,13 @@ def new_user(request):
 	return render(request, 'form.html', locals())
 
 def user_login(request):
-	if not request.user.is_anonymous():
-		return HttpResponseRedirect('/')
-	if request.method == "POST":
-		form = AuthenticationForm(request.POST)
-		username = request.POST['username']
-		password = request.POST['password']
-		user = authenticate(username=username, password=password)
-		if user is not None:
-			login(request, user)
-			return HttpResponseRedirect('/')
-	else:
-		form = AuthenticationForm()
-
-	titulo = "login"
-	return render(request, 'form.html', locals())
+    form = LoginForm(request.POST or None)
+    if request.POST and form.is_valid():
+        user = form.login(request)
+        if user:
+            login(request, user)
+            return HttpResponseRedirect("/")
+    return render(request, 'form.html', locals())
 
 
 def user_logout(request):

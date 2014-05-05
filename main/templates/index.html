@@ -1,32 +1,49 @@
 {% extends 'base.html' %}
 {% block title %} {{page_title}} {% endblock %}
 {% block pagetitle %} {{page_title}} {% endblock %}
-{% block content %}
 
-<article>
-	<pre>
-{{data|safe}}
-	</pre>
-	<table border="1" width="600">
-		<tr>
-			<td>Name</td>
-			<td>Last Modified</td>
-			<td>Size</td>
-			<td>location</td>
-		</tr>
-		{% for service in data.services %}
-			{% for content in service.contents %}
+{% block content%}
+<article class="files-list">
+		<aside class="services-links">
+			<ul class="no-list-style">
+				<li>
+					<a href="#" class="service-link"> 
+						<span class="icon-all red"> </span>
+						All my files
+					</a>
+				</li>
+				{% for service in data.services %}
+					<li> 
+						<a href="#" class="service-link {{service.service_name}}" id="{{service.uid}}">
+							<span class="icon-{{service.service_name}} red"> </span>
+							{{service.username|capfirst}}
+						</a>
+					</li>
+				{%endfor%}
+			</ul>
+		</aside>
+		<table width="600">
 			<tr>
-				<td>{{content.name}}</td>
-				<td>{{content.last_modified|date:"d m"}}</td>
-				<td>{{content.size}}</td>
-				<td>{{service.service_name}}</td>
+				<td>Name</td>
+				<td>Last Modified</td>
+				<td>Size</td>
+				<td>location</td>
 			</tr>
+			{% for service in data.services %}
+				{% for content in service.contents %}
+				<tr>
+					<td>{{content.name}}</td>
+					<td>{{content.modified|slice:":16"}}</td>
+					<td>{{content.size}}</td>
+					<td>{{service.service_name}}</td>
+				</tr>
+				{%endfor%}
 			{%endfor%}
-		{%endfor%}
-	</table>
+		</table>
 </article>
+
 <script type="text/javascript">
 	var myObj = {{obj|safe}};
 </script>
+
 {% endblock %}

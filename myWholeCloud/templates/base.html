@@ -6,23 +6,28 @@
 	<meta name="viewport" content="width=device-width"/>
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/normalizer.css">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css">
+
 </head>
 <body class="{{page_class}}">
 	<header class="row-fluid" id="main-nav">
 			<nav class="navbar" role="navigation">
 				<a href="/" class="brand">MWC</a></li>
 				<ul class="nav-icons no-list-style">
+					<li id="home"><a href="/" id="home"><span class="icon-home"></span> Home</a></li>
+					<li id="add_account"><a href="/add_account" id="add">Services</a></li>
+					<li id="dropbox"> <a href="/dropbox">Dropbox</a></li>
 					<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
 					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>
 					<li id="logout"> <a href="/logout" id="user"><span class="icon-user"></span>Logout</a></li>
-					<li id="dropbox"> <a href="/dropbox">Dropbox</a></li>
 				</ul>
 			</nav>
 		{% block form %}{% endblock %}
 	</header>
 
 	<section id="content">
-		{% block content %}{% endblock %}
+		{% block content %}
+		{% endblock %}
+		</article>
 	</section>
 	<footer>
 		<a href="mailto:parejo.p@gmail.com"><span class="icon-pen"></span> Pablo Parejo Camacho </a>

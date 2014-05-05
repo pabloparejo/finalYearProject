@@ -11,6 +11,20 @@ from dropbox.client import DropboxClient, DropboxOAuth2Flow
 
 from django.contrib.auth.decorators import login_required
 
+def get_dropbox_data(user):
+    listOfAccounts = DropboxAccount.objects.filter(user=user)
+    services = []
+    if listOfAccounts:
+        for account in listOfAccounts:
+            services.append(account.get_path('/'))
+        accountsAreActive = True
+    else:
+        accountsAreActive = False
+        metadata_list = ""
+        
+    return services
+
+
 def serve_file(request, service_email, path):
     user=request.user
     print path
@@ -25,15 +39,7 @@ def serve_file(request, service_email, path):
 @login_required()
 def list_files(request):
     user = request.user
-    listOfAccounts = DropboxAccount.objects.filter(user=user)
-    services = []
-    if listOfAccounts:
-        for account in listOfAccounts:
-            services.append(account.get_path('/'))
-        accountsAreActive = True
-    else:
-        accountsAreActive = False
-        metadata_list = ""
+    services = get_dropbox_data(user)
 
     data = {"username": request.user.username.encode('utf-8'),
             "number_of_services": len(services),
@@ -41,7 +47,7 @@ def list_files(request):
             "used_size": "habria que ver esto",
             "services": services}
     obj = json.dumps(data)
-    return render(request,'files.html', locals())
+    return render(request,'index.html', locals())
 
 
 def get_auth(web_app_session):

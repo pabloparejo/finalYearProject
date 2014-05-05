@@ -28,7 +28,7 @@ class DropboxAccount(models.Model):
 		data = {	'contents': metadata_list,
 					'display_name': self.display_name,
 					'parent': path,
-					'service_name': 'Dropbox',
+					'service_name': 'dropbox',
 					'uid': self.uid,
 					'username': self.email
 					
