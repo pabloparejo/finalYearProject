@@ -1,48 +1,31 @@
-<!DOCTYPE html>
-<html lang='es'>
-<head>
-	<title> MWC - {% block title %} {% endblock %} </title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width"/>
-	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css">
-	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/normalizer.css">
-</head>
-<body class="{{page_class}}">
-	<header class="row-fluid" id="main-nav">
-			<nav class="navbar" role="navigation">
-				<a href="/" class="brand">MWC</a></li>
-				<ul class="no-list-style">
-					<li id="home"> 
-						<a href="/">
-							<span class="icon-home"></span>
-							<span class="hide-mobile"> Home</span></a>
-					</li>
-					<!--<li id="bikes"> <a href="/bikes">Bikes</a></li>
-					<li id="books"> <a href="/books">Books</a></li>
-					<li id="music"> <a href="/music">Music</a></li>-->
-				</ul>
-				<ul class="nav-icons no-list-style">
-					<li id="search"> <a href="#"><span class="icon-search"></span></a></li>
-					<li id="sign"> <a href="/sign"><span class="icon-user"></span></a></li>
-				</ul>
-			</nav>
-			<form action="/search" method="GET" id="search-bar">
-				<input autofocus type="text" class="search-query" placeholder="Search"  name="q" value="{{ query|escape }}" x-webkit-speech />
-				<button type="submit" class="btn" value="search"><span class="icon-search"></span></button>
-			</form>
-	</header>
+{% extends 'base.html' %}
+{% block title %} {{page_title|capfirst}} {% endblock %}
+{% block content %}
+	<p> hola {{request.user}}
+	<article id="data-contents">
+		<table border="1" width="600">
+			<tr>
+				<td>Name</td>
+				<td>Last Modified</td>
+				<td>Size</td>
+				<td>location</td>
+			</tr>
+			{% for service in data.services %}
+				{% for content in service.contents %}
+				<tr>
+					<td>{{content.name}}</td>
+					<td>{{content.modified}}</td>
+					<td>{{content.size}}</td>
+					<td>{{service.service_name}}</td>
+				</tr>
+				{%endfor%}
+			{%endfor%}
+		</table>
+	</article>
 
-	<section id="content">
-		{% block content %}{% endblock %}
-	</section>
-	<footer>
-		<a href="mailto:parejo.p@gmail.com"><span class="icon-pen"></span> Pablo Parejo Camacho </a>
-		<p class="copy"> MyWholeCloud 2014 </p>
-		<a id="admin" href="/admin"> <span class="icon-lock"> Admin </span></a>
-	</footer>
-	<script src='{{STATIC_URL}}js/jquery.js'></script>
-	<script src='{{STATIC_URL}}js/code.js'>
-	</script>
-	<script type="text/javascript">{% block script %} {% endblock %}</script>
-</body>
-</html>
+{% endblock %}
+{% block script %}
+
+	var myObj = JSON.parse('{{obj|safe}}');
+
+{% endblock %}

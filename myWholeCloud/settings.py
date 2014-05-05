@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'main',
     'mwc_drive',
     'mwc_dropbox',
-    'userprofiles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -82,7 +81,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-
+LOGIN_URL = '/login/'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -99,13 +98,6 @@ STATICFILES_DIRS = (
 # Template directories
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROUTE, 'templates')
-)
-
-#Backends
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'userprofiles.backends.EmailBackend',
 )
 
 

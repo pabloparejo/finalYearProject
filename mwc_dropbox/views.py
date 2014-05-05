@@ -1,38 +1,17 @@
+#encoding:utf-8
 from django.shortcuts import render
 
+from django.http import HttpResponseRedirect
+
+import json
+
 from dropbox_keys import app_key, app_secret
+from mwc_dropbox.models import DropboxAccount
+from dropbox.client import DropboxClient, DropboxOAuth2Flow
 
+from django.contrib.auth.decorators import login_required
 
-def get_dropbox_auth(web_app_session):
-
-    redirect_uri = 'http://127.0.0.1:8000/dropbox_added'
-    return DropboxOAuth2Flow (  app_key, app_secret, redirect_uri,\
-                                web_app_session, 'dropbox-auth-csrf-token')
-
-
-def dropbox_path(request, service_email, path):
-    user=request.user
-    print path
-    service = service_account.objects.get(service='dropbox',
-                                          user=user,
-                                          service_email__startswith=service_email)
-    client = DropboxClient(service.service_token)
-    metadata_list = client.metadata(path)['contents']
-    for element in metadata_list:
-                if element['is_dir']:
-                    element['url'] = ('/' + service.service + '/'
-                                  + service.service_email.split('@')[0]
-                                  + element['path'])
-                else:
-                    element['url'] = ('/file/' + service.service + '/'
-                                  + service.service_email.split('@')[0]
-                                  + element['path'])
-    accountsAreActive = True
-    listOfAccounts = [service.service_email]
-    return render(request,  'dropbox.html', locals())
-    
-
-def serve_dropbox_file(request, service_email, path):
+def serve_file(request, service_email, path):
     user=request.user
     print path
     service = service_account.objects.get(service='dropbox',
@@ -44,74 +23,82 @@ def serve_dropbox_file(request, service_email, path):
     return HttpResponseRedirect(downloadLink)
 
 @login_required()
-def dropbox_files(request):
+def list_files(request):
     user = request.user
-    listOfServices = service_account.objects.filter(user=user)
-    listOfAccounts = []
-    if listOfServices:
-        metadata_list = []
-        for service in listOfServices:
-            client = DropboxClient(service.service_token)
-            metadata_list += client.metadata('/')['contents']
-            for element in metadata_list:
-                if element['is_dir']:
-                    element['url'] = ('/' + service.service + '/'
-                                  + service.service_email.split('@')[0]
-                                  + element['path'])
-                else:
-                    element['url'] = ('/file/' + service.service + '/'
-                                  + service.service_email.split('@')[0]
-                                  + element['path'])
-            listOfAccounts.append(service.service_email)
+    listOfAccounts = DropboxAccount.objects.filter(user=user)
+    services = []
+    if listOfAccounts:
+        for account in listOfAccounts:
+            services.append(account.get_path('/'))
         accountsAreActive = True
     else:
         accountsAreActive = False
         metadata_list = ""
-    print listOfAccounts
-    return render(request,'dropbox.html', locals())
 
-    
+    data = {"username": request.user.username.encode('utf-8'),
+            "number_of_services": len(services),
+            "total_size": "habria que ver esto",
+            "used_size": "habria que ver esto",
+            "services": services}
+    obj = json.dumps(data)
+    return render(request,'files.html', locals())
+
+
+def get_auth(web_app_session):
+
+    redirect_uri = 'http://127.0.0.1:8000/dropbox_added'
+    return DropboxOAuth2Flow (  app_key, app_secret, redirect_uri,\
+                                web_app_session, 'dropbox-auth-csrf-token')
+
 @login_required()
-def dropbox_auth_start(request):
-    authorize_url = get_dropbox_auth(request.session).start()
+def auth_start(request):
+    authorize_url = get_auth(request.session).start()
     return HttpResponseRedirect(authorize_url)
 
-def new_dropbox_service(user, dropbox_client, token):
+def new_account(user, dropbox_client, token):
     client_email = dropbox_client.account_info()['email']
     client_id = dropbox_client.account_info()['uid']
+    display_name = dropbox_client.account_info()['display_name']
+    account = user.dropboxaccount_set.create(   uid=client_id,
+                                                token=token,
+                                                email=client_email,
+                                                display_name=display_name)
+    account.save()
     
-    service = user.service_account_set.create(service="dropbox",
-                                              service_token=token,
-                                              service_email=client_email,
-                                              service_user_id=client_id)
-    service.save()
+    return account
     
-    return service
-    
-@login_required(login_url='/login/')
-def dropbox_auth_finish(request):
+@login_required()
+def auth_finish(request):
     try:
         access_token, user_id, url_state = get_dropbox_auth(request.session).finish(request.GET)
         client = DropboxClient(access_token)
         user = request.user
-        formerServices = service_account.objects.filter(user=user)
+        client_email = client.account_info()['email']
+        client_id = client.account_info()['uid']
+        display_name = client.account_info()['display_name']
+
+        formerAccounts = DropboxAccount.objects.filter(user=user)
         accountIsUsed = False
-        if formerServices:
-            for service in formerServices:
-                if (service.service_email == client.account_info()['email']):
-                    service.service_token = access_token
-                    #service.save()
-                    subtitle = "La cuenta " + service.service_email + " ya estaba incluida"
+        if formerAccounts:
+            for account in formerAccounts:
+                print account.uid
+                print client_id
+                if (account.uid== client_id):
+                    account.service_token = access_token
+                    account.service_token = client_email
+                    account.service_token = display_name
+                    account.save()
+                    subtitle = "La cuenta %s ya estaba incluida" , client_email 
                     accountIsUsed = True
-                    
-        if (not accountIsUsed) or (not formerServices):
-            new_service = new_dropbox_service(user, client, access_token)
-            subtitle = "Servicio nuevo añadido: %s" , new_service.service_email
-        return HttpResponseRedirect('/dropbox')
+        
+        if (not accountIsUsed) or (not formerAccounts):
+            1/0
+            new_account = new_account(user, client, access_token)
+            subtitle = "Servicio nuevo añadido: %s" , new_account.email
+        return HttpResponseRedirect('/')
     except DropboxOAuth2Flow.BadRequestException, e:
         http_status(400)
         info = 'error404'
-
         return render(request,'dropbox.html', {'info':info})
     except DropboxOAuth2Flow.BadStateException, e:
         # Start the auth flow again.

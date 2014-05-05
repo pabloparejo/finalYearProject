@@ -12,7 +12,10 @@
 			<nav class="navbar" role="navigation">
 				<a href="/" class="brand">MWC</a></li>
 				<ul class="nav-icons no-list-style">
-					<li id="sign"> <a href="#" id="user"><span class="icon-user"></span></a></li>
+					<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
+					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>
+					<li id="logout"> <a href="/logout" id="user"><span class="icon-user"></span>Logout</a></li>
+					<li id="dropbox"> <a href="/dropbox">Dropbox</a></li>
 				</ul>
 			</nav>
 		{% block form %}{% endblock %}
@@ -24,7 +27,6 @@
 	<footer>
 		<a href="mailto:parejo.p@gmail.com"><span class="icon-pen"></span> Pablo Parejo Camacho </a>
 		<p class="copy"> MyWholeCloud 2014 </p>
-		<a id="admin" href="/admin"> <span class="icon-lock"> Admin </span></a>
 	</footer>
 	<script src='{{STATIC_URL}}js/jquery.js'></script>
 	<script src='{{STATIC_URL}}js/code.js'>
