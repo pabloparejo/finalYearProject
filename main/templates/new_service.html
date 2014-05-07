@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %} {{page_title}} {% endblock %}
+{% block pagetitle %} {{page_title}} {% endblock %}
+
+{% block content%}
+
+{% if auth_finished %}
+	<article id="added-account">
+		{% if new_account %}
+			<h2>{{service_added|capfirst}} account added</h2>
+			<p class="added-info">Your account {{client_email}} was successfully added</p>
+			<p class="red">HERE WE ARE GOING TO EXPLAIN HOW TO FILTER IN ALL FILES VIEW</p>
+		{% else %}
+			<h2>{{service_added|capfirst}} account not added </h2>
+			<p class="refresh-info">The account {{client_email}} was already added.
+			if you want to add another, please switch your account in {{service_added|capfirst}}.</p>
+			<p class="red">EXPLANATION: HOW TO LOGOUT IN DROPBOX / GDRIVE.</p>
+		{% endif %}
+		<p class="red">THIS SECTION IS GOING TO ANOTHER TEMPLATE</p>
+	</article>
+{%endif%}
+
+
+<article class="files-list">
+	<h3><span class="icon-dropbox red"> </span>Dropbox accounts connected</h3>
+	
+			<ul>
+				{% for service in dropbox_services %}
+					<li> 
+						<a href="#" class="service-link {{service.service_name}}" id="{{service.uid}}">
+							{{service|capfirst}}
+						</a>
+					</li>
+				{%endfor%}
+			</ul>
+	<a href="/add_dropbox">Add Dropbox account</a>
+	<h3><span class="icon-google-drive red"> </span>Google Drive accounts connected</h3>
+	
+			<ul>
+				{% for service in drive_services %}
+					<li> 
+						<a href="#" class="service-link {{service.service_name}}" id="{{service.uid}}">
+							{{service|capfirst}}
+						</a>
+					</li>
+				{%endfor%}
+			</ul>
+	<a href="/add_drive">Add Google Drive account</a>
+</article>
+
+<script type="text/javascript">
+	var myObj = {{obj|safe}};
+</script>
+
+{% endblock %}

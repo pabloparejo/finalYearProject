@@ -3,6 +3,7 @@
 {% block pagetitle %} {{page_title}} {% endblock %}
 
 {% block content%}
+
 <article class="files-list">
 		<aside class="services-links">
 			<ul class="no-list-style">
@@ -14,8 +15,8 @@
 				</li>
 				{% for service in data.services %}
 					<li> 
-						<a href="#" class="service-link {{service.service_name}}" id="{{service.uid}}">
-							<span class="icon-{{service.service_name}} red"> </span>
+						<a href="#" class="service-link {{service.service_class}}" id="{{service.uid}}">
+							<span class="icon-{{service.service_class}} red"> </span>
 							{{service.username|capfirst}}
 						</a>
 					</li>
@@ -27,14 +28,21 @@
 				<td>Name</td>
 				<td>Last Modified</td>
 				<td>Size</td>
-				<td>location</td>
+				<td>Location</td>
 			</tr>
 			{% for service in data.services %}
-				{% for content in service.contents %}
+				{% for item in service.contents %}
 				<tr>
-					<td>{{content.name}}</td>
-					<td>{{content.modified|slice:":16"}}</td>
-					<td>{{content.size}}</td>
+					<td>
+						<span class="icon-{{item.icon}}"</span>
+						{{item.name}}
+					</td>
+					<td>{{item.modified|slice:"4:16"}}</td>
+					{% if item.is_dir %}
+					<td>--</td>
+					{% else %}
+					<td>{{item.size}}</td>
+					{% endif %}
 					<td>{{service.service_name}}</td>
 				</tr>
 				{%endfor%}

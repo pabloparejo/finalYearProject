@@ -2,6 +2,7 @@
 from django.shortcuts import render
 
 from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 
 import json
 
@@ -60,48 +61,33 @@ def get_auth(web_app_session):
 def auth_start(request):
     authorize_url = get_auth(request.session).start()
     return HttpResponseRedirect(authorize_url)
-
-def new_account(user, dropbox_client, token):
-    client_email = dropbox_client.account_info()['email']
-    client_id = dropbox_client.account_info()['uid']
-    display_name = dropbox_client.account_info()['display_name']
-    account = user.dropboxaccount_set.create(   uid=client_id,
-                                                token=token,
-                                                email=client_email,
-                                                display_name=display_name)
-    account.save()
-    
-    return account
     
 @login_required()
 def auth_finish(request):
     try:
-        access_token, user_id, url_state = get_dropbox_auth(request.session).finish(request.GET)
+        access_token, user_id, url_state = get_auth(request.session).finish(request.GET)
         client = DropboxClient(access_token)
         user = request.user
         client_email = client.account_info()['email']
-        client_id = client.account_info()['uid']
-        display_name = client.account_info()['display_name']
-
-        formerAccounts = DropboxAccount.objects.filter(user=user)
-        accountIsUsed = False
-        if formerAccounts:
-            for account in formerAccounts:
-                print account.uid
-                print client_id
-                if (account.uid== client_id):
-                    account.service_token = access_token
-                    account.service_token = client_email
-                    account.service_token = display_name
-                    account.save()
-                    subtitle = "La cuenta %s ya estaba incluida" , client_email 
-                    accountIsUsed = True
+        uid = client.account_info()['uid']
+        name = client.account_info()['display_name']
         
-        if (not accountIsUsed) or (not formerAccounts):
-            1/0
-            new_account = new_account(user, client, access_token)
-            subtitle = "Servicio nuevo añadido: %s" , new_account.email
-        return HttpResponseRedirect('/')
+        try:
+            formerAccount = DropboxAccount.objects.get(uid=uid)
+            formerAccount.token = access_token
+            formerAccount.display_name = name
+            formerAccount.email = client_email
+            formerAccount.save()
+            new_account = False
+        except ObjectDoesNotExist:
+            new_account = True
+            account = user.dropboxaccount_set.create(   uid=uid, token=token,
+                                                        email=client_email,
+                                                        display_name=name)
+        service_added = 'Dropbox'
+        auth_finished = True
+        return render(request, 'new_service.html', locals())
+
     except DropboxOAuth2Flow.BadRequestException, e:
         http_status(400)
         info = 'error404'

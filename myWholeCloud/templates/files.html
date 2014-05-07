@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} {{page_title|capfirst}} {% endblock %}
 {% block content %}
-	<p> hola {{request.user}}
 	<article id="data-contents">
 		<table border="1" width="600">
 			<tr>
 				<td>Name</td>
 				<td>Last Modified</td>
 				<td>Size</td>
-				<td>location</td>
+				<td>Location</td>
 			</tr>
 			{% for service in data.services %}
 				{% for content in service.contents %}

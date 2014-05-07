@@ -12,27 +12,40 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-
 def home(request):
-	# drive = DriveAccount()
-	# dropbox1 = DropboxAccount()
-	# dropbox2 = DropboxAccount()
+	user = request.user
+	dropbox_services = DropboxAccount.objects.filter(user=user)
+	drive_services = DriveAccount.objects.filter(user=user)
+	services = []
+	for service in dropbox_services:
+		services.append(service.get_path('/'))
 
-	# services = [drive.get_path('/'), dropbox1.get_path('/'), dropbox2.get_path('/')]
+	for service in drive_services:
+		services.append(service.get_path('/'))
 
-	# data = {"username": "request.user",
-	# 		"number_of_services": len(services),
-	# 		"total_size": "habria que ver esto",
-	# 		"used_size": "habria que ver esto",
-	# 		"services": services}
+	data = {"number_of_services": len(services),
+	 		"total_size": "habria que ver esto",
+	 		"used_size": "habria que ver esto",
+	 		"services": services}
 
-	# obj = json.dumps(data)
+	obj = json.dumps(data)
 	page_title = "home"
 
 	return render(request, 'index.html', locals())
 	return HttpResponseRedirect('/dropbox')
 
+@login_required()
+def new_service(request):
+
+	page_title = 'New service'
+	dropbox_services = DropboxAccount.objects.filter(user=request.user)
+	drive_services = DriveAccount.objects.filter(user=request.user)
+
+	return render(request, 'new_service.html', locals())
+
+
+
+#---------- USERS ----------#
 
 def new_user(request):
 	if request.method == "POST":
