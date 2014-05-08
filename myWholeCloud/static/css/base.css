@@ -162,29 +162,6 @@ article.files-list tbody{
 	overflow: scroll;
 }
 
-article.files-list table tr:first-child{
-	background: #E4E4E4;
-}
-
-article.files-list table tr:first-child td{
-	padding: 1em;
-	width: 60%;
-}
-
-td{
-	padding: 0.5em 1em;
-	white-space:nowrap;
-}
-
-tr{
-	padding: 1em;
-}
-tr:hover{
-	background: #F7F7F7;
-	color: #222;
-	cursor: pointer;
-}
-
 aside.services-links{
 	background: #E4E4E4;
 	border-radius: 0.5em 0 0 0.5em; 
@@ -267,8 +244,30 @@ label{
 	display: block;
 }
 
-tr:first-child{
+tbody tr:hover{
+	background: #F7F7F7;
+	color: #222;
+}
+
+
+td{
+	padding: 0.5em 1em;
+	white-space:nowrap;
+}
+
+thead {
+	background: #E4E4E4;
 	font-weight: bold;
+	padding: 1em;
+}
+
+thead td:hover{
+	background: #DDD;
+	cursor: pointer;
+}
+
+tr{
+	padding: 1em;
 }
 
 .helptext{
@@ -295,4 +294,10 @@ tr:first-child{
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+#files{
+	display: inline-block;
+	height: 500px;
+	overflow: scroll;
 }

@@ -1,10 +1,6 @@
-var base_url 		= "http://query.yahooapis.com/v1/public/yql?",
-	$content 		= $('#content'),
-	positionCoords	= {},
+var base_url 		= "http://127.0.0.1/api/",
 	$ls				= localStorage,
-	$sign_form		= $('#sign-form')
 	path 			= location.pathname.split('/')[1],
-	$user_btn		= $('#user'),
 	$search			= $('#search-bar'),
 	$search_btn 	= $("#search a");
 
@@ -39,34 +35,6 @@ function setCookie(cname,cvalue,exdays){
     document.cookie = cname+"="+cvalue+"; "+expires+ ";path=/;";
 }
 
-// -------- DAJAX ICE -------- //
-
-$('.switchForm-btn').click(DajaxSwitchForm);
-
-function DajaxSwitchForm(e){
-	e.preventDefault();
-	Dajaxice.userprofiles.switchForm(switchFormFields);
-}
-
-function switchFormFields(data){
-
-	clone = $('.sign').clone();
-	clone.find('.form-title').text(data.title);
-	clone.find('.submit-btn').attr('value', data.title);
-	clone.find('.form-content').html(data.content);
-	clone.find('.switchForm-btn').text($('.form-title').text());
-	$('.sign').slideUp();
-	$('#content').prepend(clone);
-	clone.hide();
-	clone.slideDown();
-	setCookie('form', data.cookie, 7);
-	$('.switchForm-btn').click(DajaxSwitchForm);
-	setTimeout(function(){
-		$('.sign').last().remove();
-	}, 500);
-
-}
-
 
 function searchToggle(){
 	toggleBtnActive($search_btn)
@@ -74,18 +42,36 @@ function searchToggle(){
 	$search.slideToggle();
 }
 
-function formToggle(){
-	toggleBtnActive($user_btn)
-	$sign_form.toggleClass('show');
-	$sign_form.slideToggle();
+
+// -------- AJAX -------- //
+function get_path(e){
+	e.preventDefault();
+	$.getJSON(this.href, navigation);
+}
+
+
+var myData
+function navigation(data){
+	myData = data; 
+}
+
+// -------- Navigation -------- //
+function filter(e){
+	e.preventDefault();
+	$('.item-row').fadeOut();
+	$('.'+this.id).fadeIn();
+}
+
+function displayAll(e){
+	e.preventDefault();
+	$('.item-row').fadeOut();
+	$('.item-row').fadeIn();
 }
 
 
 setActive();
-$user_btn.click(formToggle);
+$('#all-services').click(displayAll);
+$('.get-path-btn').click(get_path);
+$('.service-link').click(filter);
 $search_btn.click(searchToggle);
-
-if (path == "checkout-succes"){
-	clearCart();
-}
 

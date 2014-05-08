@@ -81,7 +81,8 @@ def auth_finish(request):
             new_account = False
         except ObjectDoesNotExist:
             new_account = True
-            account = user.dropboxaccount_set.create(   uid=uid, token=token,
+            account = user.dropboxaccount_set.create(   uid=uid, 
+                                                        token=access_token,
                                                         email=client_email,
                                                         display_name=name)
         service_added = 'Dropbox'
@@ -93,9 +94,7 @@ def auth_finish(request):
         info = 'error404'
         return render(request,'dropbox.html', {'info':info})
     except DropboxOAuth2Flow.BadStateException, e:
-        # Start the auth flow again.
-        info = 'Start Flow again'
-        return render(request,'dropbox.html', {'info':info})
+        return HttpResponseRedirect('/add_dropbox')
     except DropboxOAuth2Flow.CsrfException, e:
         info = 'CSRF ERROR'
         return render(request,'dropbox.html', {'info':info})
