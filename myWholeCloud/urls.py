@@ -18,6 +18,8 @@ urlpatterns = patterns('',
 		name="logout"),
 
     url(r'^add_account/$', 'main.views.new_service'),
+    url(r'^api/get_path/(?P<service>(dropbox|google-drive))/(?P<s_id>\d{1,})(?P<path>(.*))/$',\
+         'mwc_api.views.get_path', name="get_path"),
 
     url(r'^dropbox/$', 'mwc_dropbox.views.list_files'),
     url(r'^add_dropbox/$', 'mwc_dropbox.views.auth_start'),

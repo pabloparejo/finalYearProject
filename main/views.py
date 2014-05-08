@@ -23,16 +23,17 @@ def home(request):
 	for service in drive_services:
 		services.append(service.get_path('/'))
 
-	data = {"number_of_services": len(services),
-	 		"total_size": "habria que ver esto",
-	 		"used_size": "habria que ver esto",
+	data = {"bytes_total": "habria que ver esto",
+	 		"bytes_used": "habria que ver esto",
+			"number_of_services": len(services),
 	 		"services": services}
 
 	obj = json.dumps(data)
-	page_title = "home"
+	page_title = "Home"
 
 	return render(request, 'index.html', locals())
 	return HttpResponseRedirect('/dropbox')
+
 
 @login_required()
 def new_service(request):

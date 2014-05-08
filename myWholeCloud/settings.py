@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'mwc_api',
     'mwc_drive',
     'mwc_dropbox',
 )

@@ -19,11 +19,14 @@ class DropboxAccount(models.Model):
 
 	def get_path(self, path):
 		client = DropboxClient(self.token)
-		metadata_list = client.metadata(path)['contents']
+		files_list = client.metadata(path)['contents']
+		quota_info = client.account_info()['quota_info']
+		for item in files_list:
+			item['name'] = item['path'][1:]
 
-		for data in metadata_list:
-			data['name'] = data['path'][1:] 
-		data = {	'contents': metadata_list,
+		data = {	'bytes_total': quota_info['quota'],
+					'bytes_used': quota_info['normal'] + quota_info['shared'],
+					'contents': files_list,
 					'display_name': self.display_name,
 					'parent': path,
 					'service_class': 'dropbox',

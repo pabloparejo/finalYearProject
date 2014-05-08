@@ -34,11 +34,17 @@
 				{% for item in service.contents %}
 				<tr>
 					<td>
-						<span class="icon-{{item.icon}}"</span>
-						{{item.name}}
+						<span class="icon-{{item.icon}}"></span>
+						{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
+						<a href="{% url 'get_path' service.service_class service.uid item.path %}">
+						{% else %}
+						<a href="/aqui_va_la_url_del_archivo">
+						{% endif %}
+							{{item.name}}
+						</a>
 					</td>
-					<td>{{item.modified|slice:"4:16"}}</td>
-					{% if item.is_dir %}
+					<td>{{item.modified|slice:"4:16"}}{{item.modifiedDate|slice:":10"}}</td>
+					{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
 					<td>--</td>
 					{% else %}
 					<td>{{item.size}}</td>

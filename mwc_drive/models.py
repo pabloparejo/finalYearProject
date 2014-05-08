@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-import httplib2
+import httplib2, datetime
 from apiclient.discovery import build
 from oauth2client.django_orm import Storage
 
@@ -16,20 +16,40 @@ class DriveAccount(models.Model):
 
 	user = models.ForeignKey(User)
 
+	def format_size(self, bytes):
+		size = int(bytes)
+		if size < 1024:
+			return bytes + " bytes"
+		elif size < 1024**2:
+			size = size/1024
+			return str(size) + " KB"
+		elif size < 1024**3:
+			size = size/1024**2
+			return str(size) + " MB"
+		else:
+			size = size/1024**3
+			return str(size) + " GB"
+
 
 	def reformat_metadata(self, metadata_list):
 		for element in metadata_list:
 			element['name'] = element.pop('title')
 			element['icon'] = element.pop('mimeType')
+			element['size'] = self.format_size(element['quotaBytesUsed'])
+			# DELETE SENTENCE BELOW WHEN WE ADD JQUERY TO MAKE THE API CALL
+			# EXPLANATION: THE FOLDER IS GOING TO HAVE A GOOGLE DRIVE CLASS
+			element['path'] = element['id']
 		return metadata_list
 
 	def files_for_parent(self, metadata_list, path_id):
 		files = []
+		path = path_id.split('/')[-1:]
 		for element in metadata_list:
 			for parent in element['parents']:
-				if parent['id'] == path_id and \
+				if parent['id'] == path[0] and \
 				not element.has_key('explicitlyTrashed'):
 					files.append(element)
+
 		return files
 
 	def files_in_root(self, metadata_list):
@@ -49,14 +69,23 @@ class DriveAccount(models.Model):
 		http = httplib2.Http()
 		http = credentials.authorize(http)
 		drive_service = build('drive', 'v2', http=http)
-		metadata_list = drive_service.files().list().execute()['items']
-		if path == '/':
-			metadata_list = self.files_in_root(metadata_list)
-		else:
-			metadata_list = self.files_for_parent(metadata_list, path_id)
-		metadata_list = self.reformat_metadata(metadata_list)
 
-		data = {	'contents': metadata_list,
+		then = datetime.datetime.now()
+		quota_info = drive_service.about().get().execute()
+		print "First google response time" , datetime.datetime.now() - then
+		files_list = drive_service.files().list().execute()['items']
+		print "Total google response time" , datetime.datetime.now() - then
+		if path == '/':
+			files_list = self.files_in_root(files_list)
+		else:
+			files_list = self.files_for_parent(files_list, path)
+		files_list = self.reformat_metadata(files_list)
+
+		data = {	'bytesTotal':	int(quota_info['quotaBytesTotal']),
+					'bytesUsed':	int(quota_info['quotaBytesUsed']) +
+									int(quota_info['quotaBytesUsedAggregate']) +
+									int(quota_info['quotaBytesUsedInTrash']),
+					'contents': files_list,
 					'display_name': self.display_name,
 					'parent': path,
 					'service_class': 'google-drive',

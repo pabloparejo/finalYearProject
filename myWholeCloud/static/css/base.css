@@ -210,6 +210,14 @@ footer{
 	text-align: center;
 }
 
+footer a{
+	color: #222;
+}
+
+footer a:hover{
+	color: #292929;
+}
+
 form{
 	overflow: hidden;
 }
