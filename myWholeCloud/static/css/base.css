@@ -154,6 +154,8 @@ article.files-list{
 article.files-list table{
 	background: #F0F0F0;
 	border-left: 1px solid #FAFAFA;
+	display: inline-block;
+	float: right;
 	width: 75%;
 }
 
@@ -167,8 +169,10 @@ aside.services-links{
 	border-radius: 0.5em 0 0 0.5em; 
 	display: inline-block;
 	float: left;
-	padding: 1em 2em 1em;
+	overflow: hidden;
+	padding: 1em 1em 1em;
 	font-weight: bold;
+	width: 20%;
 }
 
 body{
@@ -253,6 +257,7 @@ tbody tr:hover{
 td{
 	padding: 0.5em 1em;
 	white-space:nowrap;
+	width: 25%;
 }
 
 thead {

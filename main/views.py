@@ -12,6 +12,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
+
+# LOGIN REQUIRED UNTIL WE BUILD A WELCOME PAGE!!
+@login_required()
 def home(request):
 	user = request.user
 	dropbox_services = DropboxAccount.objects.filter(user=user)
@@ -44,7 +47,9 @@ def new_service(request):
 
 	return render(request, 'new_service.html', locals())
 
-
+# @login_required()
+# def delete_service(request, s_id):
+	
 
 #---------- USERS ----------#
 

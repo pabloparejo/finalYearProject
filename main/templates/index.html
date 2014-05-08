@@ -17,45 +17,43 @@
 					<li> 
 						<a href="#" class="service-link {{service.service_class}}" id="{{service.uid}}">
 							<span class="icon-{{service.service_class}} red"> </span>
-							{{service.username|capfirst}}
+							{{service.username|capfirst|truncatechars:"22"}}
 						</a>
 					</li>
 				{%endfor%}
 			</ul>
 		</aside>
-		<div id="files">
-			<table class="sortable">
-				<tr>
-					<td>Name</td>
-					<td>Last Modified</td>
-					<td>Size</td>
-					<td>Location</td>
-				</tr>
-				{% for service in data.services %}
-					{% for item in service.contents %}
-					<tr class="item-row {{service.uid}}">
-						<td>
-							<span class="icon-{{item.icon}}"></span>
-							{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
-							<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
-							{% else %}
-							<a href="/aqui_va_la_url_del_archivo">
-							{% endif %}
-								{{item.name|capfirst|truncatechars:50}}
-							</a>
-						</td>
-						<td>{{item.modified|slice:"4:16"}}{{item.modifiedDate|slice:":10"}}</td>
+		<table class="sortable">
+			<tr>
+				<td>Name</td>
+				<td>Last Modified</td>
+				<td>Size</td>
+				<td>Location</td>
+			</tr>
+			{% for service in data.services %}
+				{% for item in service.contents %}
+				<tr class="item-row {{service.uid}}">
+					<td>
+						<span class="icon-{{item.icon}}"></span>
 						{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
-						<td>--</td>
+						<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
 						{% else %}
-						<td>{{item.size}}</td>
+						<a href="/aqui_va_la_url_del_archivo">
 						{% endif %}
-						<td>{{service.service_name}}</td>
-					</tr>
-					{%endfor%}
+							{{item.name|capfirst|truncatechars:50}}
+						</a>
+					</td>
+					<td>{{item.modified|slice:"4:16"}}{{item.modifiedDate|slice:":10"}}</td>
+					{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
+					<td>--</td>
+					{% else %}
+					<td>{{item.size}}</td>
+					{% endif %}
+					<td>{{service.service_name}}</td>
+				</tr>
 				{%endfor%}
-			</table>
-		</div>
+			{%endfor%}
+		</table>
 		
 </article>
 
