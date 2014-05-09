@@ -97,7 +97,7 @@
 .icon-cloud:before {
 	content: "\e60e";
 }
-.icon-cancel:before {
+.icon-delete:before {
 	content: "\e608";
 }
 .icon-checkmark:before {
@@ -164,15 +164,25 @@ article.files-list tbody{
 	overflow: scroll;
 }
 
-aside.services-links{
-	background: #E4E4E4;
-	border-radius: 0.5em 0 0 0.5em; 
+aside.services-more{
+	background: #EEE;
 	display: inline-block;
 	float: left;
 	overflow: hidden;
-	padding: 1em 1em 1em;
 	font-weight: bold;
 	width: 20%;
+}
+
+aside.services-more ul{
+	padding: 1em;
+}
+
+aside p.aside-title{
+	background: #CCC;
+	font-weight: normal;
+	margin: 0;
+	padding: 0.25em 1em;
+
 }
 
 body{
@@ -299,6 +309,16 @@ tr{
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+#dragandrophandler
+{
+	border:2px dotted #444;
+	color:#CCC;
+	font-size: 2em;
+	margin: 0.5em;
+	text-align: center;
+	vertical-align:middle;
 }
 
 #files{

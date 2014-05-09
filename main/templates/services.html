@@ -21,31 +21,24 @@
 {%endif%}
 
 
-<article class="files-list">
-	<h3><span class="icon-dropbox red"> </span>Dropbox accounts connected</h3>
-	
-			<ul>
-				{% for service in dropbox_services %}
-					<li> 
-						<a href="#" class="service-link {{service.service_name}}" id="{{service.uid}}">
-							{{service|capfirst}}
-						</a>
-					</li>
-				{%endfor%}
+<article class="accounts">
+	{% for service in services%}
+	<h3><span class="icon-{{service.name}} red big-icon"> </span>{{service.name}} accounts connected</h3>
+		<ul class="no-list-style services-list">
+		{% for account in service.accounts %}
+			<li> 
+				<a href="{% url 'delete_account' service.id account.uid%}">
+					<span class="icon-delete red"> </span>
+				</a>
+
+				{{account.email|capfirst}}
+			</li>
+		{%endfor%}
+				<li>
+					<a href="/add_dropbox"><span class="icon-plus"> </span>Add Dropbox account</a>
+				</li>
 			</ul>
-	<a href="/add_dropbox">Add Dropbox account</a>
-	<h3><span class="icon-google-drive red"> </span>Google Drive accounts connected</h3>
-	
-			<ul>
-				{% for service in drive_services %}
-					<li> 
-						<a href="#" class="service-link {{service.service_name}}" id="{{service.uid}}">
-							{{service|capfirst}}
-						</a>
-					</li>
-				{%endfor%}
-			</ul>
-	<a href="/add_drive">Add Google Drive account</a>
+	{%endfor%}
 </article>
 
 <script type="text/javascript">

@@ -5,8 +5,9 @@
 {% block content%}
 
 <article class="files-list">
-		<aside class="services-links">
-			<ul class="no-list-style">
+		<aside class="services-more left">
+			<p class="aside-title">Filter files</p>
+			<ul class="no-list-style services">
 				<li>
 					<a href="#" id="all-services"> 
 						<span class="icon-all red"> </span>
@@ -22,6 +23,11 @@
 					</li>
 				{%endfor%}
 			</ul>
+			<p class="aside-title">Upload a file</p>
+			<div id="dragandrophandler">
+				<p>Drag some files here!</p>
+			</div>
+			<div id="status1"></div>
 		</aside>
 		<table class="sortable">
 			<tr>

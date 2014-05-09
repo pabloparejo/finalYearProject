@@ -87,7 +87,7 @@ def auth_finish(request):
                                                         display_name=name)
         service_added = 'Dropbox'
         auth_finished = True
-        return render(request, 'new_service.html', locals())
+        return render(request, 'services.html', locals())
 
     except DropboxOAuth2Flow.BadRequestException, e:
         http_status(400)

@@ -39,17 +39,34 @@ def home(request):
 
 
 @login_required()
-def new_service(request):
+def show_services(request):
 
 	page_title = 'New service'
-	dropbox_services = DropboxAccount.objects.filter(user=request.user)
-	drive_services = DriveAccount.objects.filter(user=request.user)
+	dropbox_accounts = DropboxAccount.objects.filter(user=request.user)
+	drive_accounts = DriveAccount.objects.filter(user=request.user)
 
-	return render(request, 'new_service.html', locals())
+	dropbox = {	'accounts': dropbox_accounts,
+				'id': 'dropbox',
+				'name': 'Dropbox', 
+				}
+	drive = {	'accounts': drive_accounts,
+				'id': 'google-drive',
+				'name': 'drive', 
+				}
+	services = [dropbox, drive]
 
-# @login_required()
-# def delete_service(request, s_id):
-	
+	return render(request, 'services.html', locals())
+
+@login_required()
+def delete_account(request, service, a_uid):
+	if service == "dropbox":
+		account = DropboxAccount.objects.get(uid=a_uid)
+	else:
+		account = DriveAccount.objects.get(uid=a_uid)
+
+	account.delete()
+
+	return HttpResponseRedirect('/services')
 
 #---------- USERS ----------#
 
