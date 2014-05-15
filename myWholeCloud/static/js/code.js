@@ -1,4 +1,5 @@
 var base_url 		= "http://127.0.0.1/api/",
+	$files_table	= $('#files-table'),
 	$ls				= localStorage,
 	path 			= location.pathname.split('/')[1],
 	$search			= $('#search-bar'),
@@ -62,7 +63,20 @@ function get_path(e){
 
 var myData
 function navigation(data){
-	myData = data; 
+	myData = data; // DEVELOPING ONLY
+	$clone = $files_table.children().find('.item-row').first().clone();
+	$files_table.children().find('.item-row').fadeOut().remove();
+	for (item in data.contents){
+		$clone.find('.item-name').text(data.contents[item].name)
+		console.log('We have to change items icons, class and id');
+		console.log('modification key is different between services');
+		//$clone.('.item-mod').text(data.contents[item].modified)
+		$clone.find('.item-size').text(data.contents[item].size)
+		$clone.find('.item-location').text(data.service_name)
+		$files_table.append($clone);
+		$clone.fadeIn();
+	}
+
 }
 
 // -------- Navigation -------- //

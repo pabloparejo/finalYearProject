@@ -29,7 +29,7 @@
 			</div>
 			<div id="status1"></div>
 		</aside>
-		<table class="sortable">
+		<table id="files-table" class="sortable">
 			<tr>
 				<td>Name</td>
 				<td>Last Modified</td>
@@ -39,7 +39,7 @@
 			{% for service in data.services %}
 				{% for item in service.contents %}
 				<tr class="item-row {{service.uid}}">
-					<td>
+					<td class="item-name">
 						<span class="icon-{{item.icon}}"></span>
 						{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
 						<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
@@ -49,13 +49,13 @@
 							{{item.name|capfirst|truncatechars:50}}
 						</a>
 					</td>
-					<td>{{item.modified|slice:"4:16"}}{{item.modifiedDate|slice:":10"}}</td>
+					<td class="item-mod">{{item.modified|slice:"4:16"}}{{item.modifiedDate|slice:":10"}}</td>
 					{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
-					<td>--</td>
+					<td class="item-size">--</td>
 					{% else %}
-					<td>{{item.size}}</td>
+					<td class="item-size">{{item.size}}</td>
 					{% endif %}
-					<td>{{service.service_name}}</td>
+					<td class="item-location">{{service.service_name}}</td>
 				</tr>
 				{%endfor%}
 			{%endfor%}

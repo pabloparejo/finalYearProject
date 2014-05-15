@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^services/$', 'main.views.show_services'),
     url(r'^api/get_path/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/(?P<path>(.*))/$',\
          'mwc_api.views.get_path', name="get_path"),
-    url(r'^api/upload/demo/$', 'mwc_api.views.upload_demo'),
+    url(r'^api/upload/demo/', 'mwc_api.views.upload_demo'),
     url(r'^delete/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/$',\
         'main.views.delete_account', name='delete_account'),
 
