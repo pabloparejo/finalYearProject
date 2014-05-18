@@ -4,62 +4,52 @@
 
 {% block content%}
 
-<article class="files-list">
-		<aside class="services-more left">
-			<p class="aside-title">Filter files</p>
-			<ul class="no-list-style services">
-				<li>
-					<a href="#" id="all-services"> 
-						<span class="icon-all red"> </span>
-						All my files
-					</a>
-				</li>
-				{% for service in data.services %}
-					<li> 
-						<a href="#" class="service-link {{service.service_class}}" id="{{service.uid}}">
-							<span class="icon-{{service.service_class}} red"> </span>
-							{{service.username|capfirst|truncatechars:"22"}}
+<article>
+
+		<ul class="no-list-style services-list">
+			<li class="blue"> 
+				<a href="#" id="all-services" class="service-link">
+					<span class="icon-all big-icon"></span>
+					<span class="service-email">myWholeCloud</span>
+				</a>
+			</li>
+		{% for service in data.services %}
+			<li class="blue"> 
+				<a href="#" class="service-link {{service.service_class}}" id="{{service.uid}}" name="{{service.username|capfirst}}">
+					<span class="icon-{{service.service_class}} big-icon"></span>
+					<span class="service-email">{{service.username|capfirst|truncatechars:"12"}}</span>
+				</a>
+			</li>
+		{%endfor%}
+		</ul>
+
+		<div id="files-list" class="dragandrophandler">
+		{% for service in data.services %}
+			{% for item in service.contents %}
+				<ul class="item no-list-style {{service.uid}}">
+					<li>
+						<span class="icon-{{item.icon}} big-icon"></span>
+					</li>
+					<li class="name">
+					{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
+						<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
+					{% else %}
+						<a href="/aqui_va_la_url_del_archivo">
+					{% endif %}
+							{{item.name|capfirst}}
 						</a>
 					</li>
-				{%endfor%}
-			</ul>
-			<p class="aside-title">Upload a file</p>
-			<div id="dragandrophandler">
-				<p>Drag some files here!</p>
-			</div>
-			<div id="status1"></div>
-		</aside>
-		<table id="files-table" class="sortable">
-			<tr>
-				<td>Name</td>
-				<td>Last Modified</td>
-				<td>Size</td>
-				<td>Location</td>
-			</tr>
-			{% for service in data.services %}
-				{% for item in service.contents %}
-				<tr class="item-row {{service.uid}}">
-					<td class="item-name">
-						<span class="icon-{{item.icon}}"></span>
-						{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
-						<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
-						{% else %}
-						<a href="/aqui_va_la_url_del_archivo">
-						{% endif %}
-							{{item.name|capfirst|truncatechars:50}}
-						</a>
-					</td>
-					<td class="item-mod">{{item.modified|slice:"4:16"}}{{item.modifiedDate|slice:":10"}}</td>
+					<li class="size">
 					{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
-					<td class="item-size">--</td>
+						--
 					{% else %}
-					<td class="item-size">{{item.size}}</td>
+						{{item.size}}
 					{% endif %}
-					<td class="item-location">{{service.service_name}}</td>
-				</tr>
-				{%endfor%}
-			{%endfor%}
-		</table>
+					</li>
+				</ul>
+			{% endfor %}
+		{% endfor %}
+		</div>
 		
 </article>
 

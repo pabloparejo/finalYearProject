@@ -52,13 +52,13 @@
 .icon-file-video:before {
 	content: "\f008";
 }
-.icon-file-pic:before {
+.icon-file-pic:before, .icon-page_white_picture:before {
 	content: "\f03e";
 }
-.icon-file-text:before {
+.icon-file-text:before{
 	content: "\f0f6";
 }
-.icon-folder:before {
+.icon-folder:before, .icon-folder_photos:before {
 	content: "\f114";
 }
 .icon-folder-opened:before {
@@ -109,7 +109,7 @@
 .icon-google-drive:before {
 	content: "\e609";
 }
-.icon-file-pdf:before {
+.icon-file-pdf:before, .icon-page_white_acrobat:before {
 	content: "\e60a";
 }
 .icon-file-word:before {
@@ -125,10 +125,18 @@
 	content: "\e60f";
 }
 
+/*
+	Blue: #59D;
+	light-Grey: #EEE;
+	Grey: #DDD;
+	Red: #C10;
+	Yellow: #FFC620;
+*/
+
 
 	/* ----------- /Fonts ----------*/
-a{
-  	color: #C22;
+a, .blue{
+	color: #59D;
 	text-decoration: none;
 }
 
@@ -136,67 +144,77 @@ a.brand{
 	font-weight: bold;
 }
 
-a:hover, a:hover .red{
-	color: #E44;
+a:hover, .blue:hover{
+	color: #6AE;
 }
 
 article{
-	background: #FAFAFA;
-	padding: 1em;
+	background: #EEE;
+	padding: 2em;
 	margin: 1.2em 1em;
 }
 
-article.files-list{
-	overflow: hidden;
-	padding: 2em;
-}
-
-article.files-list table{
-	background: #F0F0F0;
-	border-left: 1px solid #FAFAFA;
-	display: inline-block;
-	float: right;
-	width: 75%;
-}
-
-article.files-list tbody{
-	height: 500px;
-	overflow: scroll;
-}
-
-aside.services-more{
-	background: #EEE;
-	display: inline-block;
-	float: left;
-	overflow: hidden;
-	font-weight: bold;
-	width: 20%;
-}
-
-aside.services-more ul{
-	padding: 1em;
-}
-
-aside p.aside-title{
-	background: #CCC;
-	font-weight: normal;
+article ul.services-list{
+	background: #FAFAFA;
+	/*border: 2px solid #FFC620;*/
+	border-bottom: 0px;
+	border-radius: 0.25em 0.25em 0 0;
 	margin: 0;
-	padding: 0.25em 1em;
+	padding: 0;
+}
 
+article ul.services-list li{
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	list-style-position: inside;
+}
+
+article ul.services-list li .service-email{
+	display: none;
+	font-size: 1.2em;
+	overflow: hidden;
 }
 
 body{
   background: #E4E4E4;
-  color: #444;
+  color: #353535;
   font-family: "Open Sans";
   font-size: 16px;
 }
 
+div#files-list{
+	background: #FAFAFA;
+	border-radius: 0em 0.25em 0.25em 0.25em;
+	padding: 1em;
+}
+
+
+div#files-list ul.item{
+	border: solid 1px #CCC;
+	border-radius: 0.5em;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0.5em;
+	padding: 0.75em 0.5em;
+	text-align: center;
+	width: 12.5%;
+}
+
+div#files-list ul.item:hover{
+	background: #F5F5F5;
+}
+
+div#files-list ul.item .name a{
+	display: inline-block;
+	height: 1.5em;
+	overflow: scroll;
+	width: 100%;
+}
 
 footer{
-	background: #C22;
-	border-top: #EEC570 5px solid;
-	color: #DDD;
+	background: #59D;
+	border-top: #FFC620 5px solid;
+	color: #EEE;
 	padding: 2em 1em 5em 1em;
 	text-align: center;
 }
@@ -223,20 +241,20 @@ header{
 }
 
 header nav{
-	background: #C22;
+	background: #59D;
 	padding: 0 1em;
 }
 
 header nav a{
-	color: #DDD;
+	color: #EEE;
 	padding: 5em 1em;
 	transition: all ease 0.2s;
 }
 
 header nav a:hover, a.active{
-	border-bottom: 4px solid #EEC570;
+	border-bottom: 4px solid #FFC620;
 	padding: 0.35em 1em;
-	color: #EEC570;
+	color: #FFC620;
 }
 
 header nav .no-list-style li{
@@ -258,31 +276,21 @@ label{
 	display: block;
 }
 
-tbody tr:hover{
-	background: #F7F7F7;
-	color: #222;
+.big-icon{
+	font-size: 2em;
 }
 
-
-td{
-	padding: 0.5em 1em;
-	white-space:nowrap;
-	width: 25%;
+.drag{
+	background: black;
+	border: 2px solid #FFC620;
 }
 
-thead {
-	background: #E4E4E4;
-	font-weight: bold;
-	padding: 1em;
+.green, .green a{
+	color: #0A0;
 }
 
-thead td:hover{
-	background: #DDD;
-	cursor: pointer;
-}
-
-tr{
-	padding: 1em;
+.green:hover, .green:hover a{
+	color: #0C0;
 }
 
 .helptext{
@@ -295,13 +303,9 @@ tr{
 }
 
 .errorlist{
-	color: 	#C22;
+	color: 	#59D;
 	list-style: none;
 	text-align: right;
-}
-
-.red{
-	color: #C22;
 }
 
 .no-list-style{
@@ -311,18 +315,13 @@ tr{
 	margin: 0;
 }
 
-#dragandrophandler
-{
-	border:2px dotted #444;
-	color:#CCC;
-	font-size: 2em;
-	margin: 0.5em;
-	text-align: center;
-	vertical-align:middle;
+.red{
+	color: #C10;
 }
 
-#files{
-	display: inline-block;
-	height: 500px;
-	overflow: scroll;
+.red:hover{
+	color: #E10;
 }
+
+
+

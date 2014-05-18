@@ -23,7 +23,7 @@
 
 <article class="accounts">
 	{% for service in services%}
-	<h3><span class="icon-{{service.name}} red big-icon"> </span>{{service.name}} accounts connected</h3>
+	<h3><span class="icon-{{service.name}} red big-icon"> </span>{{service.name|capfirst}} accounts connected</h3>
 		<ul class="no-list-style services-list">
 		{% for account in service.accounts %}
 			<li> 
@@ -34,8 +34,8 @@
 				{{account.email|capfirst}}
 			</li>
 		{%endfor%}
-				<li>
-					<a href="/add_dropbox"><span class="icon-plus"> </span>Add Dropbox account</a>
+				<li class="green">
+					<a href="/add_dropbox"><span class="icon-plus"> </span>Add {{service.name|capfirst}} account</a>
 				</li>
 			</ul>
 	{%endfor%}

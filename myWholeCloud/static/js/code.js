@@ -1,5 +1,5 @@
 var base_url 		= "http://127.0.0.1/api/",
-	$files_table	= $('#files-table'),
+	$files_list		= $('#files-list'),
 	$ls				= localStorage,
 	path 			= location.pathname.split('/')[1],
 	$search			= $('#search-bar'),
@@ -57,45 +57,74 @@ function searchToggle(){
 // -------- AJAX -------- //
 function get_path(e){
 	e.preventDefault();
-	$.getJSON(this.href, navigation);
+	link = $(this).find('.get-path-btn').attr('href');
+	console.log(link);
+
+	$.getJSON(link, navigation);
 }
 
 
 var myData
 function navigation(data){
 	myData = data; // DEVELOPING ONLY
-	$clone = $files_table.children().find('.item-row').first().clone();
-	$files_table.children().find('.item-row').fadeOut().remove();
+	$first_clone = $files_list.children().first().clone();
+	$files_list.children().fadeOut().remove();
 	for (item in data.contents){
-		$clone.find('.item-name').text(data.contents[item].name)
+		$clone = $first_clone.clone();
+		$clone.find('.name a').text(data.contents[item].name)
 		console.log('We have to change items icons, class and id');
 		console.log('modification key is different between services');
 		//$clone.('.item-mod').text(data.contents[item].modified)
-		$clone.find('.item-size').text(data.contents[item].size)
-		$clone.find('.item-location').text(data.service_name)
-		$files_table.append($clone);
+		$clone.find('.size').text(data.contents[item].size)
+		$files_list.append($clone);
 		$clone.fadeIn();
 	}
 
 }
 
+var childrenTimeOut;
+
+function toggleShowChildren(){
+	var parentObj = this;
+	childrenTimeOut = setTimeout(function(){
+		childrenTimeOut = null;
+		$(parentObj).children('.service-email').animate({width: 'toggle'});
+	}, 240);
+}
+
+function removeTimeOut(){
+	if (!childrenTimeOut){
+		$(this).children('.service-email').animate({width: 'toggle'});
+	}
+	clearTimeout(childrenTimeOut);
+	childrenTimeOut = null;
+}
+
 // -------- Navigation -------- //
 function filter(e){
 	e.preventDefault();
-	$('.item-row').fadeOut();
+	$('ul.item').fadeOut();
 	$('.'+this.id).fadeIn();
 }
 
 function displayAll(e){
 	e.preventDefault();
-	$('.item-row').fadeOut();
-	$('.item-row').fadeIn();
+	$('ul.item').fadeIn();
 }
 
 
 setActive();
-$('#all-services').click(displayAll);
-$('.get-path-btn').click(get_path);
+// $('.get-path-btn').click(get_path);
 $('.service-link').click(filter);
+$('#all-services').click(displayAll);
 $search_btn.click(searchToggle);
+
+$('.service-link').hover(toggleShowChildren, removeTimeOut)
+
+$('ul.item').click(get_path);
+
+
+
+
+
 
