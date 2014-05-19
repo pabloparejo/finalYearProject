@@ -62,6 +62,22 @@ class DriveAccount(models.Model):
 					break
 		return files
 
+	def get_free_space(self):
+		credentials_model = CredentialsModel.objects.get(drive_account=self.pk)
+		credentials = credentials_model.credential
+		http = httplib2.Http()
+		http = credentials.authorize(http)
+		drive_service = build('drive', 'v2', http=http)
+		quota_info = drive_service.about().get().execute()
+
+		free = 	int(quota_info['quotaBytesTotal']) - \
+				int(quota_info['quotaBytesUsed']) - \
+				int(quota_info['quotaBytesUsedAggregate']) - \
+				int(quota_info['quotaBytesUsedInTrash'])
+
+		return free
+
+
 	def get_path(self, path):
 
 		credentials_model = CredentialsModel.objects.get(drive_account=self.pk)
@@ -96,6 +112,22 @@ class DriveAccount(models.Model):
 				}
 
 		return data
+
+	def upload_file(self, f):
+		credentials_model = CredentialsModel.objects.get(drive_account=self.pk)
+		credentials = credentials_model.credential
+		http = httplib2.Http()
+		http = credentials.authorize(http)
+
+		drive_service = build('drive', 'v2', http=http)
+
+		media_body = MediaInMemoryUpload(f.name, mimetype='text/plain', resumable=True)
+		body = {'description': 'A test document',
+				'mimeType': 'text/plain',
+				'title': f.name
+			}
+
+		f = drive_service.files().insert(body=body, media_body=media_body).execute()
 
 	def __unicode__(self):
 		return self.email

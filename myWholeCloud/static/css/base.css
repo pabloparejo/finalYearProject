@@ -126,17 +126,17 @@
 }
 
 /*
-	Blue: #59D;
+	Blue: #07A;
 	light-Grey: #EEE;
 	Grey: #DDD;
 	Red: #C10;
-	Yellow: #FFC620;
+	Yellow: #EB0;
 */
 
 
 	/* ----------- /Fonts ----------*/
 a, .blue{
-	color: #59D;
+	color: #07A;
 	text-decoration: none;
 }
 
@@ -144,8 +144,29 @@ a.brand{
 	font-weight: bold;
 }
 
+a.btn{
+	background: #07A;
+	border-bottom: 3px solid #EB0;
+	border-radius: 0.5em;
+	color: #EEE;
+	cursor: pointer;
+	display: block;
+	padding: 0.5em;
+	transition: all ease-in-out 0.2s;
+
+}
+
+a.btn:hover{
+	color: #EB0;
+}
+
 a:hover, .blue:hover{
 	color: #6AE;
+}
+
+a#upload-btn{
+	float: right;
+	margin-bottom: 0.5em;
 }
 
 article{
@@ -156,7 +177,7 @@ article{
 
 article ul.services-list{
 	background: #FAFAFA;
-	/*border: 2px solid #FFC620;*/
+	/*border: 2px solid #EB0;*/
 	border-bottom: 0px;
 	border-radius: 0.25em 0.25em 0 0;
 	margin: 0;
@@ -184,6 +205,7 @@ body{
 
 div#files-list{
 	background: #FAFAFA;
+	border: 2px solid #FAFAFA;
 	border-radius: 0em 0.25em 0.25em 0.25em;
 	padding: 1em;
 }
@@ -211,9 +233,23 @@ div#files-list ul.item .name a{
 	width: 100%;
 }
 
+div#upload{
+	background: #FAFAFA;
+	border: 4px dashed #07A;
+	display: block;
+	margin: 4em 2em;
+	padding: 6em;
+}
+
+div#upload p{
+	color: #07A;
+	font-size: 1.25em;
+	text-align: center;
+}
+
 footer{
-	background: #59D;
-	border-top: #FFC620 5px solid;
+	background: #07A;
+	border-top: #EB0 5px solid;
 	color: #EEE;
 	padding: 2em 1em 5em 1em;
 	text-align: center;
@@ -241,7 +277,7 @@ header{
 }
 
 header nav{
-	background: #59D;
+	background: #07A;
 	padding: 0 1em;
 }
 
@@ -252,9 +288,9 @@ header nav a{
 }
 
 header nav a:hover, a.active{
-	border-bottom: 4px solid #FFC620;
+	border-bottom: 4px solid #EB0;
 	padding: 0.35em 1em;
-	color: #FFC620;
+	color: #EB0;
 }
 
 header nav .no-list-style li{
@@ -281,8 +317,8 @@ label{
 }
 
 .drag{
-	background: black;
-	border: 2px solid #FFC620;
+	background: black !important;
+	border-color: #EB0 !important;
 }
 
 .green, .green a{
@@ -302,8 +338,16 @@ label{
 
 }
 
+.hide{
+	display: none;
+}
+
+.float-inside{
+	overflow: hidden;
+}
+
 .errorlist{
-	color: 	#59D;
+	color: 	#07A;
 	list-style: none;
 	text-align: right;
 }

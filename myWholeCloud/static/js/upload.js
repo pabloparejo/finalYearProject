@@ -52,37 +52,56 @@ function handleFileUpload(files,obj)
         sendFileToServer(fd,status);
    }
 }
+
+var previousContent;
+
+
+function addHelp(){
+  previousContent = $('.dragandrophandler').html()
+  $('.dragandrophandler').html('Drop your files here');
+  $('.dragandrophandler').addClass('drag');
+}
+
+function removeHelp(){
+  $('.dragandrophandler').html(previousContent);
+  $('.dragandrophandler').removeClass('drag');
+}
+
+
 $(document).ready(function(){
   var obj = $(".dragandrophandler");
   obj.on('dragenter', function (e){
       e.stopPropagation();
       e.preventDefault();
-      $(this).addClass('drag');
+      console.log('dragenter');
   });
+
   obj.on('dragover', function (e){
        e.stopPropagation();
        e.preventDefault();
   });
+
   obj.on('drop', function (e){
-   
-       $(this).removeClass('drag');
-       e.preventDefault();
-       var files = e.originalEvent.dataTransfer.files;
-   
-       //We need to send dropped files to Server
-       handleFileUpload(files,obj);
+    removeHelp();
+
+    e.preventDefault();
+    var files = e.originalEvent.dataTransfer.files;
+    //We need to send dropped files to Server
+    handleFileUpload(files,obj);
   });
 
   obj.on('dragstop', function (e){
-       e.stopPropagation();
-       e.preventDefault();
-       $(this).removeClass('drag');
+    e.stopPropagation();
+    e.preventDefault();
+    removeHelp();
   });
 
-  $(document).on('dragenter', function (e){
+  $(window).mouseleave(removeHelp)
+
+  $(window).on('dragenter', function (e){
       e.stopPropagation();
       e.preventDefault();
-      $(this).addClass('drag');
+      addHelp();
   });
   $(document).on('dragover', function (e){
     e.stopPropagation();
@@ -91,6 +110,10 @@ $(document).ready(function(){
   $(document).on('drop', function (e){
       e.stopPropagation();
       e.preventDefault();
-      $(this).removeClass('drag');
+      removeHelp();
+
   });
 });
+
+
+

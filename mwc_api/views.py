@@ -9,7 +9,7 @@ from apiclient.discovery import build
 from dropbox.client import DropboxClient
 from oauth2client.django_orm import CredentialsField
 
-
+from itertools import chain
 
 from django.http import HttpResponse
 
@@ -44,35 +44,21 @@ def delete_account(request, service, a_uid):
 
 	return HttpResponseRedirect('/services')
 
-# ONLY FOR TEST PURPOSES -- REMOVE THIS VIEW
-def upload_demo(request):
+def upload(request):
 
 	f = request.FILES['file']
 	file_name = f.name
-	print "file"
 
-	# DROPBOX
-	# account = DropboxAccount.objects.get(uid=41254046)
-	# client = DropboxClient(account.token)
-	# client.put_file('/other.js', f, overwrite=True, parent_rev=None)
+	user = request.user
+	dropbox_accounts = DropboxAccount.objects.filter(user=user)
+	drive_accounts = DriveAccount.objects.filter(user=user)
+	accounts = list(chain(dropbox_accounts, drive_accounts))
+	accounts.sort(key=lambda x: x.get_free_space(), reverse=True)
 
-	# DRIVE
-	account = DriveAccount.objects.get(uid=946419211659158232)
-	credentials_model = CredentialsModel.objects.get(drive_account=account)
-	credentials = credentials_model.credential
-	http = httplib2.Http()
-	http = credentials.authorize(http)
+	account = accounts[0]
 
-	drive_service = build('drive', 'v2', http=http)
+	account.upload_file(f)
 
-	media_body = MediaInMemoryUpload(file_name, mimetype='text/plain', resumable=True)
-	body = {'description': 'A test document',
-			'mimeType': 'text/plain',
-			'title': file_name
-		}
-
-	f = drive_service.files().insert(body=body, media_body=media_body).execute()
-	
 	return HttpResponse()
 
 

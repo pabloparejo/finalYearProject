@@ -17,6 +17,13 @@ class DropboxAccount(models.Model):
 	def __unicode__(self):
 		return self.email
 
+	def get_free_space(self):
+		client = DropboxClient(self.token)
+		quota_info = client.account_info()['quota_info']
+		free = 	quota_info['quota'] - quota_info['normal'] - \
+				quota_info['shared']
+		return free
+
 	def get_path(self, path):
 		client = DropboxClient(self.token)
 		files_list = client.metadata(path)['contents']
@@ -41,3 +48,10 @@ class DropboxAccount(models.Model):
 					
 				}
 		return data
+
+	def upload_file(self, f):
+			client = DropboxClient(self.token)
+			# put_file max size is 150MB
+			client.put_file(f.name, f, overwrite=True, parent_rev=None)
+
+

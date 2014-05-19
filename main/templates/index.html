@@ -5,11 +5,19 @@
 {% block content%}
 
 <article>
+	<aside class="float-inside">
+		<a id="upload-btn" class="btn">
+			<span class="icon-cloud"> </span>Upload file
+		</a>
 
+		<div id="upload" class="dragandrophandler hide">
+			<p> Drop your files here to upload </p>
+		</div>
+	</aside>
 		<ul class="no-list-style services-list">
 			<li class="blue"> 
 				<a href="#" id="all-services" class="service-link">
-					<span class="icon-all big-icon"></span>
+					<span class="icon-cloud big-icon"></span>
 					<span class="service-email">myWholeCloud</span>
 				</a>
 			</li>
@@ -23,7 +31,7 @@
 		{%endfor%}
 		</ul>
 
-		<div id="files-list" class="dragandrophandler">
+		<div id="files-list">
 		{% for service in data.services %}
 			{% for item in service.contents %}
 				<ul class="item no-list-style {{service.uid}}">

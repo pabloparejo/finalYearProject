@@ -17,8 +17,6 @@ urlpatterns = patterns('',
     url(r'^api', include('mwc_api.urls')),
 
     url(r'^services/$', 'main.views.show_services'),
-    url(r'^delete/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/$',\
-        'main.views.delete_account', name='delete_account'),
 
     url(r'^dropbox/$', 'mwc_dropbox.views.list_files'),
     url(r'^add_dropbox/$', 'mwc_dropbox.views.auth_start'),

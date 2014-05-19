@@ -2,8 +2,7 @@ var base_url 		= "http://127.0.0.1/api/",
 	$files_list		= $('#files-list'),
 	$ls				= localStorage,
 	path 			= location.pathname.split('/')[1],
-	$search			= $('#search-bar'),
-	$search_btn 	= $("#search a");
+	$upload			= $('#upload')
 
 
 function setActive(){
@@ -47,12 +46,9 @@ function getCookie(cname){
 	}
 
 
-function searchToggle(){
-	toggleBtnActive($search_btn)
-	$search.toggleClass('show');
-	$search.slideToggle();
+function uploadToggle(){
+	$upload.slideToggle();
 }
-
 
 // -------- AJAX -------- //
 function get_path(e){
@@ -117,7 +113,7 @@ setActive();
 // $('.get-path-btn').click(get_path);
 $('.service-link').click(filter);
 $('#all-services').click(displayAll);
-$search_btn.click(searchToggle);
+$('#upload-btn').click(uploadToggle);
 
 $('.service-link').hover(toggleShowChildren, removeTimeOut)
 
