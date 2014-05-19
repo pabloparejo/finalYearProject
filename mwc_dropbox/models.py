@@ -21,8 +21,13 @@ class DropboxAccount(models.Model):
 		client = DropboxClient(self.token)
 		files_list = client.metadata(path)['contents']
 		quota_info = client.account_info()['quota_info']
-		for item in files_list:
-			item['name'] = item['path'][1:]
+
+		if path != '/':	#It's faster to check path once time than check in loop
+			for item in files_list:
+				item['name'] = item['path'].split(path, 1)[-1][1:]
+		else:
+			for item in files_list:
+				item['name'] = item['path'][1:]
 
 		data = {	'bytes_total': quota_info['quota'],
 					'bytes_used': quota_info['normal'] + quota_info['shared'],

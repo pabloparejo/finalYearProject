@@ -17,6 +17,9 @@ import json, httplib2
 
 # Create your views here.
 
+def display_api(request):
+	return HttpResponse('hello')
+
 
 def get_path(request, service, a_uid, path):
 	if service == "dropbox":
@@ -30,6 +33,16 @@ def get_path(request, service, a_uid, path):
 	data = account.get_path(path)
 
 	return HttpResponse(json.dumps(data), content_type="application/json")
+
+def delete_account(request, service, a_uid):
+	if service == "dropbox":
+		account = DropboxAccount.objects.get(uid=a_uid)
+	else:
+		account = DriveAccount.objects.get(uid=a_uid)
+
+	account.delete()
+
+	return HttpResponseRedirect('/services')
 
 # ONLY FOR TEST PURPOSES -- REMOVE THIS VIEW
 def upload_demo(request):

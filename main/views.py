@@ -57,17 +57,6 @@ def show_services(request):
 
 	return render(request, 'services.html', locals())
 
-@login_required()
-def delete_account(request, service, a_uid):
-	if service == "dropbox":
-		account = DropboxAccount.objects.get(uid=a_uid)
-	else:
-		account = DriveAccount.objects.get(uid=a_uid)
-
-	account.delete()
-
-	return HttpResponseRedirect('/services')
-
 #---------- USERS ----------#
 
 def new_user(request):

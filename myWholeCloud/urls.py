@@ -4,9 +4,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'myWholeCloud.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'main.views.home'),
@@ -17,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'main.views.user_logout', \
 		name="logout"),
 
-    url(r'^api/', include('mwc_api.urls')
+    url(r'^api', include('mwc_api.urls')),
 
     url(r'^services/$', 'main.views.show_services'),
     url(r'^delete/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/$',\

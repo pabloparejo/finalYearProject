@@ -31,7 +31,9 @@
 						<span class="icon-{{item.icon}} big-icon"></span>
 					</li>
 					<li class="name">
-					{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
+					{% if item.is_dir %}
+						<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.name %}">
+					{% elif item.icon == "application/vnd.google-apps.folder" %}
 						<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
 					{% else %}
 						<a href="/aqui_va_la_url_del_archivo">
