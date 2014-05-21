@@ -20,17 +20,37 @@ import json, httplib2
 def display_api(request):
 	return HttpResponse('hello')
 
+def get_home(request):
+	user = request.user
+	dropbox_services = DropboxAccount.objects.filter(user=user)
+	drive_services = DriveAccount.objects.filter(user=user)
+	services = []
+	for service in dropbox_services:
+		services.append(service.get_path('/'))
 
-def get_path(request, service, a_uid, path):
-	if service == "dropbox":
-		account = DropboxAccount.objects.get(uid=a_uid)
+	for service in drive_services:
+		services.append(service.get_path('/'))
+
+	data = {"bytes_total": "habria que ver esto",
+	 		"bytes_used": "habria que ver esto",
+			"number_of_services": len(services),
+	 		"services": services}
+
+	return data
+
+def get_path(request, service=None, a_uid=None, path=None):
+	if service == None:
+		data = get_home(request)
 	else:
-		account = DriveAccount.objects.get(uid=a_uid)
+		if service == "dropbox":
+			account = DropboxAccount.objects.get(uid=a_uid)
+		elif service == "google-drive":
+			account = DriveAccount.objects.get(uid=a_uid)
 
-	if not path:
-		path = "/"
+		if not path:
+			path = "/"
 
-	data = account.get_path(path)
+		data = account.get_path(path)
 
 	return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -55,13 +75,12 @@ def upload(request):
 	accounts = list(chain(dropbox_accounts, drive_accounts))
 	accounts.sort(key=lambda x: x.get_free_space(), reverse=True)
 
+	# Uploads the file to the account with more free space
 	account = accounts[0]
 
 	account.upload_file(f)
 
 	return HttpResponse()
-
-
 
 
 

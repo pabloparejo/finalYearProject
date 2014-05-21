@@ -161,7 +161,7 @@ a.btn:hover{
 }
 
 a:hover, .blue:hover{
-	color: #6AE;
+	color: #09C;
 }
 
 a#upload-btn{
@@ -170,30 +170,24 @@ a#upload-btn{
 }
 
 article{
-	background: #EEE;
-	padding: 2em;
-	margin: 1.2em 1em;
+	padding: 1em 2em;
+	margin: 1em;
 }
 
-article ul.services-list{
+article ul.breadcrums{
 	background: #FAFAFA;
 	/*border: 2px solid #EB0;*/
 	border-bottom: 0px;
 	border-radius: 0.25em 0.25em 0 0;
 	margin: 0;
 	padding: 0;
+	vertical-align: bottom;
 }
 
-article ul.services-list li{
+article ul.breadcrums li{
 	display: inline-block;
 	padding: 0.25em 0.5em;
 	list-style-position: inside;
-}
-
-article ul.services-list li .service-email{
-	display: none;
-	font-size: 1.2em;
-	overflow: hidden;
 }
 
 body{
@@ -201,6 +195,15 @@ body{
   color: #353535;
   font-family: "Open Sans";
   font-size: 16px;
+}
+
+div#ajax-bar{
+	background: #C10;
+	box-shadow: #B00 1px 0px 3px;
+	height: 2px;
+	position: relative;
+	vertical-align: bottom;
+	width: 0px;
 }
 
 div#files-list{
@@ -224,6 +227,7 @@ div#files-list ul.item{
 
 div#files-list ul.item:hover{
 	background: #F5F5F5;
+	color: #07A;
 }
 
 div#files-list ul.item .name a{
@@ -233,15 +237,20 @@ div#files-list ul.item .name a{
 	width: 100%;
 }
 
-div#upload{
+div#files-list ul.item .name a:hover{
+	color: #07A;
+}
+
+div#upload-area{
 	background: #FAFAFA;
 	border: 4px dashed #07A;
 	display: block;
 	margin: 4em 2em;
 	padding: 6em;
+	width: 75%;
 }
 
-div#upload p{
+div#upload-area p{
 	color: #07A;
 	font-size: 1.25em;
 	text-align: center;
@@ -317,8 +326,8 @@ label{
 }
 
 .drag{
-	background: black !important;
 	border-color: #EB0 !important;
+	color: #EB0 !important;
 }
 
 .green, .green a{
@@ -350,6 +359,10 @@ label{
 	color: 	#07A;
 	list-style: none;
 	text-align: right;
+}
+
+.med-icon{
+	font-size: 1.5em;
 }
 
 .no-list-style{

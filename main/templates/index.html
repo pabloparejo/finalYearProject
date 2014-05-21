@@ -9,27 +9,23 @@
 		<a id="upload-btn" class="btn">
 			<span class="icon-cloud"> </span>Upload file
 		</a>
-
-		<div id="upload" class="dragandrophandler hide">
-			<p> Drop your files here to upload </p>
-		</div>
-	</aside>
-		<ul class="no-list-style services-list">
+		<ul class="no-list-style breadcrums">
 			<li class="blue"> 
-				<a href="#" id="all-services" class="service-link">
-					<span class="icon-cloud big-icon"></span>
-					<span class="service-email">myWholeCloud</span>
+				<a href="{% url 'get_home' %}" id="files-home" class="crum">
+					<span class="icon-cloud med-icon"></span>
 				</a>
 			</li>
-		{% for service in data.services %}
-			<li class="blue"> 
-				<a href="#" class="service-link {{service.service_class}}" id="{{service.uid}}" name="{{service.username|capfirst}}">
-					<span class="icon-{{service.service_class}} big-icon"></span>
-					<span class="service-email">{{service.username|capfirst|truncatechars:"12"}}</span>
-				</a>
-			</li>
-		{%endfor%}
 		</ul>
+	</aside>
+		<div id="upload-area" class="dragandrophandler">
+			<p>
+				Drag and drop your files here to upload
+			</p>
+		</div>
+		<div id="bar-container">
+			<div id="ajax-bar">
+			</div>
+		</div>
 
 		<div id="files-list">
 		{% for service in data.services %}
@@ -65,6 +61,7 @@
 
 <script type="text/javascript">
 	var myObj = {{obj|safe}};
+	$('#upload-area').hide();
 </script>
 
 {% endblock %}

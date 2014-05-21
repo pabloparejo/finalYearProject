@@ -53,37 +53,28 @@ function handleFileUpload(files,obj)
    }
 }
 
-var previousContent;
-
-
-function addHelp(){
-  previousContent = $('.dragandrophandler').html()
-  $('.dragandrophandler').html('Drop your files here');
-  $('.dragandrophandler').addClass('drag');
+function removeHelp(){
+    $('.dragandrophandler p').text('Drop the file here to start uploading.');
+    $('.dragandrophandler').addClass('drag');
 }
 
-function removeHelp(){
-  $('.dragandrophandler').html(previousContent);
-  $('.dragandrophandler').removeClass('drag');
+function addHelp(){
+    $('.dragandrophandler p').text('Drag and drop your files here to upload.');
+    $('.dragandrophandler').removeClass('drag');
 }
 
 
 $(document).ready(function(){
   var obj = $(".dragandrophandler");
   obj.on('dragenter', function (e){
-      e.stopPropagation();
       e.preventDefault();
-      console.log('dragenter');
   });
 
   obj.on('dragover', function (e){
-       e.stopPropagation();
        e.preventDefault();
   });
 
   obj.on('drop', function (e){
-    removeHelp();
-
     e.preventDefault();
     var files = e.originalEvent.dataTransfer.files;
     //We need to send dropped files to Server
@@ -91,29 +82,53 @@ $(document).ready(function(){
   });
 
   obj.on('dragstop', function (e){
-    e.stopPropagation();
     e.preventDefault();
-    removeHelp();
   });
 
-  $(window).mouseleave(removeHelp)
-
-  $(window).on('dragenter', function (e){
-      e.stopPropagation();
-      e.preventDefault();
-      addHelp();
+  $(document).on('dragenter', function (e){
+    e.preventDefault();
   });
   $(document).on('dragover', function (e){
-    e.stopPropagation();
     e.preventDefault();
   });
   $(document).on('drop', function (e){
-      e.stopPropagation();
-      e.preventDefault();
-      removeHelp();
+    e.preventDefault();
+
 
   });
+
+
+  // The plugin code
+  $.fn.draghover = function(options) {
+    return this.each(function() {
+
+      var collection = $(),
+          self = $(this);
+
+      self.on('dragenter', function(e) {
+        if (collection.length === 0) {
+          self.trigger('draghoverstart');
+        }
+        collection = collection.add(e.target);
+      });
+
+      self.on('dragleave drop', function(e) {
+        collection = collection.not(e.target);
+        if (collection.length === 0) {
+          self.trigger('draghoverend');
+        }
+      });
+    });
+  };
+
+  // Now that we have a plugin, we can listen for the new events 
+  $(window).draghover().on({
+    'draghoverstart': function() {
+      removeHelp();
+    },
+    'draghoverend': function() {
+      addHelp();
+    }
+  });
 });
-
-
 
