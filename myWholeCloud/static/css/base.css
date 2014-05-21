@@ -245,7 +245,7 @@ div#upload-area{
 	background: #FAFAFA;
 	border: 4px dashed #07A;
 	display: block;
-	margin: 4em 2em;
+	margin: 4em auto;
 	padding: 6em;
 	width: 75%;
 }

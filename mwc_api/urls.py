@@ -7,8 +7,9 @@ urlpatterns = patterns('',
     url(r'/get_path/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/(?P<path>(.*))/?$',\
         'mwc_api.views.get_path', name='get_path'),
 
-
-    url(r'/upload/demo/$', 'mwc_api.views.upload'),
+    url(r'^/upload/$', 'mwc_api.views.get_path', name='upload_to_home'),
+    url(r'/upload/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/(?P<path>(.*))/?$',\
+        'mwc_api.views.upload', name='upload_to_path'),
 
     
 )

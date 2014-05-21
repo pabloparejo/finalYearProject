@@ -30,7 +30,7 @@
 		<div id="files-list">
 		{% for service in data.services %}
 			{% for item in service.contents %}
-				<ul class="item no-list-style {{service.uid}}">
+				<ul class="item no-list-style {{service.uid}} {{service.service_class}}">
 					<li>
 						<span class="icon-{{item.icon}} big-icon"></span>
 					</li>

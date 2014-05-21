@@ -97,16 +97,19 @@ function get_home(e){
 
 // -------- AJAX Response handlers -------- //
 
-function display_content_items(items){
+function display_content_items(parent_url, items){
 	for (item in items){
 		console.log(items[item]);
 		$clone = $first_clone.clone();
-		$clone.find('.name a').text(items[item].name);
+		var $clone_link = $clone.find('.name a')
+		$clone_link.text(items[item].name);
+		$clone_link.attr('href', parent_url + items[item].name);
 		//$clone.('.item-mod').text(items[item].modified);
 		$clone.find('.size').text(items[item].size);
 		$files_list.append($clone);
 		$clone.fadeIn();
 	}
+	$('ul.item').click(get_path);
 }
 
 function display_home(data){
@@ -120,7 +123,7 @@ function display_home(data){
 	ajax_progress(90);
 	$files_list.children().remove();
 	for (service_i in data.services){
-		display_content_items(data.services[service_i].contents)
+		display_content_items(data.services[service_i].parent_url, data.services[service_i].contents)
 	}
 	ajax_progress(100);
 }
@@ -137,7 +140,7 @@ function path_navigation(data){
 	console.log('If item === folder --> size = "--"');
 	ajax_progress(90);
 	$files_list.children().remove();
-	display_content_items(data.contents)
+	display_content_items(data.parent_url, data.contents)
 	ajax_progress(100);
 }
 

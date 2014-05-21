@@ -41,15 +41,15 @@ setFileNameSize = function(name,size){
     // this.size.html(sizeStr);
 }
 
-function handleFileUpload(files,obj)
+function handleFileUpload(files, path)
 {
    for (var i = 0; i < files.length; i++) 
    {
-        var fd = new FormData();
-        fd.append('file', files[i]);
- 		fd.append('csrfmiddlewaretoken', getCookie('csrftoken'));
-        setFileNameSize(files[i].name,files[i].size);
-        sendFileToServer(fd,status);
+      var fd = new FormData();
+      fd.append('file', files[i]);
+      fd.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+      setFileNameSize(files[i].name,files[i].size);
+      sendFileToServer(fd,status);
    }
 }
 
@@ -77,8 +77,10 @@ $(document).ready(function(){
   obj.on('drop', function (e){
     e.preventDefault();
     var files = e.originalEvent.dataTransfer.files;
+
     //We need to send dropped files to Server
-    handleFileUpload(files,obj);
+    //Also, we need to tell the server the path to upload
+    handleFileUpload(files,path); 
   });
 
   obj.on('dragstop', function (e){

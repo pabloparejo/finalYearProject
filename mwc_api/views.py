@@ -20,7 +20,7 @@ import json, httplib2
 def display_api(request):
 	return HttpResponse('hello')
 
-def get_home(request):
+def get_user_home(request):
 	user = request.user
 	dropbox_services = DropboxAccount.objects.filter(user=user)
 	drive_services = DriveAccount.objects.filter(user=user)
@@ -39,16 +39,17 @@ def get_home(request):
 	return data
 
 def get_path(request, service=None, a_uid=None, path=None):
+
 	if service == None:
-		data = get_home(request)
+		data = get_user_home(request)
 	else:
+		if path == "": #Path is passed by view get_path
+			path = "/"
+
 		if service == "dropbox":
 			account = DropboxAccount.objects.get(uid=a_uid)
 		elif service == "google-drive":
 			account = DriveAccount.objects.get(uid=a_uid)
-
-		if not path:
-			path = "/"
 
 		data = account.get_path(path)
 
@@ -64,21 +65,28 @@ def delete_account(request, service, a_uid):
 
 	return HttpResponseRedirect('/services')
 
-def upload(request):
-
+def upload(request, service=None, a_uid=None, path=None):
+	
+	user = request.user
 	f = request.FILES['file']
 	file_name = f.name
 
-	user = request.user
-	dropbox_accounts = DropboxAccount.objects.filter(user=user)
-	drive_accounts = DriveAccount.objects.filter(user=user)
-	accounts = list(chain(dropbox_accounts, drive_accounts))
-	accounts.sort(key=lambda x: x.get_free_space(), reverse=True)
+	if service == None:
 
-	# Uploads the file to the account with more free space
-	account = accounts[0]
+		dropbox_accounts = DropboxAccount.objects.filter(user=user)
+		drive_accounts = DriveAccount.objects.filter(user=user)
+		accounts = list(chain(dropbox_accounts, drive_accounts))
+		accounts.sort(key=lambda x: x.get_free_space(), reverse=True)
 
-	account.upload_file(f)
+		# Uploads the file to the account with more free space
+		account = accounts[0]
+	else:
+		if service == "dropbox":
+			account = DropboxAccount.objects.get(uid=a_uid)
+		elif service == "google-drive":
+			account = DriveAccount.objects.get(uid=a_uid)
+
+	account.upload_file(f, path)
 
 	return HttpResponse()
 
