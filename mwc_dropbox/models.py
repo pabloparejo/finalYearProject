@@ -5,6 +5,8 @@ from dropbox.client import DropboxClient
 
 from myWholeCloud.settings import SITE_URL
 
+import re
+
 # Create your models here.
 class DropboxAccount(models.Model):
 
@@ -31,18 +33,16 @@ class DropboxAccount(models.Model):
 		files_list = client.metadata(path)['contents']
 		quota_info = client.account_info()['quota_info']
 
-		if path != '/':	#It's faster to check path once time than check in loop
-			path = path.replace("%20", " ")
+		if path != '/':
+			path = '/' + path.replace("%20", " ")
+			path_regex = re.compile(path, re.IGNORECASE)
 			for item in files_list:
-				item['name'] = item['path'].split(path, 1)[-1][1:]
-				print path
-				print item['name']
-
-			path = "/" + path + "/"
-
+				item['name'] = path_regex.split(item['path'], 1)[-1][1:]
+				item['path'] = '/' + item['name']
 		else:
 			for item in files_list:
-				item['name'] = item['path'][1:]
+				item['path'] = item['path'][1:]
+				item['name'] = item['path']
 
 		parent_url = (SITE_URL + 'api/get_path/dropbox/%i' + path) %self.uid
 

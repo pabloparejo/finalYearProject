@@ -5,6 +5,7 @@ import httplib2, datetime
 from apiclient.discovery import build
 from oauth2client.django_orm import Storage
 
+from myWholeCloud.settings import SITE_URL
 
 from oauth2client.django_orm import FlowField, CredentialsField, Storage
 
@@ -31,14 +32,19 @@ class DriveAccount(models.Model):
 			return str(size) + " GB"
 
 
-	def reformat_metadata(self, metadata_list):
-		for element in metadata_list:
-			element['name'] = element.pop('title')
-			element['icon'] = element.pop('mimeType')
-			element['size'] = self.format_size(element['quotaBytesUsed'])
-			# DELETE SENTENCE BELOW WHEN WE ADD JQUERY TO MAKE THE API CALL
-			# EXPLANATION: THE FOLDER IS GOING TO HAVE A GOOGLE DRIVE CLASS
-			element['path'] = element['id']
+	def reformat_metadata(self, metadata_list, path):
+		if path != '/':
+			for element in metadata_list:
+				element['name'] = element.pop('title')
+				element['icon'] = element.pop('mimeType')
+				element['size'] = self.format_size(element['quotaBytesUsed'])
+				element['path'] = '/' + element.pop('id')
+		else:
+			for element in metadata_list:
+				element['name'] = element.pop('title')
+				element['icon'] = element.pop('mimeType')
+				element['size'] = self.format_size(element['quotaBytesUsed'])
+				element['path'] = element.pop('id')
 		return metadata_list
 
 	def files_for_parent(self, metadata_list, path_id):
@@ -95,7 +101,9 @@ class DriveAccount(models.Model):
 			files_list = self.files_in_root(files_list)
 		else:
 			files_list = self.files_for_parent(files_list, path)
-		files_list = self.reformat_metadata(files_list)
+		files_list = self.reformat_metadata(files_list, path)
+
+		parent_url = (SITE_URL + 'api/get_path/google-drive/%i/' + path) %self.uid
 
 		data = {	'bytesTotal':	int(quota_info['quotaBytesTotal']),
 					'bytesUsed':	int(quota_info['quotaBytesUsed']) +
@@ -103,7 +111,7 @@ class DriveAccount(models.Model):
 									int(quota_info['quotaBytesUsedInTrash']),
 					'contents': files_list,
 					'display_name': self.display_name,
-					'parent': path,
+					'parent_url': parent_url,
 					'service_class': 'google-drive',
 					'service_name': 'Google Drive',
 					'uid': self.uid,

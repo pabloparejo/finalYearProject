@@ -33,7 +33,7 @@ def get_user_home(request):
 
 	data = {"bytes_total": "habria que ver esto",
 	 		"bytes_used": "habria que ver esto",
-			"number_of_services": len(services),
+	 		"username": user.username,
 	 		"services": services}
 
 	return data
