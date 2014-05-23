@@ -284,5 +284,3 @@ $('ul.item').hover(scrollUpName, scrollDownName);
 
 
 
-
-

@@ -7,9 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/normalizer.css">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/upload.css">
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="{{STATIC_URL}}js/jquery.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body class="{{page_class}}">
 	<header class="row-fluid" id="main-nav">
@@ -18,8 +16,8 @@
 				<ul class="nav-icons no-list-style">
 					<li id="home"><a href="/" id="home"><span class="icon-home"></span> Home</a></li>
 					<li id="services"><a href="/services" id="add">Services</a></li>
-					<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
-					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>
+					<!--<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
+					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>-->
 					<li id="logout"> <a href="/logout" id="user"><span class="icon-user"></span>Logout</a></li>
 				</ul>
 			</nav>
@@ -35,9 +33,10 @@
 		<p class="copy"> MyWholeCloud 2014 </p>
 		<div><span class="icon-html5"> </span> <span class="icon-css3"></span></div>
 	</footer>
+	<!-- Future <script src="{{STATIC_URL}}js/jquery-mobile.js"></script>-->
 	<script src="{{STATIC_URL}}js/sorttable.js"></script>
-	<script src='{{STATIC_URL}}js/code.js'></script>
 	<script src='{{STATIC_URL}}js/upload.js'></script>
+	<script src='{{STATIC_URL}}js/code.js'></script>
 	<script type="text/javascript">{% block script %} {% endblock %}</script>
 </body>
 </html>
