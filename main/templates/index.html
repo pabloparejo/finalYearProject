@@ -2,6 +2,16 @@
 {% block title %} {{page_title}} {% endblock %}
 {% block pagetitle %} {{page_title}} {% endblock %}
 
+{% block loading_ajax_bar %}
+	<div id="bar-container">
+		<div id="ajax-bar">
+		</div>
+		<div id="ajax-error">
+			<p>An error ocurred with connection to server. Please, try again.</p>
+		</div>
+	</div>
+{% endblock loading_ajax_bar %}
+
 {% block content%}
 
 <section id="main">
@@ -23,13 +33,6 @@
 			<p>
 				Drag and drop your files here to upload
 			</p>
-		</div>
-		<div id="bar-container">
-			<div id="ajax-bar">
-			</div>
-			<div id="ajax-error">
-				<p>An error ocurred with connection to server. Please, try again.</p>
-			</div>
 		</div>
 	</aside>
 
@@ -69,7 +72,6 @@
 <script type="text/javascript">
 	var myObj = {{obj|safe}};
 	$('#upload-area').hide();
-	$('#ajax-error').hide();
 </script>
 
 {% endblock %}

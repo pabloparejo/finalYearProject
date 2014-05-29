@@ -4,6 +4,8 @@ urlpatterns = patterns('',
 
     url(r'^/$', 'mwc_api.views.display_api'),
     url(r'^/get_path/?$', 'mwc_api.views.get_path', name='get_home'),
+    url(r'/delete_account/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})$',\
+        'mwc_api.views.delete_account', name='delete_account'),
     url(r'/get_path/(?P<service>(dropbox|google-drive))/(?P<a_uid>\d{1,})/(?P<path>(.*))/?$',\
         'mwc_api.views.get_path', name='get_path'),
 

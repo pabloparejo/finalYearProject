@@ -58,13 +58,12 @@ function uploadToggle(){
 function back_to_path(e){
 	e.preventDefault();
 	disable_ajax();
-	ajax_progress(20);
 	console.log(this);
 	var link = $(this).find('a').attr('href');
 	ajax_progress(60);
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
-			ajax_progress(80);
+			ajax_progress(100);
 			pop_crum();
 			enable_ajax();
 		})
@@ -74,7 +73,6 @@ function back_to_path(e){
 function get_path(e){
 	e.preventDefault();
 	disable_ajax();
-	ajax_progress(20);
 	console.log(this);
 	var path_name = $(this).find('li.name a').text();
 	var link = $(this).find('li.name a').attr('href');
@@ -83,7 +81,7 @@ function get_path(e){
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
 			push_crum(path_name, link);
-			ajax_progress(75);
+			ajax_progress(100);
 			enable_ajax();
 		})
 		.fail(ajax_error);
@@ -112,14 +110,13 @@ function enable_ajax(){
 function get_home(e){
 	e.preventDefault();
 	disable_ajax();
-	ajax_progress(20);
 	var link = base_url + 'get_path/';
 	console.log(link);
 	ajax_progress(60);
 	var jqxhr = $.getJSON(link, display_home)
 		.done(function(){
 			remove_crums();
-			ajax_progress(75);
+			ajax_progress(100);
 			enable_ajax();
 		})
 		.fail(ajax_error);
@@ -132,13 +129,13 @@ function ajax_progress(percent){
 	var width_percent = width*100/max_width
 	var rand = Math.random();
 	if (percent > Math.floor(width_percent)){
-		$("#ajax-bar").width(width_percent + (1.5*(rand)) +"%");
+		$("#ajax-bar").width(width_percent + (3*(rand)) +"%");
 		if (Math.floor(width_percent) >= 99){
 			$("#ajax-bar").width(0);
 		}else{
 			window.setTimeout(function(){
 				ajax_progress(percent);
-			}, 15)
+			}, 10)
 		}
 	}else{
 		if (Math.floor(width_percent) >= 99){
@@ -153,13 +150,13 @@ function ajax_progress(percent){
 }
 
 function ajax_error(){
-	$('#ajax-bar').fadeOut('fast');
 	$('#ajax-error').slideDown('slow');
+	$('#ajax-bar').hide();
 	window.setTimeout(function(){
 		$('#ajax-bar').width(0);
 		$('#ajax-bar').fadeIn();
 		$('#ajax-error').slideUp('slow');}
-		, 5000);
+		, 4000);
 }
 
 function display_content_items(parent_url, items, $first_clone){
@@ -179,12 +176,10 @@ function display_content_items(parent_url, items, $first_clone){
 		$files_list.append($clone);
 		$clone.fadeIn();
 	}
-	ajax_progress(95);
 }
 
 function display_home(data){
 	myData = data; // DEVELOPING ONLY
-	ajax_progress(85);
 	var $first_clone = $files_list.children().first().clone();
 	$files_list.children().fadeOut();
 	$files_list.children().remove();
@@ -193,7 +188,6 @@ function display_home(data){
 		contents = data.services[service_i].contents
 		display_content_items(parent_url, contents, $first_clone)
 	}
-	ajax_progress(100);
 	$('ul.item').click(get_path);
 	$('ul.item').hover(scrollUpName, scrollDownName);
 }
@@ -201,23 +195,20 @@ function display_home(data){
 var myData
 function path_navigation(data){
 	myData = data; // DEVELOPING ONLY
-	ajax_progress(85);
 	var $first_clone = $files_list.children().first().clone();
 	$files_list.children().fadeOut();
 	$files_list.children().remove();
 	display_content_items(data.parent_url, data.contents, $first_clone)
-	ajax_progress(100);
 	$('ul.item').click(get_path);
 	$('ul.item').hover(scrollUpName, scrollDownName);
 }
 
 var $span
 function push_crum(path_name, link){
-	console.log(path_name);
 	nav_path[nav_path.length] = path_name  //Faster than push in small arrays
 	var $crum = $breadcrums.children().first().clone();
 	var $crum_link = $crum.find('a');
-	$crum_link.removeAttr('id').addClass('crum-item')
+	$crum.removeAttr('id').addClass('crum-item').attr('id', nav_path.length)
 	$span = $crum_link.find('span');
 	$span.removeClass().addClass('icon-crum-arrow big-icon yellow');
 	$crum_link.attr('href', link)

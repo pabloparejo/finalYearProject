@@ -21,28 +21,39 @@
 {%endif%}
 
 
-<article class="accounts">
+<article id="accounts">
 	{% for service in services%}
 	<h3><span class="icon-{{service.name}} red big-icon"> </span>{{service.name|capfirst}} accounts connected</h3>
-		<ul class="no-list-style services-list">
+		<ul class="no-list-style accounts-list">
 		{% for account in service.accounts %}
-			<li> 
-				<a href="{% url 'delete_account' service.id account.uid%}">
-					<span class="icon-delete red"> </span>
-				</a>
-
-				{{account.email|capfirst}}
+			<li class="account-info">
+				<span class="title">
+					<a href="{% url 'delete_account' service.class account.uid%}" class="delete-btn">
+						<span class="icon-delete red small-icon"> </span>
+					</a>
+					{{account.email|capfirst}}
+				</span>
+				<p>Here we could add account info (Date added, files, free space...)</p>
 			</li>
 		{%endfor%}
-				<li class="green">
-					<a href="/add_dropbox"><span class="icon-plus"> </span>Add {{service.name|capfirst}} account</a>
-				</li>
+		{% if service.class == "dropbox" %}
+			<li class="green">
+					<a href="/add_dropbox">
+
+		{% else %}
+			<li class="green">
+				<a href="/add_drive">
+		{% endif %}
+					<span class="icon-plus"> </span>
+						Add {{service.name|capfirst}} account
+					</a>
+			</li>
+				
 			</ul>
 	{%endfor%}
 </article>
 
 <script type="text/javascript">
-	var myObj = {{obj|safe}};
 </script>
 
 {% endblock %}

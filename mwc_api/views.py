@@ -63,7 +63,7 @@ def delete_account(request, service, a_uid):
 
 	account.delete()
 
-	return HttpResponseRedirect('/services')
+	return HttpResponse()
 
 def upload(request, service=None, a_uid=None, path=None):
 	

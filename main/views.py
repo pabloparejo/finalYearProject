@@ -46,12 +46,12 @@ def show_services(request):
 	drive_accounts = DriveAccount.objects.filter(user=request.user)
 
 	dropbox = {	'accounts': dropbox_accounts,
-				'id': 'dropbox',
+				'class': 'dropbox',
 				'name': 'Dropbox', 
 				}
 	drive = {	'accounts': drive_accounts,
-				'id': 'google-drive',
-				'name': 'drive', 
+				'class': 'google-drive',
+				'name': 'Google Drive', 
 				}
 	services = [dropbox, drive]
 
