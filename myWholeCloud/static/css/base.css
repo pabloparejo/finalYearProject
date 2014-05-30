@@ -146,12 +146,6 @@
 
 
 /*
-	Blue: #59C;
-	light-Grey: #EEE;
-	Grey: #DDD;
-	Red: #C10;
-	Yellow: #FB6;
-
 	Orange: #F63;
 	Blue: #59C;
 	Green: #8CA;
@@ -167,17 +161,21 @@
 
 @-webkit-keyframes pulse {
 	from {
-		box-shadow: 1px 2px 1px rgba(255,187,102, 0.25);
+		box-shadow: 1px -2px 1px rgba(255,187,102, 0.25)
 	}
 	50% {
-		box-shadow: 1px 2px 4px rgba(255,187,102, 0.25);
+		box-shadow: 1px -2px 2px rgba(255,187,102, 0.75)
 	}
 	to { 
-		box-shadow: 1px 2px 1px rgba(255,187,102, 0.25);
+		box-shadow: 1px -2px 1px rgba(255,187,102, 0.25)
 	}
 }
 
 	/* ----------- /Animations ----------*/
+
+a, a .blue, a .red, a .green{
+	transition: all ease-in-out 0.15s;
+}
 
 a, .blue{
 	color: #59C;
@@ -213,10 +211,22 @@ a#upload-btn{
 	margin-bottom: 0.5em;
 }
 
-article#accounts{
-	background: #FBFDFF;
-	margin: 3em 4em;
+aside#second-nav{
+	background: 0 0.5em;
+	border-bottom: 2px solid #F4BA70;
+	padding: 0 0.5em;
+}
+
+article{
+	background: #F8FAFD;
 	padding: 2em;
+	padding-bottom: 4em;
+}
+
+article#added-account{
+	border-bottom: 2px solid #F4BA70;
+	margin: 1em 0;
+	padding: 1em;
 }
 
 article#accounts h3{
@@ -232,12 +242,12 @@ article#accounts li.account-info{
 	display: inline-block;
 	margin: 0 1em 1em 0;
 	padding: 1em;
-	transition: all ease-in 0.25s;
+	transition: box-shadow ease-in 0.25s;
 	width: 28.5%;
 }
 
 article#accounts li.account-info:hover{
-	box-shadow: 4px 4px 5px rgba(0,0,0, 0.25);
+	box-shadow: 4px 4px 5px rgba(0,0,0, 0.2);
 }
 
 article#accounts li.account-info:last-child{
@@ -250,27 +260,45 @@ article#accounts li.account-info span.title{
 }
 
 article#files-list{
-	background: #FAFAFA;
-	border: 2px solid #FAFAFA;
-	border-radius: 0em 0.25em 0.25em 0.25em;
-	padding: 1em;
+	border: 1px solid #CCC;
+	display: inline-block;
+	height: 500px;
+	margin: 1em;
+	overflow: scroll;
+	padding: 0;
+	width: 70%;
 }
 
 
 article#files-list ul.item{
-	border: solid 1px #CCC;
-	border-radius: 0.5em;
+	border-bottom: solid 1px #CCC;
 	cursor: pointer;
-	display: inline-block;
-	margin: 0.5em;
-	padding: 0.75em 0.5em;
-	text-align: center;
-	width: 12.5%;
+	display: block;
+	overflow: hidden;
+	padding: 0.25em 0;
+	width: 100%;
 }
 
 article#files-list ul.item:hover{
 	background: #F5F5F5;
 	color: #48B;
+}
+
+article#files-list ul.item li{
+	display: inline-block;
+	max-width: 70%;
+}
+
+article#files-list ul.item li:first-child{
+	padding: 0 0.5em;
+	width: auto;
+}
+
+article#files-list ul.item li.size{
+	float: right;
+	height: 27px;
+	margin-right: 5em;
+	vertical-align: bottom;
 }
 
 article#files-list ul.item .name a{
@@ -285,7 +313,7 @@ article#files-list ul.item:hover .name a{
 }
 
 body{
-  background: #E4E4E4;
+  background: #EEE;
   color: #353535;
   font-family: "Open Sans";
   font-size: 16px;
@@ -298,27 +326,31 @@ div#ajax-bar{
 	position: relative;
 	vertical-align: top;
 
-	-webkit-animation: pulse 0.75s infinite;
-	-moz-animation: pulse 0.75s infinite;
-	-o-animation: pulse 0.75s infinite;
-	animation: pulse 0.75s infinite;
 }
 
 div#ajax-error{
-	display: inline-block;
-	margin: 1em auto;
-	width: 400px;
+	display: block;
+	width: 100%;
 }
+
 
 div#ajax-error p{
 	background: #B00;
-	border-radius: 0.25em;
 	border: 1px solid #800;
 	color: white;
-	margin: 2em 6em 0em 6em;
+	margin: 0 auto;
 	padding: 0.5em;
 	text-align: center;
 }
+
+div#bar-container{
+	height: 3px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 999;
+}
+
 
 div#upload-area{
 	background: #FAFAFA;
@@ -362,17 +394,17 @@ h1, h2, h3, h4, h5{
 }
 
 header{
-	margin-top: 0;
+	margin: 0;
 	overflow: hidden;
 }
 
 header nav{
-	background: #59C;
-	padding: 0 3em;
+	overflow: hidden;
+	padding: 0 4em;
 }
 
 header nav a{
-	color: #EEE;
+	color: #59C;
 	padding: 0.5em 1em;
 	transition: all ease-in-out 0.25s;
 	width: 100%;
@@ -380,16 +412,15 @@ header nav a{
 
 header nav a:hover, a.active:hover{
 	background: rgba(255,255,255, 0.4);
-	color: #FFF;
+}
+
+header nav ul#nav-items{
+	float: right;
+	overflow: hidden;
 }
 
 
-header nav a.active{
-	background: rgba(255,255,255, 0.4);
-	color: #FFF;
-}
-
-header nav .no-list-style li{
+header nav ul#nav-items li{
 	display: inline-block;
 	float: none;
 	padding: 0.5em 0em;
@@ -410,9 +441,14 @@ label{
 	display: block;
 }
 
+section#content{
+	margin: 0em 4em;
+}
+
 section#main{
-	padding: 1em 2em;
-	margin: 1em;
+	background: #F8FAFD;
+	padding: 0;
+	margin: 0em;
 }
 
 section#main ul#breadcrums{
@@ -424,7 +460,6 @@ section#main ul#breadcrums{
 
 section#main ul#breadcrums li{
 	display: inline-block;
-	overflow: hidden;
 	padding: 0.25em;
 }
 
@@ -435,7 +470,7 @@ section#main ul#breadcrums li:first-child{
 section#main ul#breadcrums li p{
 	display: inline-block;
 	margin: 0;
-	padding: 0.25em;
+	vertical-align: top;
 }
 
 section#main ul#breadcrums li:last-child .crum{
@@ -444,10 +479,6 @@ section#main ul#breadcrums li:last-child .crum{
 
 section#main ul#breadcrums li:last-child .crum:hover{
 	color: #59C;
-}
-
-section#main ul#breadcrums span:before{
-	vertical-align: bottom;
 }
 
 .big-icon{
@@ -459,12 +490,26 @@ section#main ul#breadcrums span:before{
 	color: #FB6 !important;
 }
 
+.giant-icon{
+	font-size: 3em;
+}
+
 .green, .green a{
 	color: #0A0;
 }
 
-.green:hover, .green:hover a{
+a.green, a .green:hover, .green:hover a{
 	color: #0C0;
+}
+
+.errorlist{
+	color: 	#59C;
+	list-style: none;
+	text-align: right;
+}
+
+.float-inside{
+	overflow: hidden;
 }
 
 .helptext{
@@ -478,16 +523,6 @@ section#main ul#breadcrums span:before{
 
 .hide{
 	display: none;
-}
-
-.float-inside{
-	overflow: hidden;
-}
-
-.errorlist{
-	color: 	#59C;
-	list-style: none;
-	text-align: right;
 }
 
 .med-icon{
@@ -509,7 +544,7 @@ section#main ul#breadcrums span:before{
 	color: #C10;
 }
 
-.red:hover{
+a.red, a .red:hover{
 	color: #E10;
 }
 
@@ -517,7 +552,7 @@ section#main ul#breadcrums span:before{
 	color: #FB6;
 }
 
-.yellow:hover{
+a.yellow, a .yellow:hover{
 	color: #FB6;
 }
 

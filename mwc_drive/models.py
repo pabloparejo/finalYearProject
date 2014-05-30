@@ -17,6 +17,14 @@ class DriveAccount(models.Model):
 
 	user = models.ForeignKey(User)
 
+	def __unicode__(self):
+		return self.email
+
+	def delete_account(self):
+		credentials = CredentialsModel.objects.get(drive_account=self.pk)
+		credentials.delete()
+		self.delete()
+
 	def format_size(self, bytes):
 		size = int(bytes)
 		if size < 1024:
@@ -99,6 +107,7 @@ class DriveAccount(models.Model):
 		print "Total google response time" , datetime.datetime.now() - then
 		if path == '/':
 			files_list = self.files_in_root(files_list)
+			path = ""
 		else:
 			files_list = self.files_for_parent(files_list, path)
 		files_list = self.reformat_metadata(files_list, path)
@@ -136,13 +145,6 @@ class DriveAccount(models.Model):
 			}
 
 		f = drive_service.files().insert(body=body, media_body=media_body).execute()
-
-	def __unicode__(self):
-		return self.email
-
-class FlowModel(models.Model):
-	id = models.ForeignKey(User, primary_key=True)
-	flow = FlowField()
 
 class CredentialsModel(models.Model):
 	drive_account = models.ForeignKey(DriveAccount, blank=True, null=True)

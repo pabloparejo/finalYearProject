@@ -41,7 +41,21 @@ def home(request):
 @login_required()
 def show_services(request):
 
-	page_title = 'New service'
+	if request.COOKIES.has_key('service_added'):
+		auth_finished = True
+		if request.COOKIES.has_key('new_account'):
+			new_account = request.COOKIES['new_account'] == 'True'
+			uid = request.COOKIES['account_uid']
+			try:
+				service_added = request.COOKIES['service_added']
+				if service_added == 'dropbox':
+					client_email = DropboxAccount.objects.get(uid=uid).email
+				else:
+					client_email = DriveAccount.objects.get(uid=uid).email
+			except:
+				error = True
+				auth_finished = False
+
 	dropbox_accounts = DropboxAccount.objects.filter(user=request.user)
 	drive_accounts = DriveAccount.objects.filter(user=request.user)
 
@@ -55,7 +69,13 @@ def show_services(request):
 				}
 	services = [dropbox, drive]
 
-	return render(request, 'services.html', locals())
+	response = render(request, 'services.html', locals())
+
+	response.delete_cookie('service_added', path="/")
+	response.delete_cookie('new_account', path="/")
+	response.delete_cookie('account_uid', path="/")
+
+	return response
 
 #---------- USERS ----------#
 

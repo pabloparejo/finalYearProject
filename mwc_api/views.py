@@ -3,6 +3,8 @@ from django.shortcuts import render
 from mwc_dropbox.models import DropboxAccount
 from mwc_drive.models import DriveAccount, CredentialsModel
 
+from django.http import HttpResponseNotFound
+
 from apiclient.http import MediaInMemoryUpload
 from apiclient.discovery import build
 
@@ -18,7 +20,7 @@ import json, httplib2
 # Create your views here.
 
 def display_api(request):
-	return HttpResponse('hello')
+	return HttpResponse('Here we should display all api urls')
 
 def get_user_home(request):
 	user = request.user
@@ -56,14 +58,25 @@ def get_path(request, service=None, a_uid=None, path=None):
 	return HttpResponse(json.dumps(data), content_type="application/json")
 
 def delete_account(request, service, a_uid):
-	if service == "dropbox":
-		account = DropboxAccount.objects.get(uid=a_uid)
-	else:
-		account = DriveAccount.objects.get(uid=a_uid)
+	try:
+		if service == "dropbox":
+			account = DropboxAccount.objects.get(uid=a_uid)
+		else:
+			account = DriveAccount.objects.get(uid=a_uid)
 
-	account.delete()
+		account_id = a_uid
+		email = account.email
 
-	return HttpResponse()
+		account.delete_account();
+
+		data = {'success': True,
+				'account_id': account_id,
+				'email': email}
+	except:
+		data = {'success': False}
+
+	return HttpResponse(json.dumps(data), content_type="application/json")
+
 
 def upload(request, service=None, a_uid=None, path=None):
 	

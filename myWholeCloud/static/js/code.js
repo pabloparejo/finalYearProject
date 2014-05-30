@@ -1,4 +1,4 @@
-var base_url 		= "http://127.0.0.1:8000/api/",
+var base_url 		= "http://127.0.0.1:8000/",
 	$breadcrums		= $('#breadcrums')
 	$files_list		= $('#files-list'),
 	$ls				= localStorage,
@@ -7,26 +7,6 @@ var base_url 		= "http://127.0.0.1:8000/api/",
 	$upload			= $('#upload-area')
 
 
-function setActive(){
-	$('.active').removeClass();
-	if (!path){
-		path = 'home';
-	}
-	$('#' + path + ' a').addClass('active');
-
-	if (path == "checkout"){
-		$cart_btn.addClass('active')
-	}
-}
-
-function toggleBtnActive(btn){
-	if (btn.hasClass('active')) {
-		setActive();
-	}else{
-		$('.active').removeClass();
-		btn.addClass('active');
-	}
-}
 
 // -------- COOKIES -------- //
 
@@ -53,14 +33,14 @@ function uploadToggle(){
 	$files_list.slideToggle();
 }
 
-// -------- AJAX -------- //
+// -------- AJAX Callers -------- //
 
 function back_to_path(e){
 	e.preventDefault();
 	disable_ajax();
 	console.log(this);
 	var link = $(this).find('a').attr('href');
-	ajax_progress(60);
+	ajax_progress(75);
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
 			ajax_progress(100);
@@ -70,6 +50,19 @@ function back_to_path(e){
 		.fail(ajax_error);
 }
 
+function delete_account(e){
+	e.preventDefault();
+	var link = this.href;
+	ajax_progress(75);
+	var jqxhr = $.getJSON(link, account_deleted)
+		.done(function(){
+			ajax_progress(100);
+			enable_ajax();
+		})
+		.fail(ajax_error);
+
+}
+
 function get_path(e){
 	e.preventDefault();
 	disable_ajax();
@@ -77,7 +70,7 @@ function get_path(e){
 	var path_name = $(this).find('li.name a').text();
 	var link = $(this).find('li.name a').attr('href');
 	console.log(link);
-	ajax_progress(60);
+	ajax_progress(75);
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
 			push_crum(path_name, link);
@@ -110,9 +103,9 @@ function enable_ajax(){
 function get_home(e){
 	e.preventDefault();
 	disable_ajax();
-	var link = base_url + 'get_path/';
+	var link = base_url + 'api/get_path/';
 	console.log(link);
-	ajax_progress(60);
+	ajax_progress(75);
 	var jqxhr = $.getJSON(link, display_home)
 		.done(function(){
 			remove_crums();
@@ -123,40 +116,23 @@ function get_home(e){
 }
 
 // -------- AJAX Response handlers -------- //
-function ajax_progress(percent){
-	var max_width = $("#bar-container").width();
-	var width = $("#ajax-bar").width();
-	var width_percent = width*100/max_width
-	var rand = Math.random();
-	if (percent > Math.floor(width_percent)){
-		$("#ajax-bar").width(width_percent + (3*(rand)) +"%");
-		if (Math.floor(width_percent) >= 99){
-			$("#ajax-bar").width(0);
-		}else{
-			window.setTimeout(function(){
-				ajax_progress(percent);
-			}, 10)
-		}
-	}else{
-		if (Math.floor(width_percent) >= 99){
-			$("#ajax-bar").fadeOut('slow');
-			window.setTimeout(function(){
-				$("#ajax-bar").width(0);
-				$("#ajax-bar").show();
-			}, 1000)
-			
-		}
-	}
-}
 
-function ajax_error(){
-	$('#ajax-error').slideDown('slow');
-	$('#ajax-bar').hide();
-	window.setTimeout(function(){
-		$('#ajax-bar').width(0);
-		$('#ajax-bar').fadeIn();
-		$('#ajax-error').slideUp('slow');}
-		, 4000);
+var before_text;
+function account_deleted(data){
+	if (data.success == true) {
+		$('#' + data.account_id).fadeOut();
+		window.setTimeout(function(){
+			$('#' + data.account_id).remove();
+		}, 2000);
+	} else {
+		before_text = $('#ajax-error p').text();
+		$('#ajax-error p').text('The account does not exist');
+		ajax_error();
+		window.setTimeout(function(){
+			$('#ajax-error p').text(before_text);
+		}, 5000)
+	}
+	
 }
 
 function display_content_items(parent_url, items, $first_clone){
@@ -203,24 +179,71 @@ function path_navigation(data){
 	$('ul.item').hover(scrollUpName, scrollDownName);
 }
 
+// ---------------  AJAX Progress handlers  --------------- //
+
+
+function ajax_progress(percent){
+	var max_width = $("#bar-container").width();
+	var width = $("#ajax-bar").width();
+	var width_percent = width*100/max_width
+	var rand = Math.random();
+	if (percent > Math.floor(width_percent)){
+		$("#ajax-bar").width(width_percent + (1.5*(rand)) +"%");
+		if (Math.floor(width_percent) >= 99){
+			$("#ajax-bar").width(0);
+		}else{
+			window.setTimeout(function(){
+				ajax_progress(percent);
+			}, 5)
+		}
+	}else{
+		if (Math.floor(width_percent) >= 99){
+			$("#ajax-bar").fadeOut('slow');
+			window.setTimeout(function(){
+				$("#ajax-bar").width(0);
+				$("#ajax-bar").show();
+			}, 1000)
+			
+		}
+	}
+}
+
+function ajax_error(){
+	$('#ajax-bar').fadeOut('fast');
+	$('#ajax-error').slideDown('slow');
+	$('nav').slideUp('slow');
+	$('#ajax-bar').hide();
+	window.setTimeout(function(){
+		$('#ajax-bar').width(0);
+		$('#ajax-error').slideUp('slow');
+		$('nav').slideDown('slow');}
+		, 4000);
+}
+
+// -------------- User navigation -------------- // 
+
 var $span
 function push_crum(path_name, link){
 	nav_path[nav_path.length] = path_name  //Faster than push in small arrays
 	var $crum = $breadcrums.children().first().clone();
 	var $crum_link = $crum.find('a');
-	$crum.removeAttr('id').addClass('crum-item').attr('id', nav_path.length)
 	$span = $crum_link.find('span');
-	$span.removeClass().addClass('icon-crum-arrow big-icon yellow');
+	$span.removeClass().addClass('icon-crum-arrow med-icon yellow');
+
+	$crum_link.find('span').remove();
+	$crum.removeAttr('id').addClass('crum-item').attr('id', nav_path.length)
 	$crum_link.attr('href', link)
-	$crum_link.find('p').text(path_name);
+	$crum_link.append('<p>' + path_name + '</p>');
 	$crum_link.prepend($span);
+
+	$crum.prepend($span);
 	$crum.hide();
 	$breadcrums.append($crum);
 	$crum.prev().unbind('click').click(back_to_path);
 	$crum.click(function(e){
 		e.preventDefault();
 	})
-	$crum.show('slow');
+	$crum.fadeIn('slow');
 }
 
 function pop_crum(){
@@ -264,8 +287,6 @@ function scrollDownName(){
 	}, 10);
 }
 
-
-setActive();
 enable_ajax();
 $('#upload-btn').click(uploadToggle);
 $('ul.item').click(get_path);

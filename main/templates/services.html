@@ -7,53 +7,67 @@
 {% if auth_finished %}
 	<article id="added-account">
 		{% if new_account %}
-			<h2>{{service_added|capfirst}} account added</h2>
+			<h2> 
+				<span class="icon-checkmark med-icon green"> </span>
+				{{service_added|capfirst}} Account added
+			</h2>
 			<p class="added-info">Your account {{client_email}} was successfully added</p>
-			<p class="red">HERE WE ARE GOING TO EXPLAIN HOW TO FILTER IN ALL FILES VIEW</p>
 		{% else %}
-			<h2>{{service_added|capfirst}} account not added </h2>
-			<p class="refresh-info">The account {{client_email}} was already added.
-			if you want to add another, please switch your account in {{service_added|capfirst}}.</p>
+			<h2>
+				<span class="icon-sad med-icon red"> SAD FACE</span>
+				This {{service_added|capfirst}} account was already added!
+			</h2>
+			<p class="refresh-info">You tried to add the email {{client_email}} but we already had it</p>
+			<p>If you want to add another account, please switch your account in {{service_added|capfirst}}.</p>
 			<p class="red">EXPLANATION: HOW TO LOGOUT IN DROPBOX / GDRIVE.</p>
 		{% endif %}
-		<p class="red">THIS SECTION IS GOING TO ANOTHER TEMPLATE</p>
 	</article>
 {%endif%}
 
 
 <article id="accounts">
 	{% for service in services%}
-	<h3><span class="icon-{{service.name}} red big-icon"> </span>{{service.name|capfirst}} accounts connected</h3>
-		<ul class="no-list-style accounts-list">
-		{% for account in service.accounts %}
-			<li class="account-info">
-				<span class="title">
-					<a href="{% url 'delete_account' service.class account.uid%}" class="delete-btn">
-						<span class="icon-delete red small-icon"> </span>
-					</a>
-					{{account.email|capfirst}}
-				</span>
-				<p>Here we could add account info (Date added, files, free space...)</p>
-			</li>
-		{%endfor%}
-		{% if service.class == "dropbox" %}
-			<li class="green">
-					<a href="/add_dropbox">
+	<h3>
+		<span class="icon-{{service.name}} red big-icon"> </span>
+		{{service.name|capfirst}} accounts connected
+	</h3>
+	<ul class="no-list-style accounts-list">
+	{% for account in service.accounts %}
+		<li id="{{account.uid}}" class="account-info">
+			<span class="title">
+				<a href="{% url 'delete_account' service.class account.uid%}" class="delete-btn">
+					<span class="icon-delete red small-icon"> </span>
+				</a>
+				{{account.email|capfirst}}
+			</span>
+			<p>Here we could add account info (Date added, files, free space...)</p>
+		</li>
+	{%endfor%}
+	{% if service.class == "dropbox" %}
+		<li class="green">
+				<a href="/add_dropbox">
 
-		{% else %}
-			<li class="green">
-				<a href="/add_drive">
-		{% endif %}
-					<span class="icon-plus"> </span>
-						Add {{service.name|capfirst}} account
-					</a>
-			</li>
-				
-			</ul>
+	{% else %}
+		<li class="green">
+			<a href="/add_drive">
+	{% endif %}
+				<span class="icon-plus"> </span>
+					Add {{service.name|capfirst}} account
+				</a>
+		</li>
+	</ul>
 	{%endfor%}
 </article>
 
-<script type="text/javascript">
-</script>
-
 {% endblock %}
+
+
+{% block script %}
+	$('.delete-btn').click(delete_account)
+
+{% endblock script %}
+
+
+
+
+

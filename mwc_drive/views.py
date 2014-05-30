@@ -58,15 +58,17 @@ def auth_finish(request):
 		credentials = CredentialsModel.objects.filter(user=user)
 		credentials = credentials.order_by('-id')[0]
 
-		new_account = DriveAccount(	uid=uid, display_name=display_name,\
+		account = DriveAccount(	uid=uid, display_name=display_name,\
 									email=client_email)
-		user.driveaccount_set.add(new_account)
-		new_account.save()
-		new_account.credentialsmodel_set.add(credentials)
+		user.driveaccount_set.add(account)
+		account.save()
+		account.credentialsmodel_set.add(credentials)
 
-	service_added = 'Google Drive'
-	auth_finished = True
-	return render(request, 'new_service.html', locals())
+	response = HttpResponseRedirect('/services')
+	response.set_cookie('service_added', 'google-drive', path="/")
+	response.set_cookie('new_account', new_account, path="/")
+	response.set_cookie('account_uid', uid, path="/")
+	return response
 
 
 def get_drive_data(user):

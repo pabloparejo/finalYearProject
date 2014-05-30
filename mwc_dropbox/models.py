@@ -21,6 +21,14 @@ class DropboxAccount(models.Model):
 	def __unicode__(self):
 		return self.email
 
+	def delete_account(self):
+		print "Is disable_access_token() fixed yet?"
+		#client = DropboxClient(self.token)
+		#client.disable_access_token()  ---- This function is not working
+
+		self.delete()
+
+
 	def get_free_space(self):
 		client = DropboxClient(self.token)
 		quota_info = client.account_info()['quota_info']
@@ -60,9 +68,9 @@ class DropboxAccount(models.Model):
 		return data
 
 	def upload_file(self, f, path='/'):
-			client = DropboxClient(self.token)
-			print f
-			# put_file max size is 150MB
-			client.put_file(path + f.name, f, overwrite=True, parent_rev=None)
+		client = DropboxClient(self.token)
+		print f
+		# put_file max size is 150MB
+		client.put_file(path + f.name, f, overwrite=True, parent_rev=None)
 
 

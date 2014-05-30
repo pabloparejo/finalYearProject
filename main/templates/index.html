@@ -2,28 +2,14 @@
 {% block title %} {{page_title}} {% endblock %}
 {% block pagetitle %} {{page_title}} {% endblock %}
 
-{% block loading_ajax_bar %}
-	<div id="bar-container">
-		<div id="ajax-bar">
-		</div>
-		<div id="ajax-error">
-			<p>An error ocurred with connection to server. Please, try again.</p>
-		</div>
-	</div>
-{% endblock loading_ajax_bar %}
-
 {% block content%}
 
 <section id="main">
-	<aside class="float-inside">
-		<a id="upload-btn" class="btn">
-			<span class="icon-cloud"> </span>Upload file
-		</a>
+	<aside id="second-nav">
 		<ul class="no-list-style" id="breadcrums">
 			<li class="blue" id="files-home"> 
 				<a href="{% url 'get_home' %}" class="crum">
 					<span class="icon-cloud big-icon"></span>
-					<p></p>
 				</a>
 			</li>
 		</ul>
@@ -68,10 +54,12 @@
 	</article>
 		
 </section>
+{% endblock %}
 
-<script type="text/javascript">
+
+{% block script %}
 	var myObj = {{obj|safe}};
 	$('#upload-area').hide();
-</script>
+{% endblock script %}
 
-{% endblock %}
+

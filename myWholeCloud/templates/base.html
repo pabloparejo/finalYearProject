@@ -11,21 +11,27 @@
 </head>
 <body class="{{page_class}}">
 	<header id="main-nav">
+			<div id="bar-container">
+				<div id="ajax-bar">
+				</div>
+			</div>
+			<div id="ajax-error">
+				<p>An error ocurred with connection to server. Please, try again.</p>
+			</div>
 			<nav class="navbar" role="navigation">
-				<ul class="nav-icons no-list-style">
+				<ul id="nav-items" class="no-list-style">
 					<li id="home"><a href="/" id="home"><span class="icon-home"></span> Home</a></li>
 					<li id="services"><a href="/services" id="add">Services</a></li>
-					<!--<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
-					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>-->
+					<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
+					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>
 					<li id="logout"> <a href="/logout" id="user"><span class="icon-user"></span>Logout</a></li>
 				</ul>
 			</nav>
-		{% block loading_ajax_bar %}{% endblock %}
 	</header>
 
 	<section id="content">
 		{% block content %}
-		{% endblock %}
+		{% endblock content%}
 	</section>
 	<footer>
 		<a href="mailto:parejo.p@gmail.com"><span class="icon-pen"></span> Pablo Parejo Camacho </a>
@@ -36,6 +42,10 @@
 	<script src="{{STATIC_URL}}js/sorttable.js"></script>
 	<script src='{{STATIC_URL}}js/upload.js'></script>
 	<script src='{{STATIC_URL}}js/code.js'></script>
-	<script type="text/javascript">{% block script %} {% endblock %}</script>
+	<script type="text/javascript">
+		$('#ajax-error').hide();
+		{% block script %} 
+		{% endblock %}
+	</script>
 </body>
 </html>

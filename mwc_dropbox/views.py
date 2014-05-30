@@ -85,9 +85,13 @@ def auth_finish(request):
                                                         token=access_token,
                                                         email=client_email,
                                                         display_name=name)
-        service_added = 'Dropbox'
-        auth_finished = True
-        return render(request, 'services.html', locals())
+
+        response = HttpResponseRedirect('/services')
+        response.set_cookie('service_added', 'dropbox', path="/")
+        response.set_cookie('new_account', new_account, path="/")
+        response.set_cookie('account_uid', uid, path="/")
+
+        return response
 
     except DropboxOAuth2Flow.BadRequestException, e:
         http_status(400)
