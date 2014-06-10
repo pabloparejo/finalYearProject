@@ -20,7 +20,9 @@ import json, httplib2
 # Create your views here.
 
 def display_api(request):
-	return HttpResponse('Here we should display all api urls')
+	data = {'description': 'Here we display our api',
+			'urls': []}
+	return HttpResponse(json.dumps(data), content_type="application/json")
 
 def get_user_home(request):
 	user = request.user

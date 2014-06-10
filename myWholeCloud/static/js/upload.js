@@ -1,6 +1,6 @@
 function sendFileToServer(formData,status)
 {
-    var uploadURL ="http://127.0.0.1:8000/api/upload/demo/"; //Upload URL
+    var uploadURL = base_url + "upload/demo/"; //Upload URL
     var request=$.ajax({
             xhr: function() {
             var xhrobj = $.ajaxSettings.xhr();
@@ -16,8 +16,8 @@ function sendFileToServer(formData,status)
         cache: false,
         data: formData,
             success: function(data){
-            console.log('uploaded')
-            $("#status1").append("File upload Done<br>");         
+            console.log('uploadCompleted');
+            // uploadCompleted();       
         }
     });
 }
@@ -34,11 +34,8 @@ setFileNameSize = function(name,size){
     {
         sizeStr = sizeKB.toFixed(2)+" KB";
     }
-
-    // this.filename.html(name);
-    console.log(name);
-    console.log(sizeStr);
-    // this.size.html(sizeStr);
+    console.log('showFileProgress')
+    // showFileProgress(name, sizeStr);
 }
 
 function handleFileUpload(files, path)
@@ -49,17 +46,20 @@ function handleFileUpload(files, path)
       fd.append('file', files[i]);
       fd.append('csrfmiddlewaretoken', getCookie('csrftoken'));
       setFileNameSize(files[i].name,files[i].size);
-      sendFileToServer(fd,status);
+      sendFileToServer(fd, path, status);
    }
 }
 
-function removeHelp(){
-    $('.dragandrophandler p').text('Drop the file here to start uploading.');
+var prev_html;
+
+function addHelp(){
+    prev_html = $('.dragandrophandler').html();
+    $('.dragandrophandler').html('<p>Drop the file here to start uploading.</p>');
     $('.dragandrophandler').addClass('drag');
 }
 
-function addHelp(){
-    $('.dragandrophandler p').text('Drag and drop your files here to upload.');
+function removeHelp(){
+    $('.dragandrophandler').html(prev_html);
     $('.dragandrophandler').removeClass('drag');
 }
 
@@ -80,7 +80,10 @@ $(document).ready(function(){
 
     //We need to send dropped files to Server
     //Also, we need to tell the server the path to upload
-    handleFileUpload(files,path); 
+    var nav_link = $('.crum-item').last().children('crum').attr('href');
+    var upload_path = nav_link.split[base_url + '/api/get_path'][1]
+    console.log(upload_path);
+    handleFileUpload(files, upload_path); 
   });
 
   obj.on('dragstop', function (e){
@@ -100,7 +103,6 @@ $(document).ready(function(){
   });
 
 
-  // The plugin code
   $.fn.draghover = function(options) {
     return this.each(function() {
 
@@ -123,13 +125,14 @@ $(document).ready(function(){
     });
   };
 
-  // Now that we have a plugin, we can listen for the new events 
   $(window).draghover().on({
     'draghoverstart': function() {
-      removeHelp();
+      addHelp();
+      $('body').css('cursor', 'copy');
     },
     'draghoverend': function() {
-      addHelp();
+      removeHelp();
+      $('body').css('cursor', 'default');
     }
   });
 });

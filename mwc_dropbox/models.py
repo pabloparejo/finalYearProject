@@ -52,16 +52,18 @@ class DropboxAccount(models.Model):
 				item['path'] = item['path'][1:]
 				item['name'] = item['path']
 
-		parent_url = (SITE_URL + 'api/get_path/dropbox/%i' + path) %self.uid
+		parent_url = (SITE_URL + 'api/path/dropbox/%i' + path) %self.uid
+		upload_url = (SITE_URL + 'api/upload/dropbox/%i' + path) %self.uid
 
 		data = {	'bytes_total': quota_info['quota'],
 					'bytes_used': quota_info['normal'] + quota_info['shared'],
 					'contents': files_list,
 					'display_name': self.display_name,
-					'parent_url': parent_url,
+					'parent_path': parent_url,
 					'service_class': 'dropbox',
 					'service_name': 'dropbox',
 					'uid': self.uid,
+					'upload_path': upload_url,
 					'username': self.email
 					
 				}

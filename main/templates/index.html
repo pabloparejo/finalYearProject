@@ -8,22 +8,16 @@
 	<aside id="second-nav">
 		<ul class="no-list-style" id="breadcrums">
 			<li class="blue" id="files-home"> 
-				<a href="{% url 'get_home' %}" class="crum">
+				<a href="{% url 'g
+				   kskset_home' %}" class="crum">
 					<span class="icon-cloud big-icon"></span>
 				</a>
 			</li>
 		</ul>
 	</aside>
-	<aside>
-		<div id="upload-area" class="dragandrophandler">
-			<p>
-				Drag and drop your files here to upload
-			</p>
-		</div>
-	</aside>
 
+	<article id="files-list" class="dragandrophandler">
 
-	<article id="files-list">
 	{% for service in data.services %}
 		{% for item in service.contents %}
 			<ul class="item no-list-style">
@@ -42,24 +36,59 @@
 					</a>
 				</li>
 				<li class="size">
-				{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
-					--
-				{% else %}
-					{{item.size}}
-				{% endif %}
+					<p>
+						{% if item.is_dir or item.icon == "application/vnd.google-apps.folder" %}
+							--
+						{% else %}
+							{{item.size}}
+						{% endif %}
+					</p>
+
 				</li>
 			</ul>
 		{% endfor %}
 	{% endfor %}
 	</article>
+
+	<aside id="side-info">
+		<h2 id="file-icon"><span class="icon-file-text"></span></h2>
+		<ul class="no-list-style file-info">
+			<li id="name"></li>
+			<li id="size"></li>
+			<li id="modified"></li>
+			<li id="location"></li>
+		</ul>
+		<ul id="interact-btns" class="no-list-style">
+			<li id="upload">
+				<input id="upload-btn" type="file">
+				<span class="button">
+					<span class="icon-upload"></span>
+					Upload
+				</span>
+
+			</li>
+			<li id="delete">
+				<a href="" class="interact-btn">
+					<span class="icon-delete"></span>
+					Delete
+				</a>
+			</li>
+			<li id="download">
+				<a href="" class="interact-btn">
+					<span class="icon-download"></span>
+					Download
+				</a>
+			</li>
+		</ul>
+	</aside>
 		
 </section>
 {% endblock %}
 
 
 {% block script %}
-	var myObj = {{obj|safe}};
-	$('#upload-area').hide();
+	model = {{obj|safe}};
+	home_path = {{SITE_URL}} + "api/path/";
 {% endblock script %}
 
 

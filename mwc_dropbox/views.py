@@ -37,20 +37,6 @@ def serve_file(request, service_email, path):
     print downloadLink
     return HttpResponseRedirect(downloadLink)
 
-@login_required()
-def list_files(request):
-    user = request.user
-    services = get_dropbox_data(user)
-
-    data = {"username": request.user.username.encode('utf-8'),
-            "number_of_services": len(services),
-            "total_size": "habria que ver esto",
-            "used_size": "habria que ver esto",
-            "services": services}
-    obj = json.dumps(data)
-    return render(request,'index.html', locals())
-
-
 def get_auth(web_app_session):
 
     redirect_uri = 'http://127.0.0.1:8000/dropbox_added'

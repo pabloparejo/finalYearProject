@@ -206,15 +206,60 @@ a:hover, .blue:hover{
 	color: #48B;
 }
 
-a#upload-btn{
-	float: right;
-	margin-bottom: 0.5em;
-}
-
 aside#second-nav{
 	background: 0 0.5em;
 	border-bottom: 2px solid #F4BA70;
 	padding: 0 0.5em;
+}
+
+aside#side-info{
+	background: #AAA;
+	display: inline-block;
+	float: right;
+	height: 89%;
+	margin: 1em 1em 0 0;
+	position: relative;
+	width: 25%;
+}
+
+aside#side-info h2#file-icon{
+	font-size: 5em;
+	margin: 1em 0em 0.25em 0em;
+	text-align: center;
+}
+
+aside#side-info ul#interact-btns{
+	bottom: 1em;
+	position: absolute;
+	width: 100%;
+}
+
+aside#side-info ul#interact-btns li{
+	background: white;
+	display: inline-block;
+	margin: 0 0.05em 0 0.3em;
+	text-align: center;
+	width: 30%;
+}
+
+aside#side-info ul#interact-btns li#upload{
+	color: #59C;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+	vertical-align: bottom;
+}
+
+aside#side-info ul#interact-btns li#upload input{
+	cursor: pointer;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+aside#side-info ul#interact-btns li#upload .button{
+	cursor: pointer;
 }
 
 article{
@@ -225,7 +270,7 @@ article{
 
 article#added-account{
 	border-bottom: 2px solid #F4BA70;
-	margin: 1em 0;
+	margin-bottom: 1em;
 	padding: 1em;
 }
 
@@ -235,6 +280,7 @@ article#accounts h3{
 
 article#accounts ul.accounts-list{
 	display: block;
+	margin-bottom: 3em;
 }
 
 article#accounts li.account-info{
@@ -262,7 +308,7 @@ article#accounts li.account-info span.title{
 article#files-list{
 	border: 1px solid #CCC;
 	display: inline-block;
-	height: 500px;
+	height: 89%;
 	margin: 1em;
 	overflow: scroll;
 	padding: 0;
@@ -297,8 +343,12 @@ article#files-list ul.item li:first-child{
 article#files-list ul.item li.size{
 	float: right;
 	height: 27px;
-	margin-right: 5em;
-	vertical-align: bottom;
+	text-align: center;
+	width: 100px;
+}
+
+article#files-list ul.item li.size p{
+	margin-top: 0.4em;
 }
 
 article#files-list ul.item .name a{
@@ -312,15 +362,21 @@ article#files-list ul.item:hover .name a{
 	color: #48B;
 }
 
+
 body{
-  background: #EEE;
-  color: #353535;
-  font-family: "Open Sans";
-  font-size: 16px;
+	background: #E5E5E5;
+	color: #353535;
+	font-family: "Open Sans";
+	font-size: 16px;
+}
+
+body, html {
+	min-height:100%;
+	height:100%;
 }
 
 div#ajax-bar{
-	background: #FB6;
+	background: #59C;
 	display: inline-block;
 	height: 3px;
 	position: relative;
@@ -352,23 +408,6 @@ div#bar-container{
 }
 
 
-div#upload-area{
-	background: #FAFAFA;
-	border: 4px dashed #59C;
-	display: block;
-	margin: 4em auto;
-	padding: 6em;
-	width: 75%;
-}
-
-div#upload-area p{
-	color: #59C;
-	font-size: 1.25em;
-	text-align: center;
-}
-
-
-
 footer{
 	background: #59C;
 	border-top: #FB6 5px solid;
@@ -387,7 +426,9 @@ footer a:hover{
 
 form{
 	overflow: hidden;
+	text-align: center;
 }
+
 
 h1, h2, h3, h4, h5{
 	font-weight: bold;
@@ -410,8 +451,8 @@ header nav a{
 	width: 100%;
 }
 
-header nav a:hover, a.active:hover{
-	background: rgba(255,255,255, 0.4);
+header nav a:hover, a.active{
+	background: rgba(255,255,255, 0.5);
 }
 
 header nav ul#nav-items{
@@ -431,6 +472,7 @@ input{
 	background: #E4E4E4;
 	border: 0;
 	border-radius: 0.2em;
+	color: black;
 	margin: 0.5em 1.5em;
 	padding: 0.3em;
 	width: 80%;
@@ -442,12 +484,15 @@ label{
 }
 
 section#content{
+	height: 80%;
 	margin: 0em 4em;
 }
 
 section#main{
 	background: #F8FAFD;
+	height: 100%;
 	padding: 0;
+	padding-bottom: 1em;
 	margin: 0em;
 }
 
@@ -460,7 +505,7 @@ section#main ul#breadcrums{
 
 section#main ul#breadcrums li{
 	display: inline-block;
-	padding: 0.25em;
+	padding-left: 0.1em;
 }
 
 section#main ul#breadcrums li:first-child{
@@ -486,8 +531,15 @@ section#main ul#breadcrums li:last-child .crum:hover{
 }
 
 .drag{
-	border-color: #FB6 !important;
+	border: 5px dashed #59C !important;
 	color: #FB6 !important;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.drag p{
+	font-size: 2em;
+	margin-top: 6.5em;
 }
 
 .giant-icon{

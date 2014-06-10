@@ -1,7 +1,8 @@
-var base_url 		= "http://127.0.0.1:8000/",
-	$breadcrums		= $('#breadcrums')
+var $breadcrums		= $('#breadcrums'),
 	$files_list		= $('#files-list'),
+	home_path		= "",	// Home path is initialized in html template
 	$ls				= localStorage,
+	model			= {}, 	// Model is initialized in html template
 	nav_path 		= [''],
 	path 			= location.pathname.split('/')[1],
 	$upload			= $('#upload-area')
@@ -40,11 +41,12 @@ function back_to_path(e){
 	disable_ajax();
 	console.log(this);
 	var link = $(this).find('a').attr('href');
+	var crum_id = $(this).attr('id')
 	ajax_progress(75);
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
 			ajax_progress(100);
-			pop_crum();
+			back_to_crum(crum_id);
 			enable_ajax();
 		})
 		.fail(ajax_error);
@@ -94,6 +96,7 @@ function disable_ajax(){
 function enable_ajax(){
 	$('#files-home').unbind('click')
 	$('#files-home').click(get_home);
+	$breadcrums.children('.crum-item').unbind('click');
 	$breadcrums.children('.crum-item').click(back_to_path);
 	$breadcrums.children().last().unbind('click').click(function(e){
 		e.preventDefault();
@@ -103,10 +106,9 @@ function enable_ajax(){
 function get_home(e){
 	e.preventDefault();
 	disable_ajax();
-	var link = base_url + 'api/get_path/';
-	console.log(link);
+	console.log(home_path);
 	ajax_progress(75);
-	var jqxhr = $.getJSON(link, display_home)
+	var jqxhr = $.getJSON(home_path, display_home)
 		.done(function(){
 			remove_crums();
 			ajax_progress(100);
@@ -135,19 +137,19 @@ function account_deleted(data){
 	
 }
 
-function display_content_items(parent_url, items, $first_clone){
+function display_content_items(parent_path, items, $first_clone){
 	for (item in items){
 		var $clone = $first_clone.clone();
 		var $clone_link = $clone.find('.name a')
 		$clone_link.text(items[item].name);
-		$clone_link.attr('href', parent_url + items[item].path);
+		$clone_link.attr('href', parent_path + items[item].path);
 		$clone.find('span').removeClass().addClass('big-icon icon-' + items[item].icon);
 		if (items[item].is_dir){
-			$clone.find('.size').text('--');
+			$clone.find('.size p').text('--');
 		} else if (items[item].icon == 'application/vnd.google-apps.folder'){
-			$clone.find('.size').text('--');
+			$clone.find('.size p').text('--');
 		}else{
-			$clone.find('.size').text(items[item].size);
+			$clone.find('.size p').text(items[item].size);
 		}
 		$files_list.append($clone);
 		$clone.fadeIn();
@@ -155,26 +157,25 @@ function display_content_items(parent_url, items, $first_clone){
 }
 
 function display_home(data){
-	myData = data; // DEVELOPING ONLY
+	model = data; // DEVELOPING ONLY
 	var $first_clone = $files_list.children().first().clone();
 	$files_list.children().fadeOut();
 	$files_list.children().remove();
 	for (service_i in data.services){
-		parent_url = data.services[service_i].parent_url
+		parent_path = data.services[service_i].parent_path
 		contents = data.services[service_i].contents
-		display_content_items(parent_url, contents, $first_clone)
+		display_content_items(parent_path, contents, $first_clone)
 	}
 	$('ul.item').click(get_path);
 	$('ul.item').hover(scrollUpName, scrollDownName);
 }
 
-var myData
 function path_navigation(data){
-	myData = data; // DEVELOPING ONLY
+	model = data; // DEVELOPING ONLY
 	var $first_clone = $files_list.children().first().clone();
 	$files_list.children().fadeOut();
 	$files_list.children().remove();
-	display_content_items(data.parent_url, data.contents, $first_clone)
+	display_content_items(data.parent_path, data.contents, $first_clone)
 	$('ul.item').click(get_path);
 	$('ul.item').hover(scrollUpName, scrollDownName);
 }
@@ -213,6 +214,7 @@ function ajax_error(){
 	$('#ajax-error').slideDown('slow');
 	$('nav').slideUp('slow');
 	$('#ajax-bar').hide();
+	enable_ajax();
 	window.setTimeout(function(){
 		$('#ajax-bar').width(0);
 		$('#ajax-error').slideUp('slow');
@@ -234,22 +236,26 @@ function push_crum(path_name, link){
 	$crum.removeAttr('id').addClass('crum-item').attr('id', nav_path.length)
 	$crum_link.attr('href', link)
 	$crum_link.append('<p>' + path_name + '</p>');
-	$crum_link.prepend($span);
 
 	$crum.prepend($span);
 	$crum.hide();
 	$breadcrums.append($crum);
-	$crum.prev().unbind('click').click(back_to_path);
+	$crum.prev().unbind('click');
+	$crum.prev().click(back_to_path);
 	$crum.click(function(e){
 		e.preventDefault();
 	})
 	$crum.fadeIn('slow');
 }
 
-function pop_crum(){
-	nav_path.pop();
-	var $crum = $breadcrums.children('.crum-item').last().hide('slow');
-	$crum.remove();
+function back_to_crum(crum_index){
+	console.log(crum_index)
+	while (nav_path.length > crum_index) {
+		console.log('length:' + nav_path.length)
+		nav_path.pop();
+		var $crum = $breadcrums.children('.crum-item').last().fadeOut('fast');
+		$crum.remove();
+	}
 }
 
 function remove_crums(){
@@ -287,8 +293,24 @@ function scrollDownName(){
 	}, 10);
 }
 
+// -------------- Active tab indicator -------------- // 
+
+function setActive(){
+	$('.active').removeClass();
+	if (!path){
+		path = 'home';
+	}
+	$('#' + path + ' a').addClass('active');
+
+	if (path == "checkout"){
+		$cart_btn.addClass('active')
+	}
+}
+
+
+setActive();
 enable_ajax();
-$('#upload-btn').click(uploadToggle);
+// $('#upload-btn').on('change', upload_file);
 $('ul.item').click(get_path);
 $('ul.item').hover(scrollUpName, scrollDownName);
 

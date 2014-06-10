@@ -1,17 +1,17 @@
 #encoding:utf-8
-from django.shortcuts import render
-
-from django.http import HttpResponseRedirect
-
 import json
-from mwc_dropbox.models import DropboxAccount
-from mwc_drive.models import DriveAccount
-from .forms import LoginForm
 
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
+from mwc_dropbox.models import DropboxAccount
+from mwc_drive.models import DriveAccount
+from .forms import LoginForm
+
+from myWholeCloud.settings import SITE_URL
 
 # LOGIN REQUIRED UNTIL WE BUILD A WELCOME PAGE!!
 @login_required()
@@ -28,6 +28,7 @@ def home(request):
 
 	data = {"bytes_total": "habria que ver esto",
 	 		"bytes_used": "habria que ver esto",
+	 		"upload_path": SITE_URL + "api/upload/",
 			"number_of_services": len(services),
 	 		"services": services}
 
@@ -35,7 +36,6 @@ def home(request):
 	page_title = "Home"
 
 	return render(request, 'index.html', locals())
-	return HttpResponseRedirect('/dropbox')
 
 
 @login_required()
@@ -92,6 +92,7 @@ def new_user(request):
 
 def user_login(request):
     form = LoginForm(request.POST or None)
+    title = "Login"
     if request.POST and form.is_valid():
         user = form.login(request)
         if user:

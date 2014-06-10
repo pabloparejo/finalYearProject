@@ -112,7 +112,9 @@ class DriveAccount(models.Model):
 			files_list = self.files_for_parent(files_list, path)
 		files_list = self.reformat_metadata(files_list, path)
 
-		parent_url = (SITE_URL + 'api/get_path/google-drive/%i/' + path) %self.uid
+		parent_url = (SITE_URL + 'api/path/google-drive/%i/' + path) %self.uid
+
+		upload_url = (SITE_URL + 'api/upload/google-drive/%i/' + path) %self.uid
 
 		data = {	'bytesTotal':	int(quota_info['quotaBytesTotal']),
 					'bytesUsed':	int(quota_info['quotaBytesUsed']) +
@@ -120,10 +122,11 @@ class DriveAccount(models.Model):
 									int(quota_info['quotaBytesUsedInTrash']),
 					'contents': files_list,
 					'display_name': self.display_name,
-					'parent_url': parent_url,
+					'parent_path': parent_url,
 					'service_class': 'google-drive',
 					'service_name': 'Google Drive',
 					'uid': self.uid,
+					'upload_path': upload_url,
 					'username': self.email
 					
 				}

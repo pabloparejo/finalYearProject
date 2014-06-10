@@ -22,9 +22,14 @@
 				<ul id="nav-items" class="no-list-style">
 					<li id="home"><a href="/" id="home"><span class="icon-home"></span> Home</a></li>
 					<li id="services"><a href="/services" id="add">Services</a></li>
-					<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
-					<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>
+					{% if request.user.is_annonymous %}
+						<li id="login"> <a href="/login" id="user"><span class="icon-user"></span>Login</a></li>
+						<li id="register"> <a href="/register" id="user"><span class="icon-user"></span>Register</a></li>
+					{% else %}
 					<li id="logout"> <a href="/logout" id="user"><span class="icon-user"></span>Logout</a></li>
+					{% endif %}
+					
+
 				</ul>
 			</nav>
 	</header>
@@ -33,11 +38,7 @@
 		{% block content %}
 		{% endblock content%}
 	</section>
-	<footer>
-		<a href="mailto:parejo.p@gmail.com"><span class="icon-pen"></span> Pablo Parejo Camacho </a>
-		<p class="copy"> MyWholeCloud 2014 </p>
-		<div><span class="icon-html5"> </span> <span class="icon-css3"></span></div>
-	</footer>
+
 	<!-- Future <script src="{{STATIC_URL}}js/jquery-mobile.js"></script>-->
 	<script src="{{STATIC_URL}}js/sorttable.js"></script>
 	<script src='{{STATIC_URL}}js/upload.js'></script>
