@@ -17,6 +17,35 @@ class DriveAccount(models.Model):
 
 	user = models.ForeignKey(User)
 
+	# Important to expose the key 'icon' of the API
+	mime_types =   {"application/vnd.ms-excel" : "xls",
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" : "xlsx",
+                    "text/xml" : "xml",
+                    "application/vnd.oasis.opendocument.spreadsheet" : "ods",
+                    "text/plain" : "csv",
+                    "text/plain" : "tmpl",
+                    'application/pdf': "pdf",
+                    "application/x-httpd-php" : "php",
+                    "image/jpeg" : "jpg",
+                    "image/png" : "png",
+                    "image/gif" : "gif",
+                    "image/bmp" : "bmp",
+                    "text/plain" : "txt",
+                    "application/msword" : "doc",
+                    "text/js" : "js",
+                    "application/x-shockwave-flash" : "swf",
+                    "audio/mpeg" : "mp3",
+                    "application/zip" : "zip",
+                    "application/rar" : "rar",
+                    "application/tar" : "tar",
+                    "application/arj" : "arj",
+                    "application/cab" : "cab",
+                    "text/html" : "html",
+                    "text/html" : "htm",
+                    "application/octet-stream" : "default",
+                    "application/vnd.google-apps.folde" : "folder",
+                    }
+
 	def __unicode__(self):
 		return self.email
 
@@ -41,7 +70,8 @@ class DriveAccount(models.Model):
 
 
 	def reformat_metadata(self, metadata_list, path):
-		if path != '/':
+		print path
+		if path != '/' and path !='':
 			for element in metadata_list:
 				element['name'] = element.pop('title')
 				element['icon'] = element.pop('mimeType')
@@ -91,6 +121,25 @@ class DriveAccount(models.Model):
 
 		return free
 
+	def get_files(self, service):
+		files_list = service.files().list(maxResults=1000).execute()
+		while True:
+			try:
+				param = {}
+				page_token = files_list['nextPageToken']
+				if page_token:
+					param['pageToken'] = page_token
+					files = service.files().list(**param).execute()
+
+					files_list['items'].append(files['items'])
+					page_token = files.get('nextPageToken')
+				if not page_token:
+					break
+			except:
+				print 'An error occurred'
+				break
+		return files_list['items']
+
 
 	def get_path(self, path):
 
@@ -100,14 +149,14 @@ class DriveAccount(models.Model):
 		http = credentials.authorize(http)
 		drive_service = build('drive', 'v2', http=http)
 
-		then = datetime.datetime.now()
 		quota_info = drive_service.about().get().execute()
-		print "First google response time" , datetime.datetime.now() - then
-		files_list = drive_service.files().list().execute()['items']
-		print "Total google response time" , datetime.datetime.now() - then
-		if path == '/':
+
+		files_list = self.get_files(drive_service)
+		print files_list
+
+		if path == '/' or path == '':
 			files_list = self.files_in_root(files_list)
-			path = ""
+			path = ''
 		else:
 			files_list = self.files_for_parent(files_list, path)
 		files_list = self.reformat_metadata(files_list, path)

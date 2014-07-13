@@ -1,6 +1,6 @@
 var $breadcrums		= $('#breadcrums'),
 	$files_list		= $('#files-list'),
-	home_path		= "",	// Home path is initialized in html template
+	home_path		= "/api/path/",
 	$ls				= localStorage,
 	model			= {}, 	// Model is initialized in html template
 	nav_path 		= [''],

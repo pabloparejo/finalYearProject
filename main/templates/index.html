@@ -8,8 +8,7 @@
 	<aside id="second-nav">
 		<ul class="no-list-style" id="breadcrums">
 			<li class="blue" id="files-home"> 
-				<a href="{% url 'g
-				   kskset_home' %}" class="crum">
+				<a href="{% url 'get_home' %}" class="crum">
 					<span class="icon-cloud big-icon"></span>
 				</a>
 			</li>
@@ -28,6 +27,8 @@
 				{% if item.is_dir %}
 					<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
 				{% elif item.icon == "application/vnd.google-apps.folder" %}
+					{{service.uid}}
+					{{item.path}}
 					<a class="get-path-btn" href="{% url 'get_path' service.service_class service.uid item.path %}">
 				{% else %}
 					<a href="/aqui_va_la_url_del_archivo">
@@ -88,7 +89,6 @@
 
 {% block script %}
 	model = {{obj|safe}};
-	home_path = {{SITE_URL}} + "api/path/";
 {% endblock script %}
 
 
