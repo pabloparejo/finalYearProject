@@ -5,14 +5,17 @@
 {% block content%}
 
 <section id="main">
-	<aside id="second-nav">
-		<ul class="no-list-style" id="breadcrums">
+	<aside id="second-nav" class="text-center-mobile">
+		<ul class="no-list-style" id="breadcrumbs">
 			<li class="blue" id="files-home"> 
 				<a href="{% url 'get_home' %}" class="crum">
 					<span class="icon-cloud big-icon"></span>
 				</a>
 			</li>
 		</ul>
+		<div class="mobile-logo">
+			<p><span class="icon-cloud med-icon"> </span>My Whole Cloud</p>
+		</div>
 	</aside>
 
 	<article id="files-list" class="dragandrophandler">
