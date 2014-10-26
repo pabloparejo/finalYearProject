@@ -57,8 +57,8 @@
     content: "\f03e";
 }
 
-.icon-file-text:before, 
-[class*="text"]:before,
+
+.icon-file-text:before,
 [class*="page_white_document"]:before,
 [class*="code"]:before,
 [class*="document"]:before{
