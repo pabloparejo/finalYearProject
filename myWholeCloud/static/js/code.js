@@ -42,7 +42,7 @@ function back_to_path(e){
 	console.log(this);
 	var link = $(this).find('a').attr('href');
 	var crum_id = $(this).attr('id')
-	ajax_progress(75);
+	ajax_progress(75, 'restart');
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
 			ajax_progress(100);
@@ -55,14 +55,13 @@ function back_to_path(e){
 function delete_account(e){
 	e.preventDefault();
 	var link = this.href;
-	ajax_progress(75);
+	ajax_progress(75, 'restart');
 	var jqxhr = $.getJSON(link, account_deleted)
 		.done(function(){
 			ajax_progress(100);
 			enable_ajax();
 		})
 		.fail(ajax_error);
-
 }
 
 function get_path(e){
@@ -72,7 +71,7 @@ function get_path(e){
 	var path_name = $(this).find('li.name a').text();
 	var link = $(this).find('li.name a').attr('href');
 	console.log(link);
-	ajax_progress(75);
+	ajax_progress(75, 'restart');
 	var jqxhr = $.getJSON(link, path_navigation)
 		.done(function(){
 			push_crum(path_name, link);
@@ -107,7 +106,7 @@ function get_home(e){
 	e.preventDefault();
 	disable_ajax();
 	console.log(home_path);
-	ajax_progress(75);
+	ajax_progress(75, 'restart');
 	var jqxhr = $.getJSON(home_path, display_home)
 		.done(function(){
 			remove_crums();
@@ -143,13 +142,13 @@ function display_content_items(parent_path, items, $first_clone){
 		var $clone_link = $clone.find('.name a')
 		$clone_link.text(items[item].name);
 		$clone_link.attr('href', parent_path + items[item].path);
-		$clone.find('span').removeClass().addClass('big-icon icon-' + items[item].icon);
+		$clone.find('.icon span').removeClass().addClass('big-icon icon-' + items[item].icon);
 		if (items[item].is_dir){
-			$clone.find('.size p').text('--');
+			$clone.find('.size span').text('--');
 		} else if (items[item].icon == 'application/vnd.google-apps.folder'){
-			$clone.find('.size p').text('--');
+			$clone.find('.size span').text('--');
 		}else{
-			$clone.find('.size p').text(items[item].size);
+			$clone.find('.size span').text(items[item].size);
 		}
 		$files_list.append($clone);
 		$clone.fadeIn();
@@ -183,42 +182,31 @@ function path_navigation(data){
 // ---------------  AJAX Progress handlers  --------------- //
 
 
-function ajax_progress(percent){
-	var max_width = $("#bar-container").width();
-	var width = $("#ajax-bar").width();
-	var width_percent = width*100/max_width
-	var rand = Math.random();
-	if (percent > Math.floor(width_percent)){
-		$("#ajax-bar").width(width_percent + (1.5*(rand)) +"%");
-		if (Math.floor(width_percent) >= 99){
-			$("#ajax-bar").width(0);
-		}else{
-			window.setTimeout(function(){
-				ajax_progress(percent);
-			}, 5)
-		}
-	}else{
-		if (Math.floor(width_percent) >= 99){
-			$("#ajax-bar").fadeOut('slow');
-			window.setTimeout(function(){
-				$("#ajax-bar").width(0);
-				$("#ajax-bar").show();
-			}, 1000)
-			
-		}
+function ajax_progress(percent, restart){
+	if(restart == 'restart'){
+		$("#ajax-bar").width(0);
+		$('#ajax-bar').removeClass('done');
 	}
+	var rand = Math.random();
+	$( "#ajax-bar" ).animate({
+		width: percent + "%",
+	}, 1000*rand, function(){
+		if (percent == 100) { 
+			$('#ajax-bar').addClass('done')
+		};
+	})
 }
 
 function ajax_error(){
 	$('#ajax-bar').fadeOut('fast');
 	$('#ajax-error').slideDown('slow');
-	$('nav').slideUp('slow');
+	$('#second-nav').slideUp('slow');
 	$('#ajax-bar').hide();
 	enable_ajax();
 	window.setTimeout(function(){
-		$('#ajax-bar').width(0);
+		$('#ajax-bar').width("100%");
 		$('#ajax-error').slideUp('slow');
-		$('nav').slideDown('slow');}
+		$('#second-nav').slideDown('slow');}
 		, 4000);
 }
 
@@ -305,6 +293,16 @@ function setActive(){
 	if (path == "checkout"){
 		$cart_btn.addClass('active')
 	}
+}
+
+// -------------- Mobile Menu -----------------------//
+
+function toggleRight() {
+  var $marginRighty = $('header nav ul.menu');
+  $marginRighty.animate({
+    marginRight: parseInt($marginRighty.css('marginRight'),10) == 0 ? $marginRighty.outerWidth() : 0
+  });
+  $('.container.content').toggleClass('menu-right-hidder');
 }
 
 
