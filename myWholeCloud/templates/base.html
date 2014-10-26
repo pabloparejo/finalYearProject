@@ -3,24 +3,17 @@
 <head>
 	<title> MWC - {% block title %} {% endblock %} </title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/normalizer.css">
-	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/styles.css">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/fonts.css">
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/upload.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/styles.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body class="{{page_class}}">
 	<header id="main-nav">
-			<div id="bar-container">
-				<div id="ajax-bar">
-				</div>
-			</div>
-			<div id="ajax-error">
-				<p>An error ocurred with connection to server. Please, try again.</p>
-			</div>
 			<nav class="navbar" role="navigation">
-				<ul id="nav-items" class="no-list-style">
+				<ul class="menu" class="no-list-style">
 					<li id="home"><a href="/" id="home"><span class="icon-home"></span> Home</a></li>
 					<li id="services"><a href="/services" id="add">Services</a></li>
 					{% if request.user.is_annonymous %}
