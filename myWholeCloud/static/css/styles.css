@@ -341,7 +341,8 @@ nav.navbar ul.menu li a {
     background: rgba(255,255,255,0.3);
   }
   #second-nav {
-    background: #ddd;
+    background: #eee;
+    border: 1px solid;
     color: #fff;
     height: auto;
     overflow: hidden;
