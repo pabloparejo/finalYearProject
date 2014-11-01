@@ -1,0 +1,385 @@
+fontColor = #345
+greenColor = #8CA
+mainColor = #59C
+medColor = #447aa3
+orangeColor = #F63
+redColor = #E00
+whiteColor = #FBFDFF
+yellowColor = #F4BA70
+
+bottom-shadow-z1()
+    box-shadow 0px 1px 2px rgba(0,0,0,0.3)
+
+bottom-shadow-z2()
+    box-shadow 0px 3px 3px rgba(0,0,0,0.25)
+
+bottom-text-shadow-z1()
+    text-shadow 0px 1px 1px rgba(0,0,0,0.3)
+
+right-shadow-z1()
+    box-shadow 2px 0px 2px rgba(0,0,0,0.3)
+
+a
+    color fontColor
+    text-decoration none
+
+.big-icon
+    font-size 1.75em
+    
+    &.icon-cancel
+        color #DDD
+        font-size 1.4em
+
+#bar-container
+    height 3px
+    width 100%
+    z-index 3
+
+    #ajax-bar
+        background mainColor
+        display inline-block
+        height 3px
+        position relative
+        vertical-align top
+        width 100% // delete
+        &.done
+            background yellowColor
+
+
+body
+    color fontColor
+    font-size 16px
+
+.bottom
+    bottom 0
+    position absolute
+
+.color-red
+    color redColor
+
+#files-list
+    background #FAFAFA
+    padding 0 .25rem
+
+    .item
+        border-bottom 1px solid #EEE
+        padding .5rem 0 .4rem
+
+        .name
+            padding .4rem 0 0 .5rem
+
+        .size
+            padding .4rem .5rem 0 0
+
+
+.float-inside
+    clear both
+    overflow hidden
+
+header#main-nav
+    position fixed
+    top 0
+    left 0
+    right 0
+
+
+.hide
+    display none
+
+.hidden
+    visibility hidden
+
+.huge-icon
+    font-size 2rem
+    line-height 2.5rem
+
+.left
+    float left
+
+#main
+    padding-top 3rem
+
+.margin-bottom
+    margin-bottom 1em !important
+
+.margin-top
+    margin-top 1em !important
+
+.margin-top-2
+    margin-top 2em
+
+.margin-top-3
+    margin-top 3em
+
+
+.med-icon
+    font-size 1.5rem
+
+nav.navbar
+    background rgba(255, 255, 255, .75)
+
+    ul.menu
+        background rgba(0, 0, 0, .75)
+        margin 0
+        padding-left .5em
+        position fixed
+        top 45px
+        right -316px
+        width 300px
+        li
+            border-bottom 1px solid rgba(255,255,255,0.5)
+            list-style none
+
+            &:last-child
+                border 0
+
+            a
+                color #FAFAFA
+                display block
+                padding .5em
+
+                
+.no-list-style
+    list-style none
+    margin 0
+    padding 0
+
+.padding
+    padding 1em
+
+.padding-left
+    padding-left 1em
+
+    &.title
+        padding-left 1.25em
+
+.padding-top
+    padding-top 1rem
+
+.relative
+    position relative
+
+.right
+    float right
+
+#second-nav
+    background rgba(85, 153, 204, 0.95)
+    bottom-shadow-z1()
+    color white
+    height 48px
+    overflow hidden
+    position fixed
+    left 0
+    right 0 
+    top 0
+    z-index 1
+
+    #breadcrumbs 
+        float left
+        li
+            display none
+
+            &:last-child
+                display inline-block
+            a
+                color white
+                display block
+                font-size 1rem
+                padding 1rem .25rem
+
+    .mobile-logo
+        color white
+        margin 0 auto
+        width 100px
+        .icon-cloud
+            bottom-text-shadow-z1()
+            line-height 45px
+
+#side-info
+    bottom 0
+    display none
+    left 0
+    padding 2rem .5rem 1rem
+    position fixed
+    right 0
+    text-align center
+    top 0
+    z-index 9
+
+    &.show
+        background rgba(0, 0, 0, .7)
+        display block
+    
+    .modal-bg
+        background rgba(230, 230, 230, 0.9)
+        border-radius .5rem
+        bottom -600px
+        bottom-shadow-z2()
+        height 80%
+        padding 2rem 1rem
+        position relative
+        transition all ease-in-out .3s
+
+        &.animate
+            bottom 0
+
+    #file-icon
+        font-size 4rem
+
+    .file-info
+        display inline-block
+        padding 0 .5rem
+        text-align left
+        width 100%
+
+    #interact-btns
+        text-align center
+        padding-bottom 1rem
+        li 
+            display inline-block
+            a
+                background #EEE
+                border 1px solid #CCC
+                border-radius .5rem
+                padding .5rem
+
+.text-center, .text-center-small
+    text-align center
+
+@media screen and (min-width 640px)
+
+    body, html
+        height 97%
+    
+    #files-list
+        background #FAFAFA
+        display inline-block
+        float left
+        height 100%
+        overflow-y auto
+        padding-left .5rem
+        right-shadow-z1()
+        width 310px
+        z-index 2
+
+        #item .size
+            padding-right .25rem
+
+    .iframe-container
+        -webkit-overflow-scrolling touch
+        display inline-block
+        height 80%
+        overflow-y scroll
+        padding 0 0 1rem .8rem
+        width 60%
+        iframe
+            height 100%
+            width 100%
+
+    #main
+        overflow hidden
+
+    section
+        height 100%
+
+    #second-nav #breadcrumbs 
+        padding-left .5rem
+
+    #side-info
+        display block
+        height 100%
+        padding 0
+        position static
+        
+        .modal-bg
+            background #FCFCFC
+            border-radius 0
+            box-shadow none
+            height 100%
+            padding 2rem 1rem
+            position static
+
+            .file-info
+                width auto
+
+    
+    .text-center-small
+        text-align left
+    
+
+
+@media screen and (min-width 1200px)
+
+    body, html
+        height 95.5%
+
+    body 
+        background #EEE
+        text-align center
+
+    #content
+        display inline-block
+        margin .5rem 0
+        max-width 1300px
+        width 94%
+
+    #files-list
+        border-right 1px solid #EEE
+        box-shadow none
+        width 400px
+        z-index 4
+
+    #main
+        bottom-shadow-z2()
+        padding-top 0
+        margin-top 3rem
+
+    nav.navbar 
+        background rgba(85, 153, 204, 0.95)
+        bottom-shadow-z1()
+
+        ul.menu
+            background none
+            display inline-block
+            max-width 1300px
+            overflow hidden
+            padding 0
+            position static
+            vertical-align bottom
+            width 94%
+
+            li
+                border 0
+                float left
+
+                a
+                    padding .6rem .5rem
+                    &:hover, &.active
+                        background rgba(255,255,255,0.3)
+        
+
+    #second-nav
+        background #EEE
+        border 1px solid
+        color white
+        height auto
+        overflow hidden
+        position static
+
+        #breadcrumbs li
+            display inline-block
+
+            &:last-child
+                display inline-block
+            a
+                color mainColor
+                font-size 1rem
+                padding .75rem
+                padding-bottom .6rem
+
+                &:first-child
+                    padding-left 0
+                    
+                    
+        .mobile-logo
+            display none

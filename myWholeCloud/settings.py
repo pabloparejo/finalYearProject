@@ -28,7 +28,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_URL = 'http://127.0.0.1:8000/'
+SITE_URL = 'http://192.168.1.128:80/'
 
 
 # Application definition
