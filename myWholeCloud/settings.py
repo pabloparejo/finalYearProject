@@ -99,7 +99,7 @@ STATICFILES_DIRS = (
 
 # Template directories
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROUTE, 'templates')
+    os.path.join(PROJECT_ROUTE, 'templates'),
 )
 
 
