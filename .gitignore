@@ -2,9 +2,13 @@
 google_secrets.json
 dropbox_keys.py
 
+# Server settings
+prod-settings.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.pyc
 
 # C extensions
 *.so
@@ -26,6 +30,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+requirements.txt
 
 # Installer logs
 pip-log.txt
