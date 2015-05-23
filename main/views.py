@@ -23,8 +23,8 @@ def home(request):
 	for service in dropbox_services:
 		services.append(service.get_path('/'))
 
-	for service in drive_services:
-		services.append(service.get_path('/'))
+	#for service in drive_services:
+	#	services.append(service.get_path('/'))
 
 	data = {"bytes_total": "habria que ver esto",
 	 		"bytes_used": "habria que ver esto",

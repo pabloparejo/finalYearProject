@@ -1,0 +1,167 @@
+@import 'nib'
+
+backgroundColor = #FAFAFA
+greyColor = #EEE
+darkGreyColor = #EAEAEA
+
+mainColor = #5599CC
+secondaryColor = #F4ba60
+alertColor = #c60f13
+successColor = #22AA66
+
+bodyFontColor = #333333
+headerFontColor = #333333
+
+whiteColor = #FAFAFA
+
+
+
+/* Mixins */
+
+bottom-shadow(n, blur, opac)
+    box-shadow 0px (1*n)px (blur*1)px rgba(0,0,0,opac)
+
+text-shadow(n, blur, opac)
+    text-shadow 0px (1*n)px (blur*1)px rgba(0,0,0,opac)
+
+inset-right-shadow(n, blur, opac)
+    box-shadow inset (-1*n)px 0px (blur)px rgba(0,0,0,opac)
+
+
+/* End Mixins */
+
+
+body
+	background backgroundColor
+	color bodyFontColor
+	font-size 15px
+
+body.full-height
+	height 100%
+	max-height 100%
+	overflow-y auto
+
+.absolute
+	position absolute
+
+.background-grey
+	background greyColor
+.background-dark-grey
+	background darkGreyColor
+.background-main
+	background mainColor
+.background-secondary, .background-secondary-color
+	background secondaryColor
+.background-alert
+	background alertColor
+.background-success
+	background successColor
+.background-body-font-color
+	background bodyFontColor
+.background-header-font-color
+	background headerFontColor
+.background-white
+	background whiteColor
+.no-background
+	background none
+
+
+.no-border
+	border 0
+
+.no-border-bottom
+	border-bottom 0
+
+.no-border-left
+	border-left 0
+
+.no-border-right
+	border-right 0
+
+[class^="icon-"], [class*=" icon-"]
+	&.big-icon
+		font-size 1.75em
+	
+		&.icon-cancel
+			font-size 1.4em
+
+	&.huge-icon
+		font-size 3rem
+
+
+.bottom, .bottom-0
+	bottom 0
+
+.color-alert 
+	color alertColor
+.color-background 
+	color backgroundColor
+.color-bodyFont 
+	color bodyFontColor
+.color-darkGrey 
+	color darkGreyColor
+.color-grey 
+	color greyColor
+.color-header-font 
+	color headerFontColor
+.color-main 
+	color mainColor
+.color-secondary 
+	color secondaryColor
+.color-success 
+	color successColor
+.color-white 
+	color whiteColor
+
+.ease-in
+	transition all ease-in .2s
+
+.full-height
+	height 100%
+
+.full-width
+	width 100%
+
+iframe
+	-webkit-overflow-scrolling touch
+	overflow hidden
+	
+
+.left, left-0
+	left 0
+
+
+.overflow-hidden
+	overflow hidden
+
+.overflow-x-scroll
+    overflow-x auto
+    -webkit-overflow-scrolling touch
+
+.no-padding
+	padding 0
+
+
+.padding
+	padding 1rem
+
+.padding-05
+	padding .5rem
+
+
+.padding-top
+	padding-top 1rem
+
+.padding-top-2
+	padding-top 2rem
+
+.relative
+	position relative
+
+.text-shadow
+	text-shadow(2,1,0.5)
+
+.top, top-0
+	top 0
+
+
