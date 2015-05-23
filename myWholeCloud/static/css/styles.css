@@ -1,3 +1,6 @@
+html {
+  background: #fafafa;
+}
 body {
   background: #fafafa;
   color: #333;
@@ -128,6 +131,10 @@ left-0 {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+.overflow-y-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .no-padding {
   padding: 0;
 }
@@ -136,6 +143,12 @@ left-0 {
 }
 .padding-05 {
   padding: 0.5rem;
+}
+.padding-bottom {
+  padding-bottom: 1rem;
+}
+.padding-bottom-2 {
+  padding-bottom: 2rem;
 }
 .padding-top {
   padding-top: 1rem;
@@ -193,7 +206,12 @@ html {
   border-bottom: 1px solid;
 }
 #content-title {
+  background: #eee;
+  -webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
   height: 2.75rem;
+  position: relative;
+  z-index: 10;
 }
 .file-container {
   overflow-y: auto;
@@ -275,7 +293,6 @@ html {
     padding-left: 94px;
   }
   #content-title {
-    background: #eee;
     height: 4rem;
   }
   #viewer-header {
