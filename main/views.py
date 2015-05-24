@@ -16,6 +16,8 @@ from myWholeCloud.settings import SITE_URL
 # LOGIN REQUIRED UNTIL WE BUILD A WELCOME PAGE!!
 @login_required()
 def home(request):
+	tab_active = 1
+
 	user = request.user
 	dropbox_services = DropboxAccount.objects.filter(user=user)
 	drive_services = DriveAccount.objects.filter(user=user)
@@ -40,6 +42,7 @@ def home(request):
 
 @login_required()
 def show_services(request):
+	tab_active = 2
 
 	if request.COOKIES.has_key('service_added'):
 		auth_finished = True

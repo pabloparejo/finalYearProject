@@ -16,15 +16,26 @@
 			<div class="brand item padding-05 color-white">
 				<span class='icon-cloud huge-icon'></span>
 			</div>
-			<a class="item ease-in active">
+			<a 	{% if tab_active != 1 %}
+					href="/"
+				{% else %}
+					href="#" 
+				{% endif %} 
+				class="item ease-in {% if tab_active == 1 %}active{% endif %}">
 				<span class='icon-home big-icon'></span>
 				<label>Home</label>
 			</a>
-			<a class="item ease-in">
+			<a 	{% if tab_active != 2 %}
+					href="/services"
+				{% else %}
+					href="#" 
+				{% endif %} 
+				class="item ease-in {% if tab_active == 2 %}active{% endif %}">
 				<span class='icon-plus big-icon'></span>
 				<label>Services</label>
 			</a>
-			<a class="item ease-in">
+			<a href="/logout" 
+				class="item ease-in">
 				<span class='icon-user big-icon'></span>
 				<label>Logout</label>
 			</a>
