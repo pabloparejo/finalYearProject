@@ -45,6 +45,61 @@ body.full-height {
 .no-background {
   background: none;
 }
+.button-group.no-weight {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0 2px;
+}
+.button-group.no-weight li {
+  margin: 0;
+  float: left;
+}
+.button-group.no-weight li:first-child a.button {
+  border-left: 1px solid;
+}
+.button-group.no-weight li:first-child a.button:active,
+.button-group.no-weight li:first-child a.button:focus {
+  border-left: 1px solid;
+}
+.button-group.no-weight li a.button,
+.button-group.no-weight li a.button:focus {
+  background: none;
+  border: 1px solid rgba(85,153,204,0.75);
+  border-left: 0;
+  color: #59c;
+}
+.button-group.no-weight li a.button:hover,
+.button-group.no-weight li a.button:focus:hover {
+  background: rgba(85,153,204,0.75);
+  border-color: #357cb2;
+  color: #fff !important;
+}
+.button-group.no-weight li a.button:active,
+.button-group.no-weight li a.button:focus:active {
+  background: #357cb2;
+  border-color: #357cb2;
+}
+.button-group.no-weight li a.button.alert,
+.button-group.no-weight li a.button:focus.alert,
+.button-group.no-weight li a.button.alert:focus,
+.button-group.no-weight li a.button:focus.alert:focus {
+  border-color: rgba(198,15,19,0.7);
+  color: #c60f13;
+}
+.button-group.no-weight li a.button.alert:hover,
+.button-group.no-weight li a.button:focus.alert:hover,
+.button-group.no-weight li a.button.alert:focus:hover,
+.button-group.no-weight li a.button:focus.alert:focus:hover {
+  background: rgba(198,15,19,0.7);
+  border-color: #c60f13;
+}
+.button-group.no-weight li a.button.alert:active,
+.button-group.no-weight li a.button:focus.alert:active,
+.button-group.no-weight li a.button.alert:focus:active,
+.button-group.no-weight li a.button:focus.alert:focus:active {
+  background: #9e0c0f;
+  border-color: #9e0c0f;
+}
 .no-border {
   border: 0;
 }
@@ -110,6 +165,44 @@ body.full-height {
   -ms-transition: all ease-in 0.2s;
   transition: all ease-in 0.2s;
 }
+.floating-action-button {
+  background: #59c;
+  bottom: 5rem;
+  -webkit-box-shadow: 0px 2px 2px rgba(0,0,0,0.35);
+  box-shadow: 0px 2px 2px rgba(0,0,0,0.35);
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 1.5rem;
+  height: 3.5rem;
+  text-align: center;
+  padding-top: 0.75rem;
+  position: fixed;
+  right: 1.5rem;
+  -webkit-transition: all ease-in 0.25s;
+  -moz-transition: all ease-in 0.25s;
+  -o-transition: all ease-in 0.25s;
+  -ms-transition: all ease-in 0.25s;
+  transition: all ease-in 0.25s;
+  width: 3.5rem;
+  z-index: 99;
+}
+.floating-action-button:hover {
+  background: #357cb2;
+  -webkit-box-shadow: 0px 3px 3px rgba(0,0,0,0.35);
+  box-shadow: 0px 3px 3px rgba(0,0,0,0.35);
+  color: #fff;
+}
+.floating-action-button:focus,
+.floating-action-button:active {
+  -webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+  color: #fff;
+}
+.floating-action-button [class^="icon-"],
+.floating-action-button [class*=" icon-"] {
+  font-weight: lighter;
+}
 .full-height {
   height: 100%;
 }
@@ -123,6 +216,12 @@ iframe {
 .left,
 left-0 {
   left: 0;
+}
+.margin-top {
+  margin-top: 1rem;
+}
+.no-wrap {
+  white-space: nowrap;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -159,12 +258,37 @@ left-0 {
 .relative {
   position: relative;
 }
+.text-normal {
+  font-size: 1rem;
+}
+a.text-normal.padding {
+  font-size: 1rem !important;
+  padding: 0.75rem 1rem !important;
+}
 .text-shadow {
   text-shadow: 0px 2px 1px rgba(0,0,0,0.5);
 }
 .top,
 top-0 {
   top: 0;
+}
+@media screen and (min-width: 40rem) {
+  .floating-action-button {
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+@media screen and (min-width: 64.063rem) {
+  .floating-action-button {
+    bottom: initial;
+    top: 3.25rem;
+    font-size: 1.25rem;
+    height: 3rem;
+    padding-top: 0.75rem;
+    position: absolute;
+    right: -1.5rem;
+    width: 3rem;
+  }
 }
 html {
   height: 100%;
@@ -251,7 +375,7 @@ html {
 /* SMALL ONLY */
 @media screen and (max-width: 40rem) {
   body {
-    padding-bottom: 3.5rem;
+    padding-bottom: 4.25rem;
   }
   #responsive-tab-bar {
     bottom: 0;
