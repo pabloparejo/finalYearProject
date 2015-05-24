@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %} {{page_title|capfirst}} {% endblock %}
+{% block page_title %} {{page_title|capfirst}} {% endblock %}
+{% block content %}
+	<header id="content-title" class='overflow-x-scroll relative'>
+			<ul class="breadcrumbs no-background no-border large">
+				<li class='current'>
+					<a class='ease-in'>
+						{{page_title}}
+					</a>
+				</li>
+			</ul>
+		</header><!-- /header -->
+		<article class='small-12 large-8 background-white columns full-height padding-bottom'>
+			<div class="row full-height overflow-y-scroll ">
+				<a href="#" class="show-for-large-up floating-action-button">
+					<span class="icon-plus"></span>
+				</a>
+				<table class="full-width no-border-bottom no-border-right">
+					<thead class="background-grey">
+						<tr>
+							<th>Name</th>
+							<th>Type</th>
+							<th>Size</th>
+							<th class='hide-for-small'>Last modified</th>
+						</tr>
+					</thead>
+					<tbody class='full-height'>
+						{% for service in data.services %}
+							{% for content in service.contents %}
+								<tr>
+									<td> 
+										<a href="">
+											<span class="icon-file icon-{{content.icon}}"> </span>
+											{{content.name}}
+										</a>
+									</td>
+									<td>File</td>
+									<td class='no-wrap'>{{content.size}}</td>
+									<td class='hide-for-small'>{{content.modified}}</td>
+								</tr>
+							{%endfor%}
+						{%endfor%}
+					</tbody>
+				</table>
+			</div>
+			<div class="clearfix"></div>
+		</article>
+		<aside class='show-for-large-up large-4 columns full-height background-dark-grey'>
+			<div class="row full-height">
+				<header id="viewer-header" class='text-center'>
+					<h5 class="color-white padding-top-025">No file selected</h5>
+				</header>
+				<div class="small-12 columns text-center margin-top margin-bottom">
+					<ul class="button-group radius no-weight">
+						<li><a href="#" class="small padding text-normal button">
+							Download
+						</a></li>
+						<li><a href="#" class="small padding text-normal button">
+							Share
+						</a></li>
+						<li><a href="#" class="small padding text-normal button alert">
+							Delete
+						</a></li>
+					</ul>
+				</div>
+				<div class='small-12 columns file-container'>
+					<iframe class="full-width full-height" src="http://www.auladecastellano.com/pdf/a%20Noticia%20de%20un%20secuestro.pdf" frameborder="0"></iframe>
+				</div>
+			</div>
+		</aside>
+
+{% endblock %}
+{% block script %}
+
+	var myObj = JSON.parse('{{obj|safe}}');
+
+{% endblock %}

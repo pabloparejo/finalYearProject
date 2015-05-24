@@ -35,7 +35,7 @@ def home(request):
 	obj = json.dumps(data)
 	page_title = "Home"
 
-	return render(request, 'index.html', locals())
+	return render(request, 'files.html', locals())
 
 
 @login_required()
