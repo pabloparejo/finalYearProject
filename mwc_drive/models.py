@@ -71,18 +71,22 @@ class DriveAccount(models.Model):
 
 	def reformat_metadata(self, metadata_list, path):
 		print path
+		for element in metadata_list:
+			element['name'] = element.pop('title')
+			element['icon'] = element['mimeType']
+			element['size'] = self.format_size(element['quotaBytesUsed'])
+			element['modified'] = element.pop('modifiedDate')
 		if path != '/' and path !='':
-			for element in metadata_list:
-				element['name'] = element.pop('title')
-				element['icon'] = element.pop('mimeType')
-				element['size'] = self.format_size(element['quotaBytesUsed'])
-				element['path'] = '/' + element.pop('id')
+			element['path'] = '/' + element.pop('id')
 		else:
-			for element in metadata_list:
-				element['name'] = element.pop('title')
-				element['icon'] = element.pop('mimeType')
-				element['size'] = self.format_size(element['quotaBytesUsed'])
-				element['path'] = element.pop('id')
+			element['path'] = element.pop('id')
+
+		if element['kind'] == 'drive#file':
+			element['is_dir'] = False
+		else:
+			element['is_dir'] = True
+
+
 		return metadata_list
 
 	def files_for_parent(self, metadata_list, path_id):

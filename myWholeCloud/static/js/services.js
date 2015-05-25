@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-
+	var base_url = "/api/path/"
 	angular.module('files.services', [])
 
 		.factory('Service', ['$http', '$q', function($http, $q){
@@ -9,13 +9,16 @@
 				func: func,
 			}
 
-			function func(){
-				var request_url = "http://url"
+			var contents = null;
+
+			function func (){
+				var request_url = base_url
 				var deferred = $q.defer();
-				$http.get(request_url)
+				$http.get(base_url)
 					.success(function(data){
-						console.log(data)
-						deferred.resolve(data)
+						contents = data
+						console.log(contents)
+						deferred.resolve(contents)
 					}
 				)
 				return deferred.promise

@@ -41,12 +41,13 @@
 			</a>
 		</nav>
 	</header><!-- /header -->
-	<section class='full-height inline-block content row'>
-		{% block content %}
-		{% endblock content%}
-	</section>
+	{% block content %}
+	{% endblock content%}
 
 	{% block mobile_fab_block %}
 	{% endblock mobile_fab_block %}
+
+	{% block script %}
+	{% endblock script %}	
 </body>
 </html>

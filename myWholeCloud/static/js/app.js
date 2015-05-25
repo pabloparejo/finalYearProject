@@ -3,14 +3,6 @@
 	var app = angular.module('files', [
 		'ngRoute',
 		'files.controllers',
+		'files.services',
 	]);
-
-	app.config(['$routeProvider', function($routeProvider){
-		/*$routeProvider
-		.when('/', {
-			controller: 'Controller',
-			templateUrl: 'views/home.html',
-		})*/
-	}])
-
 })();
