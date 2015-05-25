@@ -4,6 +4,17 @@
 
 {% block content%}
 
+<header class="background-grey padding-top padding-bottom-05 bottom-shadow relative z-index-99">	
+	<div class="max-width center-block text-center-for-small">
+		<h2 class='hide-for-small padding-left-2'> 
+			Services
+		</h2>
+		<h3 class='show-for-small'> 
+			Services
+		</h3>
+	</div>
+</header>
+
 {% if auth_finished %}
 	<article id="added-account">
 		{% if new_account %}
@@ -24,40 +35,36 @@
 	</article>
 {%endif%}
 
-
-<article id="accounts">
-	{% for service in services%}
-	<h3>
-		<span class="icon-{{service.name}} red big-icon"> </span>
-		{{service.name|capfirst}} accounts connected
-	</h3>
-	<ul class="no-list-style accounts-list">
-	{% for account in service.accounts %}
-		<li id="{{account.uid}}" class="account-info">
-			<span class="title">
-				<a href="{% url 'delete_account' service.class account.uid%}" class="delete-btn">
-					<span class="icon-delete red small-icon"> </span>
-				</a>
-				{{account.email|capfirst}}
-			</span>
-			<p>Here we could add account info (Date added, files, free space...)</p>
-		</li>
-	{%endfor%}
-	{% if service.class == "dropbox" %}
-		<li class="green">
-				<a href="/add_dropbox">
-
-	{% else %}
-		<li class="green">
-			<a href="/add_drive">
-	{% endif %}
-				<span class="icon-plus"> </span>
+<div class="full-height padding-bottom-2">
+	<div class='max-width center-block padding full-height overflow-y-scroll'>
+		{% for service in services%}
+			<article class='panel card padding-top-05 no-border bottom-shadow margin-top'>
+				<h4>
+					<span class="icon-{{service.name}} red big-icon"> </span>
+					{{service.name|capfirst}} accounts connected
+				</h4>
+				<div class="row">
+					{% for account in service.accounts %}
+						<div id="{{account.uid}}" class="small-12 medium-6 columns">
+							<div class="panel margin-top-05">
+								<h5 class="title">
+									<a href="{% url 'delete_account' service.class account.uid%}" class="delete-btn">
+										<span class="icon-delete red small-icon"> </span>
+									</a>
+									{{account.email|capfirst}}
+								</h5>
+							</div>
+						</div>
+					{%endfor%}
+				</div>
+				<a href="{% url 'add_account' service.class%}" class="button small text-normal padding block-for-small">
+					<span class="icon-plus"> </span>
 					Add {{service.name|capfirst}} account
 				</a>
-		</li>
-	</ul>
-	{%endfor%}
-</article>
+			</article>
+		{%endfor%}
+	</div>
+</div>
 
 {% endblock %}
 

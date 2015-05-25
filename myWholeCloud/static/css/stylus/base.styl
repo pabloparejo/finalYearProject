@@ -143,6 +143,9 @@ body.full-height
 .bottom, .bottom-0
 	bottom 0
 
+.bottom-shadow
+	bottom-shadow(1, 2, 0.3)
+
 .color-alert 
 	color alertColor
 .color-background 
@@ -204,7 +207,9 @@ body.full-height
 iframe
 	-webkit-overflow-scrolling touch
 	overflow hidden
-	
+
+.inline-block
+	display inline-block
 
 .left, left-0
 	left 0
@@ -212,6 +217,15 @@ iframe
 
 .margin-top
 	margin-top 1rem
+
+.margin-top-05
+	margin-top 0.5rem
+
+.margin-top-15
+	margin-top 1.5rem
+
+.margin-top-2
+	margin-top 2rem
 
 .no-wrap
 	white-space nowrap
@@ -227,6 +241,12 @@ iframe
     overflow-y auto
     -webkit-overflow-scrolling touch
 
+.max-width
+	max-width 62.5rem
+	
+	&.center-block
+		margin-left auto
+		margin-right auto
 
 .no-padding
 	padding 0
@@ -243,11 +263,23 @@ iframe
 .padding-bottom-2
 	padding-bottom 2rem
 
+.padding-bottom-05
+	padding-bottom .5rem
+
+.padding-left
+	padding-left 1rem
+
+.padding-left-2
+	padding-left 2rem
+
 .padding-top
 	padding-top 1rem
 
 .padding-top-2
 	padding-top 2rem
+
+.padding-top-05
+	padding-top .5rem
 
 .relative
 	position relative
@@ -265,13 +297,32 @@ a.text-normal.padding
 .top, top-0
 	top 0
 
+.z-index-99
+	z-index 99
 
+/* SMALL ONLY UP */
+@media screen and (max-width: 40rem)
+	.block-for-small
+		display block
+		width 100%
+		
+	.no-padding-for-small
+		padding 0
+
+	.text-center-for-small
+		text-align center
 
 /* MEDIUM UP */
 @media screen and (min-width: 40rem)
+
+
 	.floating-action-button
 		bottom 2rem
 		right 2rem
+	
+	.margin-top-2-medium-up
+		margin-top 2rem
+		
 
 
 

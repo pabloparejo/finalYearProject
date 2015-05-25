@@ -71,6 +71,15 @@
 		</aside>
 
 {% endblock %}
+
+{% block mobile_fab_block %}
+	<div class="hide-for-large-up">
+		<a href="#" class="floating-action-button">
+			<span class="icon-plus"></span>
+		</a>
+	</div>
+{% endblock mobile_fab_block %}
+
 {% block script %}
 
 	var myObj = JSON.parse('{{obj|safe}}');
