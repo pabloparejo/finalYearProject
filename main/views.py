@@ -9,6 +9,10 @@ from django.contrib.auth.decorators import login_required
 
 from mwc_dropbox.models import DropboxAccount
 from mwc_drive.models import DriveAccount
+
+from mwc_dropbox.views import auth_start as dropbox_auth_start
+from mwc_drive.views import auth_start as drive_auth_start
+
 from .forms import LoginForm
 
 from myWholeCloud.settings import SITE_URL
@@ -109,3 +113,12 @@ def user_logout(request):
 	logout(request)
 
 	return HttpResponseRedirect('/')
+
+
+def add_account(request, service):
+	if service == "dropbox":
+		return dropbox_auth_start(request)
+	elif service == "google-drive":
+		return drive_auth_start(request)
+
+
