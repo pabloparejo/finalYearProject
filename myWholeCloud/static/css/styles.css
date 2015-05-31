@@ -14,6 +14,10 @@ body.full-height {
 .absolute {
   position: absolute;
 }
+.background,
+.background-shady {
+  background: rgba(0,0,0,0.1);
+}
 .background-grey {
   background: #eee;
 }
@@ -41,6 +45,22 @@ body.full-height {
 }
 .background-white {
   background: #fafafa;
+}
+.circle.huge {
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  display: inline-block;
+  font-size: 5rem;
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+  height: 200px;
+  width: 200px;
+}
+.circle.huge span {
+  left: 3.8rem;
+  top: 3.5rem;
+  position: absolute;
 }
 .no-background {
   background: none;
@@ -123,6 +143,9 @@ body.full-height {
 [class^="icon-"].huge-icon,
 [class*=" icon-"].huge-icon {
   font-size: 3rem;
+}
+.border {
+  border: 1px solid rgba(0,0,0,0.1);
 }
 .bottom,
 .bottom-0 {
@@ -223,6 +246,9 @@ iframe {
 .left,
 left-0 {
   left: 0;
+}
+.margin {
+  margin: 1rem;
 }
 .margin-top {
   margin-top: 1rem;
@@ -411,7 +437,7 @@ html {
 }
 .icon-bar.custom-color .item.brand {
   color: #fafafa;
-  text-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+  text-shadow: 0px 3px 5px rgba(0,0,0,0.6);
 }
 .icon-bar.custom-color .item.brand:hover {
   background: none;

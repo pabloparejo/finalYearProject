@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROUTE = os.path.dirname(os.path.realpath(__file__))
 
@@ -28,7 +30,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_URL = 'http://192.168.1.128:80/'
+SITE_URL = ""
 
 
 # Application definition

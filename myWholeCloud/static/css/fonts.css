@@ -24,21 +24,22 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-file:before,
+.icon-page_white:before{
+    content: "\e610";
+}
+
 .icon-file-music:before {
     content: "\f001";
 }
 .icon-file-video:before {
     content: "\f008";
 }
-.icon-file-pic:before, 
+.icon-file-pic:before, .icon-page_white_picture:before,
 [class*="picture"]:before {
     content: "\f03e";
 }
 
-.icon-file:before,
-.icon-page_white:before{
-    content: "\e610";
-}
 
 .icon-file-text:before,
 [class*="page_white_document"]:before,
@@ -101,18 +102,18 @@
 .icon-file-pdf:before, [class*="acrobat"]:before{
     content: "\e60a";
 }
-.icon-file-word:before, [class*="word"]:before{
+.icon-word:before, [class*="word"]:before{
     content: "\e60b";
 }
-.icon-file-excel:before, [class*="excel"]:before{
+.icon-excel:before, [class*="excel"]:before{
     content: "\e60c";
 }
 
-.icon-file-powerpoint:before, [class*="presentation"]:before{
+.icon-powerpoint:before, [class*="presentation"]:before{
     content: "\e613";
 }
 
-.icon-file-zip:before {
+.icon-zip:before, .icon-rar:before {
     content: "\e60d";
 }
 .icon-all:before {

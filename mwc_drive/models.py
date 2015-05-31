@@ -14,12 +14,15 @@ class DriveAccount(models.Model):
 	uid = models.IntegerField()
 	display_name = models.CharField(max_length=200)
 	email = models.EmailField()
+	service_class = "google-drive"
 
 	user = models.ForeignKey(User)
 
 	# Important to expose the key 'icon' of the API
 	mime_types =   {"application/vnd.ms-excel" : "xls",
+                    "application/msword" : "word",
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" : "xlsx",
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation": "presentation",
                     "text/xml" : "xml",
                     "application/vnd.oasis.opendocument.spreadsheet" : "ods",
                     "text/plain" : "csv",
@@ -31,7 +34,6 @@ class DriveAccount(models.Model):
                     "image/gif" : "gif",
                     "image/bmp" : "bmp",
                     "text/plain" : "txt",
-                    "application/msword" : "doc",
                     "text/js" : "js",
                     "application/x-shockwave-flash" : "swf",
                     "audio/mpeg" : "mp3",
@@ -43,7 +45,7 @@ class DriveAccount(models.Model):
                     "text/html" : "html",
                     "text/html" : "htm",
                     "application/octet-stream" : "default",
-                    "application/vnd.google-apps.folde" : "folder",
+                    "application/vnd.google-apps.folder" : "folder",
                     }
 
 	def __unicode__(self):
@@ -73,7 +75,8 @@ class DriveAccount(models.Model):
 		print path
 		for element in metadata_list:
 			element['name'] = element.pop('title')
-			element['icon'] = element['mimeType']
+			element['icon'] = self.mime_types.get(element['mimeType'], 'file')
+			element['mime_type'] = element.pop('mimeType')
 			element['size'] = self.format_size(element['quotaBytesUsed'])
 			element['modified'] = element.pop('modifiedDate')
 		if path != '/' and path !='':
@@ -156,7 +159,6 @@ class DriveAccount(models.Model):
 		quota_info = drive_service.about().get().execute()
 
 		files_list = self.get_files(drive_service)
-		print files_list
 
 		if path == '/' or path == '':
 			files_list = self.files_in_root(files_list)
@@ -166,7 +168,7 @@ class DriveAccount(models.Model):
 		files_list = self.reformat_metadata(files_list, path)
 
 		parent_url = (SITE_URL + 'api/path/google-drive/%i/' + path) %self.uid
-
+		download_url = (SITE_URL + 'api/download/google-drive/%i/' + path) %self.uid
 		upload_url = (SITE_URL + 'api/upload/google-drive/%i/' + path) %self.uid
 
 		data = {	'bytesTotal':	int(quota_info['quotaBytesTotal']),
@@ -176,6 +178,7 @@ class DriveAccount(models.Model):
 					'contents': files_list,
 					'display_name': self.display_name,
 					'parent_path': parent_url,
+					'download_url': download_url,
 					'service_class': 'google-drive',
 					'service_name': 'Google Drive',
 					'uid': self.uid,
@@ -203,7 +206,7 @@ class DriveAccount(models.Model):
 		f = drive_service.files().insert(body=body, media_body=media_body).execute()
 
 class CredentialsModel(models.Model):
-	drive_account = models.ForeignKey(DriveAccount, blank=True, null=True)
+	drive_account = models.OneToOneField(DriveAccount, blank=True, null=True)
 	user = models.ForeignKey(User)
 	credential = CredentialsField()
 

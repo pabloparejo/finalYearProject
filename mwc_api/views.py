@@ -16,13 +16,49 @@ from itertools import chain
 from django.http import HttpResponse
 
 import json, httplib2
+from myWholeCloud.settings import SITE_URL
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 
+def format_url(urls, url_name, method, url_args=None):
+	if not urls.has_key(url_name):
+		urls[url_name] = []
+
+	url_dict = {"method": method,
+				"url": SITE_URL + reverse(url_name, kwargs=url_args)[1:]}
+
+	if url_args and url_args.has_key("a_uid"):
+		url_dict["a_uid"] = url_args["a_uid"]
+		url_dict["service_class"] = url_args["service"]
+
+	urls[url_name].append(url_dict)
+
 def display_api(request):
-	data = {'description': 'Here we display our api',
-			'urls': []}
-	return HttpResponse(json.dumps(data), content_type="application/json")
+	user = request.user
+
+	dropbox_services = DropboxAccount.objects.filter(user=user)
+	drive_services = DriveAccount.objects.filter(user=user)
+
+	urls = {}
+
+	format_url(urls, 'display_api', 'GET')
+	format_url(urls, 'get_home', 'GET')
+	format_url(urls, 'upload_to_home', 'POST')
+
+	for service in dropbox_services:
+		format_url(urls, 'get_path', 'GET', {"service": service.service_class, "a_uid": service.uid, "path": ""})
+		format_url(urls, 'delete_account', 'POST', {"service": service.service_class, "a_uid": service.uid})
+		format_url(urls, 'upload_to_path', 'POST', {"service": service.service_class, "a_uid": service.uid, "path": ""})
+
+	for service in drive_services:
+		format_url(urls, 'get_path', 'GET', {"service": service.service_class, "a_uid": service.uid, "path": ""})
+		format_url(urls, 'delete_account', 'POST', {"service": service.service_class, "a_uid": service.uid})
+		format_url(urls, 'upload_to_path', 'POST', {"service": service.service_class, "a_uid": service.uid, "path": ""})
+
+
+
+	return HttpResponse(json.dumps(urls), content_type="application/json")
 
 def get_user_home(request):
 	user = request.user
@@ -35,15 +71,13 @@ def get_user_home(request):
 	for service in drive_services:
 		services.append(service.get_path('/'))
 
-	data = {"bytes_total": "habria que ver esto",
-	 		"bytes_used": "habria que ver esto",
-	 		"username": user.username,
-	 		"services": services}
+	data = {"username": user.username,
+			"services": services}
 
 	return data
 
 def get_path(request, service=None, a_uid=None, path=None):
-
+	user = request.user
 	if service == None:
 		data = get_user_home(request)
 	else:
@@ -55,7 +89,8 @@ def get_path(request, service=None, a_uid=None, path=None):
 		elif service == "google-drive":
 			account = DriveAccount.objects.get(uid=a_uid)
 
-		data = account.get_path(path)
+		data = {"username": user.username,
+				"services": [account.get_path(path)]}
 
 	return HttpResponse(json.dumps(data), content_type="application/json")
 

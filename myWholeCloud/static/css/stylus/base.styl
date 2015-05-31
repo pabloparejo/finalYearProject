@@ -19,6 +19,8 @@ successColor = #22AA66
 bodyFontColor = #333333
 headerFontColor = #333333
 
+shadyColor = rgba(0, 0, 0, .1)
+
 whiteColor = #FAFAFA
 
 
@@ -53,6 +55,9 @@ body.full-height
 .absolute
 	position absolute
 
+.background, .background-shady
+	background shadyColor
+
 .background-grey
 	background greyColor
 .background-dark-grey
@@ -71,6 +76,24 @@ body.full-height
 	background headerFontColor
 .background-white
 	background whiteColor
+
+.circle
+	&.huge
+		border-radius 100%
+		display inline-block
+		font-size 5rem
+		text-align center
+		padding 1rem
+		position relative
+		height 200px
+		width 200px
+		
+		span
+			left 3.8rem
+			top 3.5rem
+			position absolute
+			
+
 .no-background
 	background none
 
@@ -140,11 +163,17 @@ body.full-height
 		font-size 3rem
 
 
+.border
+	border 1px solid shadyColor
+
+
 .bottom, .bottom-0
 	bottom 0
 
 .bottom-shadow
 	bottom-shadow(1, 2, 0.3)
+
+
 
 .color-alert 
 	color alertColor
@@ -214,6 +243,9 @@ iframe
 .left, left-0
 	left 0
 
+
+.margin
+	margin 1rem
 
 .margin-top
 	margin-top 1rem

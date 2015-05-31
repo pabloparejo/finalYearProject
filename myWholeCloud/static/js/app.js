@@ -4,5 +4,6 @@
 		'ngRoute',
 		'files.controllers',
 		'files.services',
+		'files.filters',
 	]);
 })();

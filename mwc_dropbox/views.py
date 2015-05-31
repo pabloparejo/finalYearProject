@@ -1,8 +1,9 @@
 #encoding:utf-8
 from django.shortcuts import render
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 
 import json
 
@@ -11,6 +12,22 @@ from mwc_dropbox.models import DropboxAccount
 from dropbox.client import DropboxClient, DropboxOAuth2Flow
 
 from django.contrib.auth.decorators import login_required
+
+def download(request, service, a_uid, path):
+    user=request.user
+    service = get_object_or_404(DropboxAccount, uid=a_uid)
+
+    document = service.view_file(path)
+
+    filename = path.split('/')[-1]
+
+    response = HttpResponse(content_type=document.get('content_type'))
+    response['Content-Disposition'] = 'filename="'+filename+'"'
+
+    response.write(document.get('contents'))
+
+    return response
+
 
 def get_dropbox_data(user):
     listOfAccounts = DropboxAccount.objects.filter(user=user)

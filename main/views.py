@@ -23,22 +23,6 @@ def home(request):
 	tab_active = 1
 
 	user = request.user
-	dropbox_services = DropboxAccount.objects.filter(user=user)
-	drive_services = DriveAccount.objects.filter(user=user)
-	services = []
-	for service in dropbox_services:
-		services.append(service.get_path('/'))
-
-	#for service in drive_services:
-	#	services.append(service.get_path('/'))
-
-	data = {"bytes_total": "habria que ver esto",
-	 		"bytes_used": "habria que ver esto",
-	 		"upload_path": SITE_URL + "api/upload/",
-			"number_of_services": len(services),
-	 		"services": services}
-
-	obj = json.dumps(data)
 	page_title = "Home"
 
 	return render(request, 'files.html', locals())

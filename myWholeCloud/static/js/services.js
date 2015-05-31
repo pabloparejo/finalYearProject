@@ -6,15 +6,16 @@
 		.factory('Service', ['$http', '$q', function($http, $q){
 			
 			return {
-				func: func,
+				listPath: listPath,
+				base_url : base_url
 			}
 
 			var contents = null;
 
-			function func (){
-				var request_url = base_url
+			function listPath (path){
+				console.log("Requesting "+ path +"...")
 				var deferred = $q.defer();
-				$http.get(base_url)
+				$http.get(path)
 					.success(function(data){
 						contents = data
 						console.log(contents)
@@ -23,5 +24,7 @@
 				)
 				return deferred.promise
 			}
+
+			this.base_url = base_url
 		}])
 })()

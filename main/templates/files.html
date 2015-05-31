@@ -30,7 +30,7 @@
 				<tbody ng-repeat="service in account.services" class='full-height'>
 					<tr ng-repeat="content in service.contents | orderBy: order">
 						<td> 
-							<a href="#" ng-click="elementClicked(service.uid, content)">
+							<a ng-click="elementClick(service, content)">
 								<span class="icon-file icon-{{content.icon}}"> </span>
 								{{content.name}}
 							</a>
@@ -52,11 +52,17 @@
 		<div class="clearfix"></div>
 	</article>
 	<aside class='show-for-large-up large-4 columns full-height background-dark-grey'>
-		<div class="row full-height">
+		{% verbatim %}
+		<div class="row full-height overflow-hidden">
 			<header id="viewer-header" class='text-center'>
-				<h5 class="color-white padding-top-025">No file selected</h5>
+				<h5 ng-if="selectedFile.has_value" class="color-white padding-top-025">
+					{{selectedFile.name | truncate:40}}
+				</h5>
+				<h5 ng-if="!selectedFile.has_value" class="color-white padding-top-025">
+					No selected file
+				</h5>
 			</header>
-			<div class="small-12 columns text-center margin-top margin-bottom">
+			<div ng-if="selectedFile.has_value" class="small-12 columns text-center margin-top margin-bottom">
 				<ul class="button-group radius no-weight">
 					<li><a href="#" class="small padding text-normal button">
 						Download
@@ -69,10 +75,22 @@
 					</a></li>
 				</ul>
 			</div>
-			<div class='small-12 columns file-container'>
-				<iframe class="full-width full-height" src="http://www.auladecastellano.com/pdf/a%20Noticia%20de%20un%20secuestro.pdf" frameborder="0"></iframe>
+			<div ng-if="selectedFile.has_value" class='small-12 columns file-container'>
+				<iframe class="full-width full-height" ng-src="{{selectedFile.documentUrl}}" frameborder="0"></iframe>
+			</div>
+
+			<div ng-if="!selectedFile.has_value" class="columns small-12 text-center">
+				<div class="panel margin-top ">
+					<div class="circle huge background-shady margin bottom-shadow">
+						<span class="icon-file"></span>
+					</div>
+					<p class="">
+						Select a file to watch a preview here
+					</p>
+				</div>
 			</div>
 		</div>
+		{% endverbatim %}
 	</aside>
 </section>
 {% endblock %}
@@ -89,10 +107,7 @@
 	<script src="{{STATIC_URL}}js/vendor/angular.js"></script>
 	<script src="{{STATIC_URL}}js/vendor/angular-route.js"></script>
 	<script src="{{STATIC_URL}}js/controllers.js"></script>
+	<script src="{{STATIC_URL}}js/filters.js"></script>
 	<script src="{{STATIC_URL}}js/services.js"></script>
 	<script src="{{STATIC_URL}}js/app.js"></script>
-
-	<script type="text/javascript" charset="utf-8" async defer>
-	var myObj = JSON.parse('{{obj|safe}}');
-	</script>
 {% endblock %}
