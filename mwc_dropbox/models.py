@@ -10,6 +10,8 @@ import re
 # Create your models here.
 class DropboxAccount(models.Model):
 
+
+
 	uid = models.IntegerField()
 	display_name = models.CharField(max_length=200)
 	email = models.EmailField()
@@ -33,14 +35,14 @@ class DropboxAccount(models.Model):
 	def get_free_space(self):
 		client = DropboxClient(self.token)
 		quota_info = client.account_info()['quota_info']
-		free = 	quota_info['quota'] - quota_info['normal'] - \
-				quota_info['shared']
+		free = 	quota_info.get('quota', 0) - quota_info.get('normal', 0) - \
+				quota_info.get('shared', 0)
 		return free
 
 	def get_path(self, path):
 		client = DropboxClient(self.token)
-		files_list = client.metadata(path)['contents']
-		quota_info = client.account_info()['quota_info']
+		files_list = client.metadata(path).get('contents', [])
+		quota_info = client.account_info().get('quota_info', {})
 
 		if path == '/':
 			for item in files_list:

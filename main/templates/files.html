@@ -3,13 +3,15 @@
 {% block page_title %} {{page_title|capfirst}} {% endblock %}
 {% block content %}
 <section ng-app="files" ng-controller="Controller" class='full-height inline-block content row'>
-	<header id="content-title" class='overflow-x-scroll relative'>
+	<header id="content-title" class='overflow-hidden relative'>
 		<ul class="breadcrumbs no-background no-border large">
-			<li class='current'>
-				<a class='ease-in'>
-					{{page_title}}
+			{% verbatim %}
+			<li ng-repeat="link in breadcrumbs" ng-class='{"current": $last}'>
+				<a ng-click="breadcrumbClick(link, $index)" class='ease-in'>
+					{{link.title}}
 				</a>
 			</li>
+			{% endverbatim %}
 		</ul>
 	</header><!-- /header -->
 	<article class='small-12 large-8 background-white columns full-height padding-bottom'>
