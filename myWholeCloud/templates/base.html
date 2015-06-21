@@ -34,11 +34,24 @@
 				<span class='icon-plus big-icon'></span>
 				<label>Services</label>
 			</a>
-			<a href="/logout" 
-				class="item ease-in">
-				<span class='icon-user big-icon'></span>
-				<label>Logout</label>
-			</a>
+			{% if user.is_authenticated %}
+				<a href="/logout" 
+					class="item ease-in">
+					<span class='icon-user big-icon'></span>
+					<label>Logout</label>
+				</a>
+			{% else %}
+				<a href="/login" 
+					class="item ease-in">
+					<span class='icon-user big-icon'></span>
+					<label>Login</label>
+				</a>
+				<a href="/register" 
+					class="item ease-in">
+					<span class='icon-user big-icon'></span>
+					<label>Sign up</label>
+				</a>
+			{% endif %}
 		</nav>
 	</header><!-- /header -->
 	{% block content %}

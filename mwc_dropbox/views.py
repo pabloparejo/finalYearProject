@@ -69,11 +69,11 @@ def auth_start(request):
 def auth_finish(request):
     try:
         access_token, user_id, url_state = get_auth(request.session).finish(request.GET)
-        client = DropboxClient(access_token)
+        client = DropboxClient(access_token).account_info()
         user = request.user
-        client_email = client.account_info()['email']
-        uid = client.account_info()['uid']
-        name = client.account_info()['display_name']
+        client_email = client.get('email', '')
+        uid = client.get('uid', '')
+        name = client.get('display_name', '')
         
         try:
             formerAccount = DropboxAccount.objects.get(uid=uid)

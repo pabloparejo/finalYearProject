@@ -7,7 +7,7 @@ from oauth2client.django_orm import Storage
 
 from myWholeCloud.settings import SITE_URL
 
-from oauth2client.django_orm import FlowField, CredentialsField, Storage
+from oauth2client.django_orm import CredentialsField, Storage
 
 class DriveAccount(models.Model):
 
@@ -72,7 +72,6 @@ class DriveAccount(models.Model):
 
 
 	def reformat_metadata(self, metadata_list, path):
-		print path
 		for element in metadata_list:
 			element['name'] = element.pop('title')
 			element['icon'] = self.mime_types.get(element['mimeType'], 'file')
@@ -133,7 +132,7 @@ class DriveAccount(models.Model):
 		while True:
 			try:
 				param = {}
-				page_token = files_list['nextPageToken']
+				page_token = files_list.get('nextPageToken')
 				if page_token:
 					param['pageToken'] = page_token
 					files = service.files().list(**param).execute()
@@ -143,7 +142,6 @@ class DriveAccount(models.Model):
 				if not page_token:
 					break
 			except:
-				print 'An error occurred'
 				break
 		return files_list['items']
 

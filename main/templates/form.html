@@ -1,14 +1,40 @@
 {% extends 'base.html' %}
-{% block page_title %} {{title|capfirst}} {% endblock %}
-{% block content %}
-	<article>
-		<h2>{{title|capfirst}}</h2>
-		<form action="" method="POST">
-			{% csrf_token %}
-			{{ form.as_p }}
+{% block title %} {{page_title}} {% endblock %}
+{% block pagetitle %} {{page_title}} {% endblock %}
 
-			<input type="submit" value="{{title|capfirst}}">
-		</form>
-	</article>
+{% block content%}
+<section class='full-height inline-block content row'>
+	<header class="background-grey padding-top padding-bottom-05 bottom-shadow relative z-index-99">	
+		<div class="max-width center-block text-center">
+			<h2 class='hide-for-small padding-left-2'> 
+				My whole cloud
+			</h2>
+			<h3 class='show-for-small'> 
+				My whole cloud
+			</h3>
+		</div>
+	</header>
 
+	<div class="full-height padding-bottom-2">
+		<div class='max-width center-block padding full-height overflow-y-scroll'>
+			<article class='panel card padding-top-05 no-border bottom-shadow margin-top overflow-hidden '>
+				<div class="small-12 medium-8 medium-offset-2 large-6 large-offset-3 columns">
+					<h3 class='padding-top text-center'>{{page_title}}</h3>
+					<hr>
+					<form action="" method="POST">
+						{% csrf_token %}
+						{{ form.as_p }}
+
+						<input type="submit" value="{{page_title|capfirst}}" class='expand button'>
+					</form>
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
 {% endblock %}
+
+
+
+
+

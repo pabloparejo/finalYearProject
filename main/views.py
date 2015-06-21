@@ -78,12 +78,12 @@ def new_user(request):
 			return HttpResponseRedirect('/')
 	else:
 		form = UserCreationForm()
-	titulo = "register"
+	page_title = "Sign up"
 	return render(request, 'form.html', locals())
 
 def user_login(request):
     form = LoginForm(request.POST or None)
-    title = "Login"
+    page_title = "Login"
     if request.POST and form.is_valid():
         user = form.login(request)
         if user:
