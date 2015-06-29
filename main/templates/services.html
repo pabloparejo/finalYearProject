@@ -15,28 +15,27 @@
 		</div>
 	</header>
 
-	{% if auth_finished %}
-		<article id="added-account">
-			{% if new_account %}
-				<h2> 
-					<span class="icon-checkmark med-icon green"> </span>
-					{{service_added|capfirst}} Account added
-				</h2>
-				<p class="added-info">Your account {{client_email}} was successfully added</p>
-			{% else %}
-				<h2>
-					<span class="icon-sad med-icon red"> SAD FACE</span>
-					This {{service_added|capfirst}} account was already added!
-				</h2>
-				<p class="refresh-info">You tried to add the email {{client_email}} but we already had it</p>
-				<p>If you want to add another account, please switch your account in {{service_added|capfirst}}.</p>
-				<p class="red">EXPLANATION: HOW TO LOGOUT IN DROPBOX / GDRIVE.</p>
-			{% endif %}
-		</article>
-	{%endif%}
 
 	<div class="full-height padding-bottom-2">
 		<div class='max-width center-block padding full-height overflow-y-scroll'>
+			{% if auth_finished %}
+				<article class="panel card padding-top-05 no-border bottom-shadow margin-top">
+					{% if new_account %}
+						<h3> 
+							<span class="icon-checkmark med-icon green"> </span>
+							{{service_added|capfirst}} Account added
+						</h3>
+						<p class="added-info">Your account {{client_email}} was successfully added</p>
+					{% else %}
+						<h3>
+							This {{service_added|capfirst}} account was already added!
+						</h3>
+						<p class="refresh-info">You tried to add the email {{client_email}} but we already had it</p>
+						<p>If you want to add another account, please switch your account in {{service_added|capfirst}}.</p>
+						<p class="red">EXPLANATION: HOW TO LOGOUT IN DROPBOX / GDRIVE.</p>
+					{% endif %}
+				</article>
+			{%endif%}
 			{% for service in services%}
 				<article class='panel card padding-top-05 no-border bottom-shadow margin-top'>
 					<h4>
@@ -71,7 +70,6 @@
 
 
 {% block script %}
-	$('.delete-btn').click(delete_account)
 
 {% endblock script %}
 
