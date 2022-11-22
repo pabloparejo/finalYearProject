@@ -1,5 +1,5 @@
 Django==1.11.28
-Pillow==2.4.0
+Pillow==9.3.0
 django-livereload==1.1
 djangorestframework==2.3.13
 dropbox==2.0.0
